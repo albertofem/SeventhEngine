@@ -19,6 +19,8 @@ namespace Seventh
 {
 	// initialize static configuration vars
 	std::string CEngine::__CONFIG_INI = "";
+	boost::shared_ptr<CClock> CEngine::Clock = CClock::getInstance();
+	bool CEngine::s_Running = true;
 
 	CEngine::CEngine()
 	{
@@ -28,7 +30,6 @@ namespace Seventh
 
 	CEngine::~CEngine()
 	{
-		Shutdown();
 	}
 
 	void CEngine::Initialize()
@@ -66,8 +67,53 @@ namespace Seventh
 		 * of the game logic and presentation, using the engine
 		 * tools, classes and methods
 		 */
-		while(true)
+
+		// local variable for the main loop, to force clients
+		// to use the signal system in order to stop the engine
+		bool running = true;
+
+		// set first measure of the internal clock
+		Clock->init();
+
+		// main game loop
+		while(running)
 		{
+
+			Clock->reset_loop();
+
+
+			while(Clock->game_update())
+			{
+				// do update game logic
+				TRACE("Updating game state");
+
+				// update clock
+				Clock->update();
+			}
+
+			// render
+
+
+			// stop loop in the static variable has
+			// been modified
+			if(s_Running == false)
+			{
+				running = false;
+			}
+
+		}
+
+		Shutdown();
+	}
+
+	void CEngine::sendSignal(const ENGINE_SIGNAL signal)
+	{
+		switch(signal)
+		{
+		case STOP_ENGINE:
+			s_Running = false;
+			TRACE("Received signal to stop engine!");
+			break;
 
 		}
 	}

@@ -31,6 +31,11 @@ namespace Seventh
 		STH_TRUE = 1,
 		STH_FALSE
 	} STH_BOOL;
+
+	typedef enum
+	{
+		STOP_ENGINE = 0
+	} ENGINE_SIGNAL;
 }
 
 #include <boost/shared_ptr.hpp>

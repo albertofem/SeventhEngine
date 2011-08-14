@@ -16,9 +16,11 @@
 
 int main()
 {
-	myGame Game;
+	myGame* Game = new myGame;
 
-	Game.RunGame();
+	Game->RunGame();
+
+	delete Game;
 
 	return 0;
 }

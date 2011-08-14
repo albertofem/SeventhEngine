@@ -14,6 +14,7 @@
 
 #include "common.h"
 
+#include "Engine/CClock.h"
 #include "CEngineConfig.h"
 #include "DisplayCore/CDisplayCore.h"
 #include "GameplayCore/CGameplayCore.h"
@@ -66,6 +67,9 @@ namespace Seventh
 	private:
 		// configuration static vars
 		static std::string __CONFIG_INI;
+		static boost::shared_ptr<CClock> Clock;
+
+		static bool s_Running;
 
 	public:
 		// configuration setters methods
@@ -84,6 +88,9 @@ namespace Seventh
 		{
 			return Gameplay;
 		}
+
+	public:
+		static void sendSignal(const ENGINE_SIGNAL signal);
 
 	public:
 		// static game assets containers

@@ -19,8 +19,11 @@
 
 namespace Seventh
 {
+	class CEngine;
+
 	class CState
 	{
+
 	public:
 		CState();
 		virtual ~CState();

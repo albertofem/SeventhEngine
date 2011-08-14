@@ -13,6 +13,7 @@
  */
 
 #include "common.h"
+#include "Engine/CEngine.h"
 #include "GameplayCore/CState.h"
 
 namespace Seventh
@@ -23,15 +24,12 @@ namespace Seventh
 
 	void CState::setNextState(std::string state)
 	{
-		if(state == "")
-			exit(0);
-
 		m_NextState = state;
 	}
 
 	void CState::setNextState()
 	{
-		exit(0);
+		CEngine::sendSignal(STOP_ENGINE);
 	}
 
 	CState::~CState()

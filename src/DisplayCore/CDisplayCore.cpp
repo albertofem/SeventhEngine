@@ -77,7 +77,6 @@ namespace Seventh
 
 	void CDisplayCore::Shutdown() throw()
 	{
-		SDL_FreeSurface(m_DisplayScreen);
 		SDL_Quit();
 	}
 

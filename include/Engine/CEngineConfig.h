@@ -70,7 +70,7 @@ namespace Seventh
 		 * (TODO) Function used to change
 		 * configuration file at runtime
 		 */
-		// void setConfigFile(std::string filename);
+		void setConfigFile(std::string filename);
 
 	private:
 		IniPtr m_IniHandler;
