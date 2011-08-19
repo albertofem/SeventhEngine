@@ -48,6 +48,9 @@ namespace Seventh
 
 #include <cassert>
 
+#include "functors.h"
+#include "texture_coord.h"
+
 /**
  * define useful typedefs
  * to be used all around the
@@ -67,8 +70,14 @@ namespace Seventh
 	class CStateManager;
 	typedef boost::shared_ptr<CStateManager> STATE_MANAGER;
 
+	class CAssetManager;
+	typedef boost::shared_ptr<CAssetManager> ASSET_MANAGER;
+
 	class CState;
 	typedef boost::shared_ptr<CState> STATE;
+
+	class CLayer;
+	typedef boost::shared_ptr<CLayer> LAYER;
 }
 
 #endif

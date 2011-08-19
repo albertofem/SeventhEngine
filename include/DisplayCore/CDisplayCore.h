@@ -15,13 +15,16 @@
 #include <memory>
 
 #include "common.h"
-#include "./Engine/CEngineConfig.h"
+#include "Engine/CEngineConfig.h"
 
 #ifndef STH_CDISPLAYCORE_H_
 #define STH_CDISPLAYCORE_H_
 
 namespace Seventh
 {
+	class CLayerManager;
+	class CTextureManager;
+
 	class CDisplayCore
 	{
 	public:
@@ -31,11 +34,22 @@ namespace Seventh
 		void Start() throw(seventh_displaycore_exception);
 		void Shutdown() throw();
 
+		// this method is implemented internally in each subsystem
+		void UpdateGameLogic() throw();
+
+		// this method is only implemented by the display subsystem
+		void Render();
+
 	private:
 		// prevent use of the default constructor
 		CDisplayCore();
 
 		void Init_Display() throw(seventh_displaycore_exception);
+		void Init_Layers() throw(seventh_displaycore_exception);
+		void Init_Textures() throw(seventh_displaycore_exception);
+		void Init_Animations() throw(seventh_displaycore_exception);
+		void Init_Maps() throw(seventh_displaycore_exception);
+		void Init_Movies() throw(seventh_displaycore_exception);
 
 		/**
 		 * display config
@@ -51,9 +65,36 @@ namespace Seventh
 		ENGINE_CONFIG m_ENGINE_CONFIG;
 
 		/**
+		 * displays subsystems members
+		 */
+		static boost::shared_ptr<CLayerManager> Layers;
+		static boost::shared_ptr<CTextureManager> Textures;
+		//static boost::shared_ptr<CObjectManager> Objects;
+		//static boost::shared_ptr<CAnimationManager> Animations;
+		//static boost::shared_ptr<CMapManager> Maps;
+		//static boost::shared_ptr<CMovieManager> Movies;
+
+		/**
 		 * main surface layer
 		 */
-		SDL_Surface* m_DisplayScreen;
+		static SDL_Surface* m_DisplayScreen;
+
+	public:
+		// inline getters
+		static inline boost::shared_ptr<CLayerManager> _Layers()
+		{
+			return Layers;
+		}
+
+		static inline boost::shared_ptr<CTextureManager> _Textures()
+		{
+			return Textures;
+		}
+
+		static inline SDL_Surface* _Screen()
+		{
+			return m_DisplayScreen;
+		}
 	};
 }
 

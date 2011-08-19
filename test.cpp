@@ -8,6 +8,9 @@ myGame::myGame()
 {
 	setInitialConfig();
 	Initialize();
+	U16 layerID = _Display()->_Layers()->createLayer();
+
+	_Display()->_Layers()->_Layer(layerID)->CreateOverallTexture("zelda", "./test/zelda.jpg");
 }
 
 void myGame::setInitialConfig()
@@ -26,4 +29,9 @@ StateMenu::StateMenu()
 
 StateMenu::~StateMenu()
 {
+}
+
+void StateMenu::Update()
+{
+	TRACE("Doing something in this current state!");
 }

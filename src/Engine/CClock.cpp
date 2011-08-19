@@ -39,13 +39,13 @@ namespace Seventh
 		return _instance;
 	}
 
-	bool CClock::game_update()
+	bool CClock::logic()
 	{
 		if(SDL_GetTicks() > m_LastTick && m_Loops < m_MaxFrameskip)
 			return true;
 	}
 
-	void CClock::reset_loop()
+	void CClock::reset()
 	{
 		m_Loops = 0;
 	}

@@ -43,11 +43,12 @@ namespace Seventh
 
 		virtual void setInitialConfig() = 0;
 
-	protected:
 		void Initialize();
 
 	private:
 		void Shutdown();
+		void UpdateGameLogic() throw();
+		void RenderGame() throw();
 
 	private:
 		/**
@@ -56,6 +57,7 @@ namespace Seventh
 		ENGINE_CONFIG EngineConfig;
 		DISPLAY_CORE Display;
 		GAMEPLAY_CORE Gameplay;
+		static ASSET_MANAGER Assets;
 
 		/*
 		CSoundCore Sound;
@@ -89,16 +91,13 @@ namespace Seventh
 			return Gameplay;
 		}
 
+		inline DISPLAY_CORE _Display()
+		{
+			return Display;
+		}
+
 	public:
 		static void sendSignal(const ENGINE_SIGNAL signal);
-
-	public:
-		// static game assets containers
-		//static std::map< U8,
-
-		/**
-		 * Static state variable
-		 */
 
 	};
 }

@@ -79,20 +79,20 @@ namespace Seventh
 		while(running)
 		{
 
-			Clock->reset_loop();
+			Clock->reset();
 
 
-			while(Clock->game_update())
+			while(Clock->logic())
 			{
 				// do update game logic
-				TRACE("Updating game state");
+				UpdateGameLogic();
 
 				// update clock
 				Clock->update();
 			}
 
 			// render
-
+			RenderGame();
 
 			// stop loop in the static variable has
 			// been modified
@@ -123,5 +123,16 @@ namespace Seventh
 		// finish subsystem in reverse order
 		Display->Shutdown();
 		EngineConfig->Shutdown();
+	}
+
+	void CEngine::UpdateGameLogic() throw()
+	{
+		// update different subsystems game logic
+		Display->UpdateGameLogic();
+	}
+
+	void CEngine::RenderGame() throw()
+	{
+		Display->Render();
 	}
 }

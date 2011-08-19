@@ -22,21 +22,11 @@ namespace Seventh
 	{
 	}
 
-	void CState::setNextState(std::string state)
-	{
-		m_NextState = state;
-	}
-
-	void CState::setNextState()
-	{
-		CEngine::sendSignal(STOP_ENGINE);
-	}
-
 	CState::~CState()
 	{
 	}
 
-	void CState::OnUpdate()
+	void CState::Update()
 	{
 		TRACE("Oh my god!");
 	}

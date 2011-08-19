@@ -27,8 +27,8 @@ namespace Seventh
 		void init();
 		void update();
 
-		bool game_update();
-		void reset_loop();
+		bool logic();
+		void reset();
 
 	protected:
 		CClock();

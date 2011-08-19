@@ -16,10 +16,18 @@
 
 #include "common.h"
 
+#include "DisplayCore/CTextureManager.h"
+#include "DisplayCore/CLayerManager.h"
 #include "DisplayCore/CDisplayCore.h"
 
 namespace Seventh
 {
+	// initialize static members
+	boost::shared_ptr<CLayerManager> CDisplayCore::Layers;
+	boost::shared_ptr<CTextureManager> CDisplayCore::Textures;
+
+	SDL_Surface* CDisplayCore::m_DisplayScreen = NULL;
+
 	CDisplayCore::CDisplayCore()
 	{
 	}
@@ -27,8 +35,7 @@ namespace Seventh
 	CDisplayCore::CDisplayCore(ENGINE_CONFIG& engine_config) :
 		m_DisplayWidth(0),
 		m_DisplayHeight(0),
-		m_DisplayBPP(0),
-		m_DisplayScreen(NULL)
+		m_DisplayBPP(0)
 	{
 		m_ENGINE_CONFIG = engine_config;
 	}
@@ -53,6 +60,8 @@ namespace Seventh
 
 		// Init display
 		Init_Display();
+		Init_Layers();
+		Init_Textures();
 	}
 
 	void CDisplayCore::Init_Display() throw(seventh_displaycore_exception)
@@ -75,9 +84,32 @@ namespace Seventh
 		TRACE("Display base core initialized: %dx%d@%d bpp", m_DisplayWidth, m_DisplayHeight, m_DisplayBPP);
 	}
 
+	void CDisplayCore::Init_Layers() throw(seventh_displaycore_exception)
+	{
+		Layers.reset(new CLayerManager);
+	}
+
+	void CDisplayCore::Init_Textures() throw(seventh_displaycore_exception)
+	{
+		Textures.reset(new CTextureManager);
+	}
+
 	void CDisplayCore::Shutdown() throw()
 	{
 		SDL_Quit();
+	}
+
+	void CDisplayCore::UpdateGameLogic() throw()
+	{
+
+	}
+
+	void CDisplayCore::Render()
+	{
+		Layers->Render();
+
+		// swap buffers
+		SDL_Flip(m_DisplayScreen);
 	}
 
 	CDisplayCore::~CDisplayCore()
