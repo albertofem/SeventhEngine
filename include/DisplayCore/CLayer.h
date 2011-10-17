@@ -32,6 +32,17 @@ namespace Seventh
 		void RegisterOverallTexture(U32 texture_id);
 
 	private:
+		/**
+		 * The structure of a layer is simple
+		 *
+		 * Map: loaded from the map container
+		 * Entities: user tells where to locate them
+		 * OverallTextures: for effects and such (mist, etc.)
+		 *
+		 * It must be rendered in this order, to keep
+		 * layer strata OK
+		 *
+		 */
 		// contained map layer
 		//boost::shared_ptr<CMapLayer> m_MapLayer;
 
@@ -43,6 +54,8 @@ namespace Seventh
 
 		// method to render textures, entities and maps
 		void RenderOverallTextures();
+		void RenderEntities();
+		void RenderMap();
 	};
 }
 

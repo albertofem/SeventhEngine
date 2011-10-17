@@ -96,7 +96,7 @@ namespace Seventh
 
 			// stop loop in the static variable has
 			// been modified
-			if(s_Running == false)
+			if(s_Running != true)
 			{
 				running = false;
 			}

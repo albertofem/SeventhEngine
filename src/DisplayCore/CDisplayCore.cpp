@@ -80,6 +80,9 @@ namespace Seventh
 			throw new seventh_displaycore_exception("Couldn't init SDL video mode", STH_EXCEPTION_CANNOT_SET_VIDEOMODE);
 		}
 
+		// set window title
+		SDL_WM_SetCaption("Simple Window", "Simple Window");
+
 		// display basic subsystem is initialize, OK
 		TRACE("Display base core initialized: %dx%d@%d bpp", m_DisplayWidth, m_DisplayHeight, m_DisplayBPP);
 	}
