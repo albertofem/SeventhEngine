@@ -27,7 +27,7 @@ namespace Seventh
 		CStateManager();
 		~CStateManager();
 
-		void registerState(std::string name, CState& state);
+		void RegisterState(std::string name, CState& state);
 		STATE getStatePtr(std::string name);
 
 	private:

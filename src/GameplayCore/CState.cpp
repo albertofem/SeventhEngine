@@ -30,4 +30,9 @@ namespace Seventh
 	{
 		TRACE("Oh my god!");
 	}
+
+	void CState::OnEvent()
+	{
+
+	}
 }

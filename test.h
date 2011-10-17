@@ -24,4 +24,8 @@ public:
 	~StateMenu();
 
 	void Update();
+
+	void OnEvent(e_EventCases type);
+
+	friend class myGame;
 };

@@ -18,6 +18,7 @@
 #include "CEngineConfig.h"
 #include "DisplayCore/CDisplayCore.h"
 #include "GameplayCore/CGameplayCore.h"
+#include "EventsCore/CEventsCore.h"
 
 #ifndef STH_CENGINE_H_
 #define STH_CENGINE_H_
@@ -58,6 +59,7 @@ namespace Seventh
 		DISPLAY_CORE Display;
 		GAMEPLAY_CORE Gameplay;
 		static ASSET_MANAGER Assets;
+		EVENTS_CORE Events;
 
 		/*
 		CSoundCore Sound;

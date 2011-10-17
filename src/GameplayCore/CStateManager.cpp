@@ -20,7 +20,7 @@ namespace Seventh
 	{
 	}
 
-	void CStateManager::registerState(std::string name, CState& state)
+	void CStateManager::RegisterState(std::string name, CState& state)
 	{
 		// create temporary pointer
 		STATE temp(new CState(state));

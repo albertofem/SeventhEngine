@@ -54,6 +54,12 @@ namespace Seventh
 		Gameplay.reset(new CGameplayCore);
 		Gameplay->Start();
 
+		/**
+		 * start events core
+		 */
+		Events.reset(new CEventsCore);
+		Events->Start();
+
 	}
 
 	// main loop, everything happens here
@@ -72,24 +78,39 @@ namespace Seventh
 		// to use the signal system in order to stop the engine
 		bool running = true;
 
+		// events
+		SDL_Event event;
+
 		// set first measure of the internal clock
 		Clock->init();
 
 		// main game loop
 		while(running)
 		{
-
 			Clock->reset();
 
+			/**
+			 * events loop; loop for queued
+			 * events and register in the events
+			 * core class for future handling
+			 */
+			while(SDL_PollEvent(&event))
+			{
+				Events->RegisterEvent(event);
+			}
 
 			while(Clock->logic())
 			{
+
 				// do update game logic
 				UpdateGameLogic();
 
 				// update clock
 				Clock->update();
 			}
+
+			// remove events from the queue
+			Events->RemoveEvents();
 
 			// render
 			RenderGame();
@@ -121,8 +142,10 @@ namespace Seventh
 	void CEngine::Shutdown()
 	{
 		// finish subsystem in reverse order
+		Gameplay->Shutdown();
 		Display->Shutdown();
 		EngineConfig->Shutdown();
+		Events->Shutdown();
 	}
 
 	void CEngine::UpdateGameLogic() throw()

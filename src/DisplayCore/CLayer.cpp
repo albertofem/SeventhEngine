@@ -50,6 +50,11 @@ namespace Seventh
 		}
 	}
 
+	void CLayer::TransformOverallTexture(std::string name, STH_Transform &transform)
+	{
+		CDisplayCore::_Textures()->TransformTexture(m_OverallTextures[name], transform);
+	}
+
 	void CLayer::Render()
 	{
 		// render in order the textures from maps, entities

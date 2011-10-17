@@ -25,4 +25,10 @@ namespace Seventh
 
 	typedef int64_t	S64;
 	typedef uint64_t	U64;
+
+	struct STH_Transform
+	{
+		int move_x;
+		int move_y;
+	};
 }

@@ -31,6 +31,7 @@ namespace Seventh
 		void Render();
 
 		U32 CreateTexture(std::string filename, const TextureCoord& coord);
+		void TransformTexture(U32 texture_id, STH_Transform &transform);
 
 		void RenderTexture(U32 texture_id);
 

@@ -67,6 +67,9 @@ namespace Seventh
 	class CGameplayCore;
 	typedef boost::shared_ptr<CGameplayCore> GAMEPLAY_CORE;
 
+	class CEventsCore;
+	typedef boost::shared_ptr<CEventsCore> EVENTS_CORE;
+
 	class CStateManager;
 	typedef boost::shared_ptr<CStateManager> STATE_MANAGER;
 

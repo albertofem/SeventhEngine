@@ -31,6 +31,8 @@ namespace Seventh
 		void CreateOverallTexture(std::string name, std::string filename);
 		void RegisterOverallTexture(U32 texture_id);
 
+		void TransformOverallTexture(std::string name, STH_Transform &transform);
+
 	private:
 		/**
 		 * The structure of a layer is simple

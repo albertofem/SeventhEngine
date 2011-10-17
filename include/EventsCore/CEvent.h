@@ -8,33 +8,11 @@
  *
  * @author	Alberto Fernández <albertofem@gmail.com>
  * @version	1.0
- * @since		2011.0813
+ * @since		2011.1015
  *
  */
 
-#include "common.h"
-
-#ifndef STH_CSTATE_H_
-#define STH_CSTATE_H_
-
 namespace Seventh
 {
-	class CEngine;
 
-	class CState
-	{
-
-	public:
-		CState();
-		virtual ~CState();
-
-		virtual void Update();
-
-		virtual void OnEvent();
-
-	private:
-		std::string m_NextState;
-	};
 }
-
-#endif

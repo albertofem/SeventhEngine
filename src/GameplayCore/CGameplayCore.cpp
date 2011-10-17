@@ -31,4 +31,9 @@ namespace Seventh
 	CGameplayCore::~CGameplayCore()
 	{
 	}
+
+	void CGameplayCore::Shutdown()
+	{
+
+	}
 }

@@ -50,4 +50,9 @@ namespace Seventh
 			SDL_BlitSurface(m_Textures[texture_id]->getSurfacePtr(), NULL, CDisplayCore::_Screen(), NULL);
 		}
 	}
+
+	void CTextureManager::TransformTexture(U32 texture_id, STH_Transform &transform)
+	{
+		m_Textures[texture_id]->Transform(transform);
+	}
 }

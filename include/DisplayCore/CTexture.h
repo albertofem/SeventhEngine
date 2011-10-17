@@ -48,6 +48,8 @@ namespace Seventh
 
 		SDL_Rect SDL_Coords;
 
+		void Transform(STH_Transform &transform);
+
 	public:
 		// getters
 		inline bool needToDraw()
@@ -59,6 +61,8 @@ namespace Seventh
 		{
 			return SDL_Coords;
 		}
+
+	friend class CTextureManager;
 	};
 }
 

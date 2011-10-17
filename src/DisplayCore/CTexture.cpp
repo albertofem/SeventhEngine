@@ -75,6 +75,14 @@ namespace Seventh
 		return true;
 	}
 
+	void CTexture::Transform(STH_Transform &transform)
+	{
+		SDL_Coords.x = SDL_Coords.x+transform.move_x;
+		SDL_Coords.x = SDL_Coords.x+transform.move_y;
+
+		m_Draw = true;
+	}
+
 	SDL_Surface* CTexture::getSurfacePtr()
 	{
 		loadResource();
