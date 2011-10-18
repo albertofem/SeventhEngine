@@ -17,20 +17,15 @@
 #ifndef STH_CEVENTSCORE_H_
 #define STH_CEVENTSCORE_H_
 
+#include "Engine/CEngine.h"
+
 namespace Seventh
 {
-	enum e_EventCases
-	{
-		KEY_PRESS_UP,
-		KEY_PRESS_DOWN,
-		KEY_PRESS_LEFT,
-		KEY_PRESS_RIGHT
-	};
 
 	class CEventsCore
 	{
 	public:
-		CEventsCore();
+		CEventsCore(CEngine* engine);
 		~CEventsCore();
 
 		void RegisterEvent(SDL_Event &event_type);
@@ -46,6 +41,10 @@ namespace Seventh
 
 	private:
 		std::vector< e_EventCases > m_Events;
+
+		void PropagateEvent(e_EventCases event_case);
+
+		CEngine* m_Engine;
 	};
 }
 

@@ -30,10 +30,12 @@ namespace Seventh
 		void UpdateGameLogic();
 		void Render();
 
-		U32 CreateTexture(std::string filename, const TextureCoord& coord);
+		U32 CreateTexture(std::string filename);
 		void TransformTexture(U32 texture_id, STH_Transform &transform);
 
 		void RenderTexture(U32 texture_id);
+
+		void CleanScreen();
 
 	private:
 		// texture map
@@ -41,6 +43,11 @@ namespace Seventh
 
 		// textures ID
 		U32 m_TextureCounter;
+
+		// second surface to double buffer
+		SDL_Surface* m_DBufferScreen;
+
+		bool m_Clean;
 	};
 }
 

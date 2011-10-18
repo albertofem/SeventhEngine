@@ -18,9 +18,9 @@
 
 namespace Seventh
 {
-	CEventsCore::CEventsCore()
+	CEventsCore::CEventsCore(CEngine* engine)
 	{
-		// do nothing
+		m_Engine = engine;
 	}
 
 	CEventsCore::~CEventsCore()
@@ -40,14 +40,14 @@ namespace Seventh
 		switch(event_type.type)
 		{
 		case SDL_KEYDOWN:
-			Handle_KeyDown(event_type.key);
+			c_case = Handle_KeyDown(event_type.key);
 			break;
 		}
 
 		// push back this event
 		m_Events.push_back(c_case);
 
-		TRACE("Registered event");
+		PropagateEvent(c_case);
 	}
 
 	void CEventsCore::RemoveEvents()
@@ -81,5 +81,13 @@ namespace Seventh
 	{
 		// clear events vector
 		m_Events.clear();
+	}
+
+	void CEventsCore::PropagateEvent(e_EventCases event_case)
+	{
+		// propage events across the engine
+		// first one, layers
+		TRACE("Propagating to states...");
+		m_Engine->_Gameplay()->_StateManager()->CheckEvents(event_case);
 	}
 }

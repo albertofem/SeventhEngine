@@ -12,6 +12,7 @@
  *
  */
 
+#include "EventsCore/CEventsCore.h"
 #include "GameplayCore/CStateManager.h"
 
 namespace Seventh
@@ -20,19 +21,16 @@ namespace Seventh
 	{
 	}
 
-	void CStateManager::RegisterState(std::string name, CState& state)
+	void CStateManager::RegisterState(std::string name, CState* state)
 	{
-		// create temporary pointer
-		STATE temp(new CState(state));
-
 		// transfer pointer ownership to
-		m_States[name] = temp;
+		m_States[name] = state;
 
 		// pointer goes out of scope, ownership
 		// already transfered
 	}
 
-	STATE CStateManager::getStatePtr(std::string name)
+	CState* CStateManager::getStatePtr(std::string name)
 	{
 		return m_States[name];
 	}
@@ -41,5 +39,19 @@ namespace Seventh
 	{
 		// clear states map
 		m_States.clear();
+	}
+
+	void CStateManager::CheckEvents(e_EventCases event)
+	{
+		if(m_States.empty())
+			return;
+
+		// iterate map of overall textures
+		std::map< std::string, CState* >::const_iterator it;
+
+		for(it=m_States.begin(); it!=m_States.end(); it++)
+		{
+			getStatePtr(it->first)->OnEvent(event);
+		}
 	}
 }

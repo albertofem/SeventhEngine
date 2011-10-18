@@ -19,23 +19,22 @@
 
 namespace Seventh
 {
-	CTexture::CTexture()
-		: m_TextureCoords(-1, -1, -1, -1)
-	{
-
-	}
-
 	CTexture::~CTexture()
 	{
 		SDL_FreeSurface(m_Surface);
 	}
 
-	CTexture::CTexture(std::string filename, const TextureCoord& coord)
-		: m_TextureCoords(coord.fromX, coord.fromY, coord.toX, coord.toY)
+	CTexture::CTexture(std::string filename)
 	{
 		m_ResourceFile = filename;
 		m_ResourceLoaded = false;
 		m_Draw = true;
+
+		// save coords
+		SDL_Coords.h = 0;
+		SDL_Coords.h = 0;
+		SDL_Coords.x = 0;
+		SDL_Coords.y = 0;
 	}
 
 	bool CTexture::loadResource()
@@ -57,12 +56,10 @@ namespace Seventh
 			SDL_FreeSurface(Surface_Temp);
 
 			// set width and height
-			m_TextureCoords.width = m_Surface->w;
-			m_TextureCoords.height = m_Surface->h;
+			SDL_Coords.h = m_Surface->w;
+			SDL_Coords.w = m_Surface->h;
 
 			// set SDL coord
-			SDL_Coords.h = m_TextureCoords.width;
-			SDL_Coords.w = m_TextureCoords.height;
 			SDL_Coords.x = 0;
 			SDL_Coords.y = 0;
 
@@ -78,7 +75,7 @@ namespace Seventh
 	void CTexture::Transform(STH_Transform &transform)
 	{
 		SDL_Coords.x = SDL_Coords.x+transform.move_x;
-		SDL_Coords.x = SDL_Coords.x+transform.move_y;
+		SDL_Coords.y = SDL_Coords.y+transform.move_y;
 
 		m_Draw = true;
 	}

@@ -79,6 +79,8 @@ namespace Seventh
 		 */
 		static SDL_Surface* m_DisplayScreen;
 
+		static bool m_ClearScreen;
+
 	public:
 		// inline getters
 		static inline boost::shared_ptr<CLayerManager> _Layers()
@@ -94,6 +96,11 @@ namespace Seventh
 		static inline SDL_Surface* _Screen()
 		{
 			return m_DisplayScreen;
+		}
+
+		static inline bool ClearScreen()
+		{
+			m_ClearScreen = true;
 		}
 	};
 }

@@ -12,6 +12,8 @@ public:
 	myGame();
 	~myGame();
 
+	void DoSomeStuff();
+
 private:
 	void setInitialConfig();
 };
@@ -20,7 +22,7 @@ private:
 class StateMenu : public CState
 {
 public:
-	StateMenu();
+	StateMenu(myGame* game_ref);
 	~StateMenu();
 
 	void Update();
@@ -28,4 +30,7 @@ public:
 	void OnEvent(e_EventCases type);
 
 	friend class myGame;
+
+private:
+	myGame* Engine;
 };

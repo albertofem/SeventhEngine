@@ -57,7 +57,7 @@ namespace Seventh
 		/**
 		 * start events core
 		 */
-		Events.reset(new CEventsCore);
+		Events.reset(new CEventsCore(this));
 		Events->Start();
 
 	}

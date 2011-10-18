@@ -24,7 +24,7 @@ namespace Seventh
 	{
 	public:
 		CTexture();
-		CTexture(std::string filename, const TextureCoord& coord);
+		CTexture(std::string filename);
 
 		~CTexture();
 
@@ -39,13 +39,10 @@ namespace Seventh
 		std::string m_ResourceFile;
 		U32 m_TextureID;
 
-		TextureCoord m_TextureCoords;
-
 		bool m_Draw;
 		bool m_ResourceLoaded;
 
 		SDL_Surface* m_Surface;
-
 		SDL_Rect SDL_Coords;
 
 		void Transform(STH_Transform &transform);
@@ -60,6 +57,12 @@ namespace Seventh
 		inline SDL_Rect getSDLRect()
 		{
 			return SDL_Coords;
+		}
+
+	public:
+		inline void SetDraw(bool set)
+		{
+			m_Draw = set;
 		}
 
 	friend class CTextureManager;

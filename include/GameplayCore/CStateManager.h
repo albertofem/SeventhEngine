@@ -19,6 +19,8 @@
 #ifndef STH_CSTATEMANAGER_H_
 #define STH_CSTATEMANAGER_H_
 
+#include "EventsCore/CEventsCore.h"
+
 namespace Seventh
 {
 	class CStateManager
@@ -27,11 +29,13 @@ namespace Seventh
 		CStateManager();
 		~CStateManager();
 
-		void RegisterState(std::string name, CState& state);
-		STATE getStatePtr(std::string name);
+		void RegisterState(std::string name, CState* state);
+		CState* getStatePtr(std::string name);
+
+		void CheckEvents(e_EventCases event);
 
 	private:
-		std::map< std::string, STATE > m_States;
+		std::map< std::string, CState* > m_States;
 	};
 }
 

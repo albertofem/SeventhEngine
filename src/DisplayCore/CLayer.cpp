@@ -30,7 +30,7 @@ namespace Seventh
 
 	void CLayer::CreateOverallTexture(std::string name, std::string filename)
 	{
-		U32 texture_id = CDisplayCore::_Textures()->CreateTexture(filename, TextureCoord(-1, -1, -1, -1));
+		U32 texture_id = CDisplayCore::_Textures()->CreateTexture(filename);
 
 		m_OverallTextures[name] = texture_id;
 	}
@@ -57,8 +57,12 @@ namespace Seventh
 
 	void CLayer::Render()
 	{
+		CDisplayCore::_Textures()->CleanScreen();
+
 		// render in order the textures from maps, entities
 		// and overall textures
 		RenderOverallTextures();
+
+		CDisplayCore::_Textures()->Render();
 	}
 }

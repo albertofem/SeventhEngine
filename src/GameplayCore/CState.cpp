@@ -31,8 +31,7 @@ namespace Seventh
 		TRACE("Oh my god!");
 	}
 
-	void CState::OnEvent()
+	void CState::OnEvent(e_EventCases event_case)
 	{
-
 	}
 }

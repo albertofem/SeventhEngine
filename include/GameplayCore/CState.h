@@ -30,7 +30,7 @@ namespace Seventh
 
 		virtual void Update();
 
-		virtual void OnEvent();
+		virtual void OnEvent(e_EventCases event_case);
 
 	private:
 		std::string m_NextState;
