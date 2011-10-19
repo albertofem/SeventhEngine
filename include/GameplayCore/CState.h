@@ -13,6 +13,7 @@
  */
 
 #include "common.h"
+#include "events.h"
 
 #ifndef STH_CSTATE_H_
 #define STH_CSTATE_H_
@@ -30,7 +31,7 @@ namespace Seventh
 
 		virtual void Update();
 
-		virtual void OnEvent(e_EventCases event_case);
+		virtual void OnEvent(EVENT_INFO event_case);
 
 	private:
 		std::string m_NextState;

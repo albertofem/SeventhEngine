@@ -28,7 +28,12 @@ namespace Seventh
 
 	struct STH_Transform
 	{
-		int move_x;
-		int move_y;
+		STH_Transform(S32 x, S32 y)
+			: move_x(x), move_y(y)
+		{
+		}
+
+		S32 move_x;
+		S32 move_y;
 	};
 }

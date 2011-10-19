@@ -47,6 +47,12 @@ namespace Seventh
 
 		void Transform(STH_Transform &transform);
 
+		void inline SetTextureID(U32 texture_id)
+		{
+			m_TextureID = texture_id;
+		}
+
+
 	public:
 		// getters
 		inline bool needToDraw()

@@ -35,8 +35,6 @@ namespace Seventh
 
 		void RenderTexture(U32 texture_id);
 
-		void CleanScreen();
-
 	private:
 		// texture map
 		std::map< U32, boost::shared_ptr<CTexture> > m_Textures;
@@ -47,7 +45,9 @@ namespace Seventh
 		// second surface to double buffer
 		SDL_Surface* m_DBufferScreen;
 
-		bool m_Clean;
+		bool CheckTextureCollision(SDL_Rect* texture1, SDL_Rect* texture2);
+
+		void CleanScreen(SDL_Rect* portion);
 	};
 }
 

@@ -22,19 +22,15 @@ void myGame::DoSomeStuff()
 {
 	U16 layerID = _Display()->_Layers()->createLayer();
 
-	STH_Transform mytransform;
-
-	mytransform.move_x = 100;
-	mytransform.move_y = 100;
-
 	StateMenu* main_menu = new StateMenu(this);
 
 	_Gameplay()->_StateManager()->RegisterState("main_menu", main_menu);
 
 	_Display()->_Layers()->_Layer(layerID)->CreateOverallTexture("zelda", "./test/zelda.jpg");
 	_Display()->_Layers()->_Layer(layerID)->CreateOverallTexture("zelda2", "./test/zelda.jpg");
+	_Display()->_Layers()->_Layer(layerID)->CreateOverallTexture("zelda3", "./test/zelda.png");
 
-	_Display()->_Layers()->_Layer(0)->TransformOverallTexture("zelda", mytransform);
+	_Display()->_Layers()->_Layer(0)->TransformOverallTexture("zelda", STH_Transform(100, 100));
 }
 
 myGame::~myGame()
@@ -50,18 +46,40 @@ StateMenu::~StateMenu()
 {
 }
 
-void StateMenu::OnEvent(e_EventCases type)
+void StateMenu::OnEvent(EVENT_INFO type)
 {
-	STH_Transform mytransform;
-
-	mytransform.move_x = 10;
-	mytransform.move_y = 20;
-
-	switch(type)
+	switch(type.ecase)
 	{
 	case KEY_PRESS_DOWN:
-		Engine->_Display()->_Layers()->_Layer(0)->TransformOverallTexture("zelda", mytransform);
-		Engine->_Display()->_Layers()->_Layer(0)->TransformOverallTexture("zelda2", mytransform);
+		Engine->_Display()->_Layers()->_Layer(0)->TransformOverallTexture("zelda3", STH_Transform(0, 5));
+		break;
+
+	case KEY_PRESS_UP:
+		Engine->_Display()->_Layers()->_Layer(0)->TransformOverallTexture("zelda3", STH_Transform(0, -5));
+		break;
+
+	case KEY_PRESS_RIGHT:
+		Engine->_Display()->_Layers()->_Layer(0)->TransformOverallTexture("zelda3", STH_Transform(5, 0));
+		break;
+
+	case KEY_PRESS_LEFT:
+		Engine->_Display()->_Layers()->_Layer(0)->TransformOverallTexture("zelda3", STH_Transform(-5, 0));
+		break;
+
+	case KEY_PRESS_A:
+		Engine->_Display()->_Layers()->_Layer(0)->TransformOverallTexture("zelda", STH_Transform(0, 5));
+		break;
+
+	case KEY_PRESS_D:
+		Engine->_Display()->_Layers()->_Layer(0)->TransformOverallTexture("zelda", STH_Transform(0, -5));
+		break;
+
+	case KEY_PRESS_W:
+		Engine->_Display()->_Layers()->_Layer(0)->TransformOverallTexture("zelda", STH_Transform(5, 0));
+		break;
+
+	case KEY_PRESS_S:
+		Engine->_Display()->_Layers()->_Layer(0)->TransformOverallTexture("zelda", STH_Transform(-5, 0));
 		break;
 	}
 }

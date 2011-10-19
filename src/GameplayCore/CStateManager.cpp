@@ -41,7 +41,7 @@ namespace Seventh
 		m_States.clear();
 	}
 
-	void CStateManager::CheckEvents(e_EventCases event)
+	void CStateManager::CheckEvents(EVENT_INFO event)
 	{
 		if(m_States.empty())
 			return;

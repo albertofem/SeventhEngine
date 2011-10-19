@@ -32,7 +32,7 @@ namespace Seventh
 		void RegisterState(std::string name, CState* state);
 		CState* getStatePtr(std::string name);
 
-		void CheckEvents(e_EventCases event);
+		void CheckEvents(EVENT_INFO event);
 
 	private:
 		std::map< std::string, CState* > m_States;

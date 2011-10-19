@@ -135,7 +135,6 @@ namespace Seventh
 			s_Running = false;
 			TRACE("Received signal to stop engine!");
 			break;
-
 		}
 	}
 

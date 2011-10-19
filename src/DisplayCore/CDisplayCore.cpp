@@ -112,6 +112,9 @@ namespace Seventh
 	{
 		Layers->Render();
 
+		// render stuff from the texture subsystem
+		Textures->Render();
+
 		// swap buffers
 		SDL_Flip(m_DisplayScreen);
 	}

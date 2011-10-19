@@ -34,15 +34,15 @@ namespace Seventh
 		void Shutdown();
 
 	private:
-		e_EventCases Handle_KeyDown(SDL_KeyboardEvent ekey);
+		EVENT_INFO Handle_KeyDown(SDL_KeyboardEvent ekey);
 
 	public:
 		void RemoveEvents();
 
 	private:
-		std::vector< e_EventCases > m_Events;
+		std::vector< EVENT_INFO > m_Events;
 
-		void PropagateEvent(e_EventCases event_case);
+		void PropagateEvent(EVENT_INFO event_case);
 
 		CEngine* m_Engine;
 	};

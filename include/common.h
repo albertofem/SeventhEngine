@@ -83,15 +83,4 @@ namespace Seventh
 	typedef boost::shared_ptr<CLayer> LAYER;
 }
 
-namespace Seventh
-{
-	enum e_EventCases
-	{
-		KEY_PRESS_UP,
-		KEY_PRESS_DOWN,
-		KEY_PRESS_LEFT,
-		KEY_PRESS_RIGHT
-	};
-}
-
 #endif

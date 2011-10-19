@@ -21,6 +21,9 @@ namespace Seventh
 	CEventsCore::CEventsCore(CEngine* engine)
 	{
 		m_Engine = engine;
+
+		// keyboard interval and delay
+		SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 	}
 
 	CEventsCore::~CEventsCore()
@@ -35,13 +38,18 @@ namespace Seventh
 
 	void CEventsCore::RegisterEvent(SDL_Event &event_type)
 	{
-		e_EventCases c_case;
+		EVENT_INFO c_case;
 
 		switch(event_type.type)
 		{
 		case SDL_KEYDOWN:
 			c_case = Handle_KeyDown(event_type.key);
 			break;
+
+		default:
+			c_case.ecase = KEY_UNKNOWN;
+			break;
+
 		}
 
 		// push back this event
@@ -55,26 +63,51 @@ namespace Seventh
 		m_Events.clear();
 	}
 
-	e_EventCases CEventsCore::Handle_KeyDown(SDL_KeyboardEvent ekey)
+	EVENT_INFO CEventsCore::Handle_KeyDown(SDL_KeyboardEvent ekey)
 	{
+		EVENT_INFO event_ret;
+
 		switch(ekey.keysym.sym)
 		{
 		case SDLK_UP:
-			return KEY_PRESS_UP;
+			event_ret.ecase = KEY_PRESS_UP;
 			break;
 
 		case SDLK_DOWN:
-			return KEY_PRESS_DOWN;
+			event_ret.ecase = KEY_PRESS_DOWN;
 			break;
 
 		case SDLK_LEFT:
-			return KEY_PRESS_LEFT;
+			event_ret.ecase = KEY_PRESS_LEFT;
 			break;
 
 		case SDLK_RIGHT:
-			return KEY_PRESS_RIGHT;
+			event_ret.ecase = KEY_PRESS_RIGHT;
+			break;
+
+		case SDLK_a:
+			event_ret.ecase = KEY_PRESS_A;
+			break;
+
+		case SDLK_s:
+			event_ret.ecase = KEY_PRESS_S;
+			break;
+
+		case SDLK_w:
+			event_ret.ecase = KEY_PRESS_W;
+			break;
+
+		case SDLK_d:
+			event_ret.ecase = KEY_PRESS_D;
 			break;
 		}
+
+		if(ekey.state == PRESSED)
+			event_ret.estate = PRESSED;
+		else
+			event_ret.estate = RELEASED;
+
+		return event_ret;
 	}
 
 	void CEventsCore::Shutdown()
@@ -83,11 +116,10 @@ namespace Seventh
 		m_Events.clear();
 	}
 
-	void CEventsCore::PropagateEvent(e_EventCases event_case)
+	void CEventsCore::PropagateEvent(EVENT_INFO event_case)
 	{
 		// propage events across the engine
 		// first one, layers
-		TRACE("Propagating to states...");
 		m_Engine->_Gameplay()->_StateManager()->CheckEvents(event_case);
 	}
 }

@@ -28,10 +28,9 @@ namespace Seventh
 
 	void CState::Update()
 	{
-		TRACE("Oh my god!");
 	}
 
-	void CState::OnEvent(e_EventCases event_case)
+	void CState::OnEvent(EVENT_INFO event_case)
 	{
 	}
 }

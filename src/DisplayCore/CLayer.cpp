@@ -50,19 +50,17 @@ namespace Seventh
 		}
 	}
 
-	void CLayer::TransformOverallTexture(std::string name, STH_Transform &transform)
+	void CLayer::TransformOverallTexture(std::string name, STH_Transform transform)
 	{
+		//TRACE("Getting transformation on texture ID (%d)", m_OverallTextures[name]);
 		CDisplayCore::_Textures()->TransformTexture(m_OverallTextures[name], transform);
 	}
 
 	void CLayer::Render()
 	{
-		CDisplayCore::_Textures()->CleanScreen();
 
 		// render in order the textures from maps, entities
 		// and overall textures
 		RenderOverallTextures();
-
-		CDisplayCore::_Textures()->Render();
 	}
 }

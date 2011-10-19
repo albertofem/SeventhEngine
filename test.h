@@ -27,9 +27,7 @@ public:
 
 	void Update();
 
-	void OnEvent(e_EventCases type);
-
-	friend class myGame;
+	void OnEvent(EVENT_INFO type);
 
 private:
 	myGame* Engine;

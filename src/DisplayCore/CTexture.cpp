@@ -32,7 +32,7 @@ namespace Seventh
 
 		// save coords
 		SDL_Coords.h = 0;
-		SDL_Coords.h = 0;
+		SDL_Coords.w = 0;
 		SDL_Coords.x = 0;
 		SDL_Coords.y = 0;
 	}
@@ -56,12 +56,8 @@ namespace Seventh
 			SDL_FreeSurface(Surface_Temp);
 
 			// set width and height
-			SDL_Coords.h = m_Surface->w;
-			SDL_Coords.w = m_Surface->h;
-
-			// set SDL coord
-			SDL_Coords.x = 0;
-			SDL_Coords.y = 0;
+			SDL_Coords.h = m_Surface->h;
+			SDL_Coords.w = m_Surface->w;
 
 			// also set already loaded to true
 			m_ResourceLoaded = true;
@@ -74,6 +70,9 @@ namespace Seventh
 
 	void CTexture::Transform(STH_Transform &transform)
 	{
+		//TRACE("Applying transformation on texture_id (%d), previous position (%d, %d), new position (%d, %d)",
+		//	m_TextureID, SDL_Coords.x, SDL_Coords.y, transform.move_x, transform.move_y);
+
 		SDL_Coords.x = SDL_Coords.x+transform.move_x;
 		SDL_Coords.y = SDL_Coords.y+transform.move_y;
 
