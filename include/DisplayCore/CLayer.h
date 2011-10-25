@@ -14,6 +14,8 @@
 
 #include <vector>
 
+#include "DisplayCore/CMap.h"
+
 #ifndef STH_CLAYER_H_
 #define STH_CLAYER_H_
 
@@ -45,8 +47,9 @@ namespace Seventh
 		 * layer strata OK
 		 *
 		 */
-		// contained map layer
-		//boost::shared_ptr<CMapLayer> m_MapLayer;
+
+		// pointer to current map
+		CMap* m_Map;
 
 		// contained map of contained entities
 		std::map< std::string, U32 > m_Entities;
@@ -54,7 +57,7 @@ namespace Seventh
 		// another map of overall textures
 		std::map< std::string, U32 > m_OverallTextures;
 
-		// method to render textures, entities and maps
+		// method to render textures, entities and the map
 		void RenderOverallTextures();
 		void RenderEntities();
 		void RenderMap();
