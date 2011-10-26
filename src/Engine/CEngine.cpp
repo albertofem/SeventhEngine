@@ -116,9 +116,6 @@ namespace Seventh
 				Clock->update();
 			}
 
-			// remove events from the queue
-			Events->RemoveEvents();
-
 			// render
 			RenderGame();
 
@@ -140,7 +137,7 @@ namespace Seventh
 		{
 		case STOP_ENGINE:
 			s_Running = false;
-			TRACE("Received signal to stop engine!");
+			TRACE("Received call to stop engine!");
 			break;
 		}
 	}

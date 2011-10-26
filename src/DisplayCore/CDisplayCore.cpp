@@ -25,7 +25,6 @@ namespace Seventh
 	// initialize static members
 	boost::shared_ptr<CLayerManager> CDisplayCore::Layers;
 	boost::shared_ptr<CTextureManager> CDisplayCore::Textures;
-	bool CDisplayCore::m_ClearScreen = true;
 
 	SDL_Surface* CDisplayCore::m_DisplayScreen = NULL;
 

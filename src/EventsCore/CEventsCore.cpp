@@ -57,15 +57,7 @@ namespace Seventh
 
 		}
 
-		// push back this event
-		m_Events.push_back(c_case);
-
 		PropagateEvent(c_case);
-	}
-
-	void CEventsCore::RemoveEvents()
-	{
-		m_Events.clear();
 	}
 
 	EVENT_INFO CEventsCore::Handle_KeyDown(SDL_KeyboardEvent ekey)
@@ -117,14 +109,12 @@ namespace Seventh
 
 	void CEventsCore::Shutdown()
 	{
-		// clear events vector
-		m_Events.clear();
 	}
 
 	void CEventsCore::PropagateEvent(EVENT_INFO event_case)
 	{
 		// propage events across the engine
-		// first one, layers
+		// first one, states
 		m_Engine->_Gameplay()->_StateManager()->CheckEvents(event_case);
 	}
 }

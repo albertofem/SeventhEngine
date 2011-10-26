@@ -21,7 +21,6 @@
 
 namespace Seventh
 {
-
 	class CEventsCore
 	{
 	public:
@@ -35,12 +34,6 @@ namespace Seventh
 
 	private:
 		EVENT_INFO Handle_KeyDown(SDL_KeyboardEvent ekey);
-
-	public:
-		void RemoveEvents();
-
-	private:
-		std::vector< EVENT_INFO > m_Events;
 
 		void PropagateEvent(EVENT_INFO event_case);
 

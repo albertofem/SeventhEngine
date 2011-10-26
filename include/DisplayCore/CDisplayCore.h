@@ -16,6 +16,7 @@
 
 #include "common.h"
 #include "Engine/CEngineConfig.h"
+#include "DisplayCore/CCamera.h"
 
 #ifndef STH_CDISPLAYCORE_H_
 #define STH_CDISPLAYCORE_H_
@@ -24,6 +25,7 @@ namespace Seventh
 {
 	class CLayerManager;
 	class CTextureManager;
+	class CMapManager;
 
 	class CDisplayCore
 	{
@@ -71,15 +73,24 @@ namespace Seventh
 		static boost::shared_ptr<CTextureManager> Textures;
 		//static boost::shared_ptr<CObjectManager> Objects;
 		//static boost::shared_ptr<CAnimationManager> Animations;
-		//static boost::shared_ptr<CMapManager> Maps;
+		static boost::shared_ptr<CMapManager> Maps;
 		//static boost::shared_ptr<CMovieManager> Movies;
 
 		/**
-		 * main surface layer
+		 * main surface
 		 */
 		static SDL_Surface* m_DisplayScreen;
 
-		static bool m_ClearScreen;
+	private:
+		/**
+		 * Camera
+		 */
+		static boost::shared_ptr<CCamera> m_CurrentCamera;
+
+		static CCamera* _Camera()
+		{
+			return m_CurrentCamera.get();
+		}
 
 	public:
 		// inline getters
@@ -96,11 +107,6 @@ namespace Seventh
 		static inline SDL_Surface* _Screen()
 		{
 			return m_DisplayScreen;
-		}
-
-		static inline bool ClearScreen()
-		{
-			m_ClearScreen = true;
 		}
 	};
 }

@@ -15,13 +15,13 @@ myGame::myGame()
 void myGame::setInitialConfig()
 {
 	TRACE("Calling initial config");
-	set__CONFIG_INI("test/seventh.ini");
+	set__CONFIG_INI("./seventh.ini");
 	set__RESOURCES_XML("./resources/resources.xml");
 }
 
 void myGame::DoSomeStuff()
 {
-	U16 layerID = _Display()->_Layers()->createLayer();
+	U16 layerID = _Display()->_Layers()->CreateLayer();
 
 	StateMenu* main_menu = new StateMenu(this);
 
@@ -65,6 +65,10 @@ void StateMenu::OnEvent(EVENT_INFO type)
 
 	case KEY_PRESS_A:
 
+		break;
+
+	default:
+		// do nothing
 		break;
 	}
 }

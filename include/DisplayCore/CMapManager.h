@@ -8,31 +8,14 @@
  *
  * @author	Alberto Fernández <albertofem@gmail.com>
  * @version	1.0
- * @since		2011.0813
+ * @since		2011.1026
  *
  */
 
-#include "common.h"
-#include "GameplayCore/CGameplayCore.h"
-
 namespace Seventh
 {
-
-	CGameplayCore::CGameplayCore()
-	{
-	}
-
-	void CGameplayCore::Start()
-	{
-		m_StateManager.reset(new CStateManager);
-	}
-
-	CGameplayCore::~CGameplayCore()
-	{
-	}
-
-	void CGameplayCore::Shutdown()
+	class CMapManager
 	{
 
-	}
+	};
 }

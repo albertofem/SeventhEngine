@@ -22,8 +22,6 @@ namespace Seventh
 {
 	struct s_Texture
 	{
-		bool valid;
-
 		std::string src;
 		std::string format;
 	};
@@ -36,8 +34,6 @@ namespace Seventh
 
 	struct s_Tileset
 	{
-		bool valid;
-
 		std::string src;
 		std::string format;
 
@@ -59,8 +55,6 @@ namespace Seventh
 
 	struct s_Animation
 	{
-		bool valid;
-
 		e_AnimationType type;
 
 		// vector containing the frames of the animation

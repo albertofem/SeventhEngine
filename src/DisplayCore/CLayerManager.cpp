@@ -39,7 +39,7 @@ namespace Seventh
 		RenderOverallTextures();
 	}
 
-	U16 CLayerManager::createLayer()
+	U16 CLayerManager::CreateLayer()
 	{
 		LAYER temp(new CLayer);
 

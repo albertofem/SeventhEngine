@@ -28,7 +28,7 @@ namespace Seventh
 
 		void Render();
 
-		U16 createLayer();
+		U16 CreateLayer();
 
 		boost::shared_ptr<CLayer> _Layer(U16 layer_id);
 
