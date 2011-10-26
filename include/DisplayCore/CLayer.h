@@ -30,11 +30,6 @@ namespace Seventh
 		void UpdateGameLogic();
 		void Render();
 
-		void CreateOverallTexture(std::string name, std::string filename);
-		void RegisterOverallTexture(U32 texture_id);
-
-		void TransformOverallTexture(std::string name, STH_Transform transform);
-
 	private:
 		/**
 		 * The structure of a layer is simple
@@ -48,19 +43,12 @@ namespace Seventh
 		 *
 		 */
 
-		// pointer to current map
-		CMap* m_Map;
-
 		// contained map of contained entities
 		std::map< std::string, U32 > m_Entities;
 
-		// another map of overall textures
-		std::map< std::string, U32 > m_OverallTextures;
-
 		// method to render textures, entities and the map
-		void RenderOverallTextures();
 		void RenderEntities();
-		void RenderMap();
+		void RenderMapLayer();
 	};
 }
 

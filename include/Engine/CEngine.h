@@ -19,6 +19,9 @@
 #include "DisplayCore/CDisplayCore.h"
 #include "GameplayCore/CGameplayCore.h"
 #include "EventsCore/CEventsCore.h"
+#include "ResourceManager/CResourceManager.h"
+
+#define TIXML_USE_STL
 
 #ifndef STH_CENGINE_H_
 #define STH_CENGINE_H_
@@ -58,7 +61,7 @@ namespace Seventh
 		ENGINE_CONFIG EngineConfig;
 		DISPLAY_CORE Display;
 		GAMEPLAY_CORE Gameplay;
-		static ASSET_MANAGER Assets;
+		static RESOURCE_MANAGER Resources;
 		EVENTS_CORE Events;
 
 		/*
@@ -71,6 +74,9 @@ namespace Seventh
 	private:
 		// configuration static vars
 		static std::string __CONFIG_INI;
+		static std::string __RESOURCES_XML;
+
+		// static clock class
 		static boost::shared_ptr<CClock> Clock;
 
 		static bool s_Running;
@@ -82,10 +88,20 @@ namespace Seventh
 			__CONFIG_INI = config_ini;
 		}
 
+		inline void set__RESOURCES_XML(std::string filename)
+		{
+			__RESOURCES_XML = filename;
+		}
+
 		// configuration getters methods
 		inline std::string get__CONFIG_INI()
 		{
 			return CEngine::__CONFIG_INI;
+		}
+
+		inline std::string get__RESOURCES_XML()
+		{
+			return CEngine::__RESOURCES_XML;
 		}
 
 		inline GAMEPLAY_CORE _Gameplay()
@@ -98,9 +114,9 @@ namespace Seventh
 			return Display;
 		}
 
-		inline ASSET_MANAGER Resources()
+		inline RESOURCE_MANAGER _Resources()
 		{
-			return Assets;
+			return Resources;
 		}
 
 	public:

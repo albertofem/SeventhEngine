@@ -13,7 +13,10 @@
  */
 
 #include "common.h"
+#include "Engine/CEngine.h"
 #include "DisplayCore/CLayerManager.h"
+#include "DisplayCore/CTextureManager.h"
+#include "DisplayCore/CDisplayCore.h"
 
 namespace Seventh
 {
@@ -31,6 +34,9 @@ namespace Seventh
 	void CLayerManager::Render()
 	{
 		RenderMapContainer(m_Layers);
+
+		// render overall textures
+		RenderOverallTextures();
 	}
 
 	U16 CLayerManager::createLayer()
@@ -46,8 +52,27 @@ namespace Seventh
 		return tempID;
 	}
 
-	boost::shared_ptr<CLayer> CLayerManager::_Layer(U16 layer_id)
+	void CLayerManager::RegisterOverallTexture(std::string name, std::string filename)
 	{
-		return m_Layers[layer_id];
+		U32 texture_id = CDisplayCore::_Textures()->CreateTexture(filename);
+
+		m_OverallTextures[name] = texture_id;
+	}
+
+	void CLayerManager::RenderOverallTextures()
+	{
+		// iterate map of overall textures
+		std::map< std::string, U32 >::const_iterator it;
+
+		for(it=m_OverallTextures.begin(); it!=m_OverallTextures.end(); it++)
+		{
+			CDisplayCore::_Textures()->RenderTexture(m_OverallTextures[it->first]);
+		}
+	}
+
+	void CLayerManager::TransformOverallTexture(std::string name, STH_Transform transform)
+	{
+		//TRACE("Getting transformation on texture ID (%d)", m_OverallTextures[name]);
+		CDisplayCore::_Textures()->TransformTexture(m_OverallTextures[name], transform);
 	}
 }

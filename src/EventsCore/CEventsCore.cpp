@@ -23,7 +23,7 @@ namespace Seventh
 		m_Engine = engine;
 
 		// keyboard interval and delay
-		SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
+		SDL_EnableKeyRepeat(1, 1);
 	}
 
 	CEventsCore::~CEventsCore()

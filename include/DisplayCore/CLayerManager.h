@@ -32,12 +32,23 @@ namespace Seventh
 
 		boost::shared_ptr<CLayer> _Layer(U16 layer_id);
 
+		void RegisterOverallTexture(std::string name, std::string filename);
+		void TransformOverallTexture(std::string name, STH_Transform transform);
+
 	private:
 		// layers
 		std::map< U16, boost::shared_ptr<CLayer> > m_Layers;
 
+		// overall textures
+		std::map< std::string, U32 > m_OverallTextures;
+
+		// current map
+		boost::shared_ptr<CMap> m_CurrentMap;
+
 		// num of layers
 		U16 m_Total;
+
+		void RenderOverallTextures();
 	};
 }
 

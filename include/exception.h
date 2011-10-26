@@ -27,6 +27,7 @@ enum exception_what
 	STH_EXCEPTION_WRONG_INI_VALUES,
 	STH_EXCEPTION_CANNOT_LOAD_SDL,
 	STH_EXCEPTION_CANNOT_SET_VIDEOMODE,
+	STH_EXCEPTION_BAD_RESOURCE_FILE
 };
 
 /**
@@ -117,6 +118,27 @@ public:
 	const char* what() const throw()
 	{
 		return "DisplayCore exception";
+	};
+};
+
+/**
+ * Resource manager exceptions
+ *
+ * @author Alberto
+ * @since 1.0
+ */
+
+class seventh_resourcemanager_exception : public seventh_exception
+{
+public:
+	seventh_resourcemanager_exception(const char* what, const exception_what id) throw()
+		: seventh_exception(what, id)
+	{
+	};
+
+	const char* what() const throw()
+	{
+		return "ResourceManager exception";
 	};
 };
 

@@ -12,22 +12,88 @@
  *
  */
 
-#ifndef STH_CASSETMANAGER_H_
-#define STH_CASSETMANAGER_H_
+#include <string>
+#include <vector>
+#include <map>
+
+#include "tinyxml/tinyxml.h"
+#include "resources.h"
+
+#ifndef STH_CRESOURCEMANAGER_H_
+#define STH_CRESOURCEMANAGER_H_
 
 namespace Seventh
 {
-	class CAssetManager
+	class CEngine;
+	class CResourceManager
 	{
 	public:
-		CAssetManager();
-		~CAssetManager();
+		CResourceManager(std::string filename, CEngine* engine);
+		~CResourceManager();
 
-		STH_BOOL GetTexture(std:string);
-		STH_BOOL GetMap(std::string);
+		void LoadTexture(std::string name);
+		void LoadMap(std::string name);
+		void LoadTileFromTileset(std::string tileset, std::string name);
+		void LoadAnimation(std::string name);
+
+		void Start();
+
+		/**
+		 * This methods are used to reload
+		 * everything from the xml file into
+		 * the resource manager object
+		 */
+		void ReloadAllResources();
+
+		void ReloadTextures();
+		void ReloadTilesets();
+		void ReloadAnimations();
+		void ReloadMaps();
+
+		/**
+		 * This methods are for reloading of
+		 * specific elements within the groups
+		 * of resources (TODO)
+		 */
+		// void ReloadTexture(std::string);
+		// void ReloadTileset(std::string);
+		// ...
+
+		/**
+		 * Resource Getters
+		 */
+		s_Animation* GetTextureInfo(std::string name);
 
 	private:
+		CEngine* m_Engine;
 
+		/**
+		 * TinyXML++ specific members
+		 */
+		TiXmlDocument* m_XMLFile;
+		TiXmlHandle* m_XMLHandle;
+
+		// pointer to a XML attribute element
+		TiXmlAttribute* m_XMLAttr;
+		TiXmlElement* m_XMLElement;
+		TiXmlNode* m_XMLNode;
+
+		// resources xml file
+		std::string m_ResourceXML;
+
+		/**
+		 * Maps to contain everything extracted
+		 * from the xml resource file.
+		 */
+		std::map< std::string, boost::shared_ptr<s_Texture> > m_Resource_Textures;
+		std::map< std::string, boost::shared_ptr<s_Tileset> > m_Resource_Tilesets;
+		std::map< std::string, boost::shared_ptr<s_Animation> > m_Resource_Animations;
+		std::map< std::string, boost::shared_ptr<s_Map> > m_Resource_Maps;
+
+		/**
+		 * Recursive resource loaders
+		 */
+		void RecursiveReloadTextures(TiXmlElement* xml_element);
 	};
 }
 

@@ -73,8 +73,8 @@ namespace Seventh
 	class CStateManager;
 	typedef boost::shared_ptr<CStateManager> STATE_MANAGER;
 
-	class CAssetManager;
-	typedef boost::shared_ptr<CAssetManager> ASSET_MANAGER;
+	class CResourceManager;
+	typedef boost::shared_ptr<CResourceManager> RESOURCE_MANAGER;
 
 	class CState;
 	typedef boost::shared_ptr<CState> STATE;

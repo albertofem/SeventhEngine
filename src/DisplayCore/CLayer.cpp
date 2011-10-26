@@ -28,39 +28,7 @@ namespace Seventh
 	{
 	}
 
-	void CLayer::CreateOverallTexture(std::string name, std::string filename)
-	{
-		U32 texture_id = CDisplayCore::_Textures()->CreateTexture(filename);
-
-		m_OverallTextures[name] = texture_id;
-	}
-
-	void CLayer::RegisterOverallTexture(U32 texture_id)
-	{
-	}
-
-	void CLayer::RenderOverallTextures()
-	{
-		// iterate map of overall textures
-		std::map< std::string, U32 >::const_iterator it;
-
-		for(it=m_OverallTextures.begin(); it!=m_OverallTextures.end(); it++)
-		{
-			CDisplayCore::_Textures()->RenderTexture(m_OverallTextures[it->first]);
-		}
-	}
-
-	void CLayer::TransformOverallTexture(std::string name, STH_Transform transform)
-	{
-		//TRACE("Getting transformation on texture ID (%d)", m_OverallTextures[name]);
-		CDisplayCore::_Textures()->TransformTexture(m_OverallTextures[name], transform);
-	}
-
 	void CLayer::Render()
 	{
-
-		// render in order the textures from maps, entities
-		// and overall textures
-		RenderOverallTextures();
 	}
 }

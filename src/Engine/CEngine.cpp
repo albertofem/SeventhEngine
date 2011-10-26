@@ -19,6 +19,9 @@ namespace Seventh
 {
 	// initialize static configuration vars
 	std::string CEngine::__CONFIG_INI = "";
+	std::string CEngine::__RESOURCES_XML = "";
+
+	RESOURCE_MANAGER CEngine::Resources;
 	boost::shared_ptr<CClock> CEngine::Clock = CClock::getInstance();
 	bool CEngine::s_Running = true;
 
@@ -34,11 +37,10 @@ namespace Seventh
 
 	void CEngine::Initialize()
 	{
-		EngineConfig.reset(new CEngineConfig);
-
 		/**
 		 * start and get config
 		 */
+		EngineConfig.reset(new CEngineConfig);
 		EngineConfig->setConfigFile(CEngine::get__CONFIG_INI());
 		EngineConfig->Start();
 
@@ -60,6 +62,11 @@ namespace Seventh
 		Events.reset(new CEventsCore(this));
 		Events->Start();
 
+		/**
+		 * start resources
+		 */
+		Resources.reset(new CResourceManager(__RESOURCES_XML, this));
+		Resources->Start();
 	}
 
 	// main loop, everything happens here
