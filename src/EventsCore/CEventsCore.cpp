@@ -46,6 +46,11 @@ namespace Seventh
 			c_case = Handle_KeyDown(event_type.key);
 			break;
 
+		case SDL_QUIT:
+			// shutdown engine by sending a signal
+			m_Engine->EngineCall(STOP_ENGINE);
+			break;
+
 		default:
 			c_case.ecase = KEY_UNKNOWN;
 			break;

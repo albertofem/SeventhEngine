@@ -127,7 +127,7 @@ namespace Seventh
 		Shutdown();
 	}
 
-	void CEngine::sendSignal(const ENGINE_SIGNAL signal)
+	void CEngine::EngineCall(const ENGINE_SIGNAL signal)
 	{
 		switch(signal)
 		{

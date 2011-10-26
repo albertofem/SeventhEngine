@@ -8,20 +8,27 @@
  *
  * @author	Alberto Fernández <albertofem@gmail.com>
  * @version	1.0
- * @since		2011.0816
+ * @since		2011.1025
  *
  */
 
-#ifndef STH_CASSETMANAGER_H_
-#define STH_CASSETMANAGER_H_
+#include "common.h"
+
+#ifndef STH_MAPCOMPILER_H_
+#define STH_MAPCOMPILER_H_
 
 namespace Seventh
 {
-	class CAssetManager
+	class CMapCompiler
 	{
 	public:
-		CAssetManager();
-		~CAssetManager();
+		CMapCompiler();
+		~CMapCompiler();
+
+		CMap* CompileMap(std::string map_source);
+
+	private:
+		std::string m_MapSource;
 	};
 }
 

@@ -15,7 +15,7 @@
 #include <map>
 #include <vector>
 
-#include "DisplayCore/CTile.h"
+#include "DisplayCore/CTileset.h"
 
 #ifndef STH_CMAP_H_
 #define STH_CMAP_H_

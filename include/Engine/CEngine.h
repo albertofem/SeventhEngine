@@ -98,8 +98,13 @@ namespace Seventh
 			return Display;
 		}
 
+		inline ASSET_MANAGER Resources()
+		{
+			return Assets;
+		}
+
 	public:
-		static void sendSignal(const ENGINE_SIGNAL signal);
+		static void EngineCall(const ENGINE_SIGNAL signal);
 
 	};
 }
