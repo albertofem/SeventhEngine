@@ -19,6 +19,8 @@
 #include "tinyxml/tinyxml.h"
 #include "resources.h"
 
+#define TIXML_USE_TICPP
+
 #ifndef STH_CRESOURCEMANAGER_H_
 #define STH_CRESOURCEMANAGER_H_
 
@@ -94,6 +96,8 @@ namespace Seventh
 		 * Recursive resource loaders
 		 */
 		void RecursiveReloadTextures(TiXmlElement* xml_element);
+		void RecursiveReloadAnimations();
+		void RecursiveReloadAnimationFrames(std::string &animation_type, s_Animation* animation, TiXmlElement* xml_element);
 	};
 }
 

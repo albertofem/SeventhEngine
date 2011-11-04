@@ -12,15 +12,34 @@
  *
  */
 
+#include <string>
+
+#include "common.h"
+
+#include "Engine/CEngine.h"
+
+#ifndef STH_CENTITY_H_
+#define STH_CENTITY_H_
+
 namespace Seventh
 {
 	class CEntity
 	{
-	protected:
+	public:
 		CEntity();
 		virtual ~CEntity();
 
-	protected:
+	private:
+		void SetAnimation(std::string animation_name);
+		void SetTexture(std::string animation_name);
+
+		U8 m_CurrentRenderingResource;
+
+		CEngine* m_Engine;
+
+		void Render();
 
 	};
 }
+
+#endif

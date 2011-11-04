@@ -63,6 +63,7 @@ namespace Seventh
 		GAMEPLAY_CORE Gameplay;
 		static RESOURCE_MANAGER Resources;
 		EVENTS_CORE Events;
+		ENTITY_MANAGER Entities;
 
 		/*
 		CSoundCore Sound;
@@ -117,6 +118,11 @@ namespace Seventh
 		inline RESOURCE_MANAGER _Resources()
 		{
 			return Resources;
+		}
+
+		inline ENTITY_MANAGER _Entities()
+		{
+			return Entities;
 		}
 
 	public:

@@ -70,6 +70,9 @@ namespace Seventh
 	class CEventsCore;
 	typedef boost::shared_ptr<CEventsCore> EVENTS_CORE;
 
+	class CEntityManager;
+	typedef boost::shared_ptr<CEntityManager> ENTITY_MANAGER;
+
 	class CStateManager;
 	typedef boost::shared_ptr<CStateManager> STATE_MANAGER;
 

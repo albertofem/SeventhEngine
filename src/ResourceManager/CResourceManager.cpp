@@ -14,12 +14,15 @@
 
 #include <map>
 
+#define TIXML_USE_TICPP
+
 #include "common.h"
 #include "DisplayCore/CLayerManager.h"
 #include "ResourceManager/CResourceManager.h"
 #include "Engine/CEngine.h"
 
 #include "tinyxml/tinyxml.h"
+#include "tinyxml/ticpp.h"
 
 namespace Seventh
 {
@@ -83,22 +86,14 @@ namespace Seventh
 		TRACE("Reloading textures...");
 
 		// ok, time to look in the xml file for this stuff
-		RecursiveReloadTextures(m_XMLElement);
+		RecursiveReloadTextures(m_XMLElement = NULL);
 	}
 
 	void CResourceManager::RecursiveReloadTextures(TiXmlElement* xml_element)
 	{
-		if(xml_element == NULL)
-		{
-			// get to the first element
-			m_XMLElement = m_XMLHandle->FirstChild("resources").FirstChildElement("textures").FirstChildElement("texture").ToElement();
-		}
-		else
-		{
-			m_XMLElement = xml_element->NextSiblingElement("texture");
-		}
+		m_XMLElement = m_XMLHandle->FirstChild("resources").FirstChildElement("textures").FirstChildElement("texture").ToElement();
 
-		if(m_XMLElement != NULL)
+		for(m_XMLElement; m_XMLElement; m_XMLElement = m_XMLElement->NextSiblingElement())
 		{
 			// safe to extract XML attributes
 			std::string temp_name = m_XMLElement->Attribute("name");
@@ -109,12 +104,42 @@ namespace Seventh
 			m_Resource_Textures[temp_name]->src = m_XMLElement->Attribute("src");
 			m_Resource_Textures[temp_name]->format = m_XMLElement->Attribute("format");
 
-			RecursiveReloadTextures(m_XMLElement);
+			TRACE("Texture %s", temp_name.c_str());
 		}
-		else
+	}
+
+	void CResourceManager::RecursiveReloadAnimations()
+	{
+		TiXmlHandle handletmp = m_XMLHandle->FirstChild("resources").FirstChildElement("animations").FirstChildElement("animation");
+		m_XMLElement = handletmp.ToElement();
+
+		for(m_XMLElement; m_XMLElement; m_XMLElement = m_XMLElement->NextSiblingElement())
 		{
-			// resource finished, nothing to do here
-			return;
+			// safe to extract XML attributes
+			std::string temp_name = m_XMLElement->Attribute("name");
+			std::string anim_type = m_XMLElement->Attribute("type");
+
+			TRACE("Animation %s - %s", temp_name.c_str(), anim_type.c_str());
+
+			// get frames for each animation
+			TiXmlElement* frame_h = NULL;
+			frame_h = handletmp.FirstChildElement("frame").ToElement();
+
+			for(frame_h; frame_h; frame_h = frame_h->NextSiblingElement())
+			{
+				if(anim_type == "texture")
+				{
+					// animation is texture-type
+					m_Resource_Animations[temp_name].reset(new s_Animation);
+
+					m_Resource_Animations[temp_name]->type = ANIM_TEXTURE;
+					m_Resource_Animations[temp_name]->frame_rate = frame_h->Attribute("framerate");
+
+					m_Resource_Animations[temp_name]->texture_frames.push_back(frame_h->Attribute("texture"));
+				}
+			}
+
+			delete frame_h;
 		}
 	}
 
@@ -126,6 +151,8 @@ namespace Seventh
 	void CResourceManager::ReloadAnimations()
 	{
 		TRACE("Reloading animations...");
+
+		RecursiveReloadAnimations();
 	}
 
 	void CResourceManager::ReloadMaps()

@@ -56,6 +56,7 @@ namespace Seventh
 	struct s_Animation
 	{
 		e_AnimationType type;
+		U16 frame_rate;
 
 		// vector containing the frames of the animation
 		// when the type is a texture animation
