@@ -17,19 +17,27 @@
 
 #include "common.h"
 
-#include "EntityCore/CEntity.h"
-
 #ifndef STH_CENTITYMANAGER_H_
 #define STH_CENTITYMANAGER_H_
 
-class CEntityManager
+namespace Seventh
 {
-public:
-	CEntityManager();
-	~CEntityManager();
+	class CEntity;
+	class CEntityManager
+	{
+	public:
+		CEntityManager();
+		~CEntityManager();
 
-private:
-	std::map< std::string name, boost::shared_ptr< CEntity> > m_Entities;
-};
+		void RegisterEntity(std::string name, CEntity* entity_ptr);
+		CEntity* GetEntityPtr(std::string name);
+
+	private:
+		std::map< std::string, CEntity* > m_Entities;
+
+		void CheckEvents(EVENT_INFO event);
+	};
+
+}
 
 #endif

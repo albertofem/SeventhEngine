@@ -115,6 +115,6 @@ namespace Seventh
 	{
 		// propage events across the engine
 		// first one, states
-		m_Engine->_Gameplay()->_StateManager()->CheckEvents(event_case);
+		m_Engine->_Gameplay()->_States()->CheckEvents(event_case);
 	}
 }

@@ -17,6 +17,7 @@
 #include "DisplayCore/CLayerManager.h"
 #include "DisplayCore/CTextureManager.h"
 #include "DisplayCore/CDisplayCore.h"
+#include "DisplayCore/CLayer.h"
 
 namespace Seventh
 {

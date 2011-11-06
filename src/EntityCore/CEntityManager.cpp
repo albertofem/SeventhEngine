@@ -8,24 +8,31 @@
  *
  * @author	Alberto Fernández <albertofem@gmail.com>
  * @version	1.0
- * @since		2011.1104
+ * @since		2011.1106
  *
  */
 
 #include "EntityCore/CEntity.h"
+#include "EntityCore/CEntityManager.h"
 
 namespace Seventh
 {
-	CEntity::CEntity()
+	CEntityManager::CEntityManager()
 	{
+
 	}
 
-	CEntity::~CEntity()
+	CEntityManager::~CEntityManager()
 	{
+
 	}
 
-	void CEntity::SetAnimation(std::string animation_name)
+	void CEntityManager::RegisterEntity(std::string name, CEntity* entity_ptr)
 	{
-		TRACE("Animation in top CEntity");
+		// add entity to the entity map
+		m_Entities[name] = entity_ptr;
+
+		// call entity onregister method
+		m_Entities[name]->OnRegister();
 	}
 }

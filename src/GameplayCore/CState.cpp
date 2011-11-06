@@ -26,7 +26,7 @@ namespace Seventh
 	{
 	}
 
-	void CState::Update()
+	void CState::UpdateGameLogic()
 	{
 	}
 

@@ -26,8 +26,10 @@ public:
 	StateMenu(myGame* game_ref);
 	~StateMenu();
 
-	void Update();
-
+	void UpdateGameLogic();
+	void OnRegister() {};
+	void OnDelete() {};
+	void OnCameraChange() {};
 	void OnEvent(EVENT_INFO type);
 
 private:
@@ -43,4 +45,10 @@ public:
 
 private:
 	myGame* Engine;
+
+	void UpdateGameLogic() {};
+	void OnRegister() {};
+	void OnDelete() {};
+	void OnCameraChange() {};
+	void OnEvent(EVENT_INFO type) {};
 };

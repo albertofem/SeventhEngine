@@ -74,7 +74,7 @@ void StateMenu::OnEvent(EVENT_INFO type)
 	}
 }
 
-void StateMenu::Update()
+void StateMenu::UpdateGameLogic()
 {
 	TRACE("Doing something in this current state!");
 }
@@ -86,5 +86,4 @@ MyPlayer::MyPlayer(myGame* game_ref)
 
 MyPlayer::~MyPlayer()
 {
-
 }

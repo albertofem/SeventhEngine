@@ -68,6 +68,14 @@ namespace Seventh
 	};
 
 	typedef s_Texture s_Map;
+
+	enum e_ResourceType
+	{
+		TEXTURE = 0x0,
+		TILESET,
+		ANIMATION,
+		MAP
+	};
 }
 
 #endif

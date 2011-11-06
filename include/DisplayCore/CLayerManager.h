@@ -12,14 +12,15 @@
  *
  */
 
-
-#include "DisplayCore/CLayer.h"
-
 #ifndef STH_CLAYERMANAGER_H_
 #define STH_CLAYERMANAGER_H_
 
 namespace Seventh
 {
+	class CLayer;
+	class CEntity;
+	class CMap;
+
 	class CLayerManager
 	{
 	public:
@@ -28,6 +29,9 @@ namespace Seventh
 
 		void Render();
 
+		/**
+		 * deprecated
+		 */
 		U16 CreateLayer();
 
 		boost::shared_ptr<CLayer> _Layer(U16 layer_id);
@@ -39,11 +43,13 @@ namespace Seventh
 		// layers
 		std::map< U16, boost::shared_ptr<CLayer> > m_Layers;
 
-		// overall textures
+		// overall entities
+		std::map< U16, CEntity* > m_OverallEntities;
+
 		std::map< std::string, U32 > m_OverallTextures;
 
 		// current map
-		boost::shared_ptr<CMap> m_CurrentMap;
+		CMap* m_CurrentMap;
 
 		// num of layers
 		U16 m_Total;

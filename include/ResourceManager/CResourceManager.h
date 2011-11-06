@@ -70,6 +70,11 @@ namespace Seventh
 		CEngine* m_Engine;
 
 		/**
+		 * Core methods
+		 */
+		bool ResourceExists(std::string name, e_ResourceType resource_type);
+
+		/**
 		 * TinyXML++ specific members
 		 */
 		TiXmlDocument* m_XMLFile;

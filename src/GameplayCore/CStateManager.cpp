@@ -30,7 +30,7 @@ namespace Seventh
 		// already transfered
 	}
 
-	CState* CStateManager::getStatePtr(std::string name)
+	CState* CStateManager::GetStatePtr(std::string name)
 	{
 		return m_States[name];
 	}
@@ -51,7 +51,7 @@ namespace Seventh
 
 		for(it=m_States.begin(); it!=m_States.end(); it++)
 		{
-			getStatePtr(it->first)->OnEvent(event);
+			GetStatePtr(it->first)->OnEvent(event);
 		}
 	}
 }

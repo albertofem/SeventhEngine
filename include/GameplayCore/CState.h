@@ -20,8 +20,6 @@
 
 namespace Seventh
 {
-	class CEngine;
-
 	class CState
 	{
 
@@ -29,9 +27,19 @@ namespace Seventh
 		CState();
 		virtual ~CState();
 
-		virtual void Update();
-
-		virtual void OnEvent(EVENT_INFO event_case);
+	public:
+		/**
+		 * Public class methods that should be
+		 * overriden in the final entity inherited
+		 * classes. Those will be called to provide
+		 * actions to events, camera events, engine
+		 * calls, etc.
+		 */
+		virtual void UpdateGameLogic() = 0;
+		virtual void OnEvent(EVENT_INFO event_case) = 0;
+		virtual void OnCameraChange() = 0;
+		virtual void OnRegister() = 0;
+		virtual void OnDelete() = 0;
 
 	private:
 		std::string m_NextState;

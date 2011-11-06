@@ -86,11 +86,6 @@ namespace Seventh
 		TRACE("Reloading textures...");
 
 		// ok, time to look in the xml file for this stuff
-		RecursiveReloadTextures(m_XMLElement = NULL);
-	}
-
-	void CResourceManager::RecursiveReloadTextures(TiXmlElement* xml_element)
-	{
 		m_XMLElement = m_XMLHandle->FirstChild("resources").FirstChildElement("textures").FirstChildElement("texture").ToElement();
 
 		for(m_XMLElement; m_XMLElement; m_XMLElement = m_XMLElement->NextSiblingElement())
@@ -108,8 +103,15 @@ namespace Seventh
 		}
 	}
 
-	void CResourceManager::RecursiveReloadAnimations()
+	void CResourceManager::ReloadTilesets()
 	{
+		TRACE("Reloading tilesets...");
+	}
+
+	void CResourceManager::ReloadAnimations()
+	{
+		TRACE("Reloading animations...");
+
 		TiXmlHandle handletmp = m_XMLHandle->FirstChild("resources").FirstChildElement("animations").FirstChildElement("animation");
 		m_XMLElement = handletmp.ToElement();
 
@@ -141,18 +143,6 @@ namespace Seventh
 
 			delete frame_h;
 		}
-	}
-
-	void CResourceManager::ReloadTilesets()
-	{
-		TRACE("Reloading tilesets...");
-	}
-
-	void CResourceManager::ReloadAnimations()
-	{
-		TRACE("Reloading animations...");
-
-		RecursiveReloadAnimations();
 	}
 
 	void CResourceManager::ReloadMaps()

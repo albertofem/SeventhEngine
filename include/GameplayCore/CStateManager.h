@@ -25,17 +25,19 @@ namespace Seventh
 {
 	class CStateManager
 	{
+		friend class CEventsCore;
+
 	public:
 		CStateManager();
 		~CStateManager();
 
 		void RegisterState(std::string name, CState* state);
-		CState* getStatePtr(std::string name);
-
-		void CheckEvents(EVENT_INFO event);
+		CState* GetStatePtr(std::string name);
 
 	private:
 		std::map< std::string, CState* > m_States;
+
+		void CheckEvents(EVENT_INFO event);
 	};
 }
 
