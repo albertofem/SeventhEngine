@@ -21,10 +21,13 @@ namespace Seventh
 {
 	class CCamera
 	{
-	protected:
-		CCamera();
-		virtual ~CCamera();
+	public:
+		e_CameraType GetCameraType();
 
+		CCamera();
+		virtual ~CCamera() = 0;
+
+	protected:
 		virtual U32 GetOffset_X();
 		virtual U32 GetOffset_Y();
 
@@ -41,6 +44,10 @@ namespace Seventh
 		U32 m_Offset_Y;
 
 		U16 m_CameraID;
+
+		e_CameraType m_CameraType;
+
+		friend class CDisplayCore;
 	};
 }
 

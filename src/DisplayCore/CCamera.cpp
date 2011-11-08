@@ -40,4 +40,9 @@ namespace Seventh
 	{
 		return m_CameraID;
 	}
+
+	e_CameraType CCamera::GetCameraType()
+	{
+		return m_CameraType;
+	}
 }

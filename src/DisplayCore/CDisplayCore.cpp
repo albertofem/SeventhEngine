@@ -25,6 +25,7 @@ namespace Seventh
 	// initialize static members
 	boost::shared_ptr<CLayerManager> CDisplayCore::Layers;
 	boost::shared_ptr<CTextureManager> CDisplayCore::Textures;
+	boost::shared_ptr<CCamera> CDisplayCore::m_CurrentCamera;
 
 	SDL_Surface* CDisplayCore::m_DisplayScreen = NULL;
 

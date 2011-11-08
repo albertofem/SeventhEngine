@@ -36,4 +36,10 @@ namespace Seventh
 		S32 move_x;
 		S32 move_y;
 	};
+
+	struct STH_Position
+	{
+		S16 pos_x;
+		S16 pos_y;
+	};
 }

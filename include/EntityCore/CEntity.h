@@ -16,6 +16,8 @@
 
 #include "common.h"
 
+#include "resources.h"
+
 #include "Engine/CEngine.h"
 
 #ifndef STH_CENTITY_H_
@@ -27,7 +29,13 @@ namespace Seventh
 	{
 	public:
 		CEntity();
+		CEntity(STH_Position& initial_position);
 		virtual ~CEntity();
+
+		/**
+		 * TODO: copy & assignement constructor
+		 * also comparators (position) operators
+		 */
 
 	public:
 		/**
@@ -47,12 +55,32 @@ namespace Seventh
 		void SetAnimation(std::string animation_name);
 		void SetTexture(std::string animation_name);
 
-		U8 m_CurrentRenderingResource;
+		e_EntityAsset m_CurrentAsset;
 
 		CEngine* m_Engine;
 
 		void Render();
+		/**
+		 * This method checks if the current camera
+		 * is attached to this particular entity
+		 */
+		bool m_CameraAttached;
 
+	public:
+		void AttachCamera() { m_CameraAttached = true; };
+		void DettachCamera() { m_CameraAttached = false; };
+
+
+	private:
+		/**
+		 * Entity possition members and methods
+		 */
+		STH_Position m_Position;
+
+		void Move(STH_Transform& transform);
+
+		void Stop();
+		void Hide();
 	};
 }
 

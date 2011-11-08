@@ -30,6 +30,8 @@ namespace Seventh
 		U32 GetOffset_X();
 		U32 GetOffset_Y();
 
+		CEntity* GetAttachedEntity();
+
 	private:
 		CEntity* m_CurrentEntity;
 

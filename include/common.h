@@ -49,7 +49,6 @@ namespace Seventh
 #include <cassert>
 
 #include "functors.h"
-#include "texture_coord.h"
 
 /**
  * define useful typedefs
@@ -84,6 +83,18 @@ namespace Seventh
 
 	class CLayer;
 	typedef boost::shared_ptr<CLayer> LAYER;
+}
+
+/**
+ * types of cameras
+ */
+namespace Seventh
+{
+	enum e_CameraType
+	{
+		CAMERA_STATIC = 0x0,
+		CAMERA_ATTACHED
+	};
 }
 
 #endif

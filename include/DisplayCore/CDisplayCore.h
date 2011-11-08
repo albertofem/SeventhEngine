@@ -81,7 +81,7 @@ namespace Seventh
 		 */
 		static SDL_Surface* m_DisplayScreen;
 
-	private:
+	public:
 		/**
 		 * Camera
 		 */
@@ -90,6 +90,11 @@ namespace Seventh
 		static CCamera* _Camera()
 		{
 			return m_CurrentCamera.get();
+		}
+
+		static void SetCurrentCamera(CCamera* camera)
+		{
+			m_CurrentCamera.reset(camera);
 		}
 
 	public:

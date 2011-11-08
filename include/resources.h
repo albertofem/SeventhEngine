@@ -76,6 +76,13 @@ namespace Seventh
 		ANIMATION,
 		MAP
 	};
+
+	enum e_EntityAsset
+	{
+		ENTITY_ASSET_TEXTURE = 0x0,
+		ENTITY_ASSET_ANIMATION,
+		ENTITY_ASSET_TILE
+	};
 }
 
 #endif
