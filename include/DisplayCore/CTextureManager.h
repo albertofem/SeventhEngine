@@ -31,9 +31,11 @@ namespace Seventh
 		void Render();
 
 		U32 CreateTexture(std::string filename);
-		void TransformTexture(U32 texture_id, STH_Transform &transform);
 
-		void RenderTexture(U32 texture_id);
+		void RenderTexture(U32 texture_id, S32 pos_x, S32 pos_y);
+		void PositionTexture(U32 texture_id, S32 pos_x, S32 pos_y);
+
+		void HideTexture(U32 texture_id);
 
 	private:
 		// texture map
@@ -48,6 +50,10 @@ namespace Seventh
 		bool CheckTextureCollision(SDL_Rect* texture1, SDL_Rect* texture2);
 
 		void CleanScreen(SDL_Rect* portion);
+
+		std::map< std::string, U32 > m_LoadedTextures;
+
+		S32 TextureIsLoaded(std::string filename);
 	};
 }
 

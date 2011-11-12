@@ -19,12 +19,15 @@ namespace Seventh
 {
 	CEntityManager::CEntityManager()
 	{
-
 	}
 
 	CEntityManager::~CEntityManager()
 	{
+	}
 
+	void CEntityManager::Start()
+	{
+		m_Entities.clear();
 	}
 
 	void CEntityManager::RegisterEntity(std::string name, CEntity* entity_ptr)
@@ -34,5 +37,16 @@ namespace Seventh
 
 		// call entity onregister method
 		m_Entities[name]->OnRegister();
+	}
+
+	CEntity* CEntityManager::Entity(std::string name)
+	{
+		return m_Entities[name];
+	}
+
+	void CEntityManager::CheckEvents(EVENT_INFO event)
+	{
+		// propage event across all entities
+		OnEventGeneric(m_Entities, event);
 	}
 }

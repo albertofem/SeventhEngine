@@ -32,6 +32,11 @@ namespace Seventh
 
 	U32 CTextureManager::CreateTexture(std::string filename)
 	{
+		S32 check_already_loaded = TextureIsLoaded(filename);
+
+		if(check_already_loaded != -1)
+			return check_already_loaded;
+
 		// textureID temp
 		U32 texture_id = m_TextureCounter;
 
@@ -42,11 +47,16 @@ namespace Seventh
 		m_Textures[m_TextureCounter]->SetTextureID(texture_id);
 		m_TextureCounter++;
 
+		// add this texture to already loaded textures
+		m_LoadedTextures[filename] = texture_id;
+
 		return texture_id;
 	}
 
-	void CTextureManager::RenderTexture(U32 texture_id)
+	void CTextureManager::RenderTexture(U32 texture_id, S32 pos_x, S32 pos_y)
 	{
+		PositionTexture(texture_id, pos_x, pos_y);
+
 		// check if the texture is need to draw
 		if(m_Textures[texture_id]->needToDraw())
 		{
@@ -60,12 +70,19 @@ namespace Seventh
 		}
 	}
 
-	void CTextureManager::TransformTexture(U32 texture_id, STH_Transform &transform)
+	void CTextureManager::PositionTexture(U32 texture_id, S32 pos_x, S32 pos_y)
 	{
 		//TRACE("Final get of transformation on texture ID (%d)", texture_id);
 		SDL_Rect old_portion = m_Textures[texture_id]->getSDLRect();
 
-		m_Textures[texture_id]->Transform(transform);
+		// check if the position hanst changed
+		if(old_portion.x == pos_x && old_portion.y == pos_y)
+		{
+			return;
+		}
+
+		// change position
+		m_Textures[texture_id]->Position(pos_x, pos_y);
 
 		// check for colliding textures to redraw if any
 		// get texture new position
@@ -113,6 +130,13 @@ namespace Seventh
 		return false;
 	}
 
+	void CTextureManager::HideTexture(U32 texture_id)
+	{
+		SDL_Rect old_portion = m_Textures[texture_id]->getSDLRect();
+		CleanScreen(&old_portion);
+
+		m_Textures[texture_id]->SetDraw(false);
+	}
 
 	void CTextureManager::Render()
 	{
@@ -123,5 +147,19 @@ namespace Seventh
 	{
 		//TRACE("Limpiando porción en (%d, %d), tamaño: %dx%d", portion->x, portion->y, portion->w, portion->h);
 		SDL_FillRect(m_DBufferScreen, portion, 0x000000);
+	}
+
+	S32 CTextureManager::TextureIsLoaded(std::string filename)
+	{
+		std::map< std::string, U32 >::const_iterator it;
+
+		it = m_LoadedTextures.find(filename);
+
+		if(it == m_LoadedTextures.end())
+		{
+			return -1;
+		}
+
+		return it->second;
 	}
 }

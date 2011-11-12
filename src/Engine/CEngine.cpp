@@ -22,6 +22,7 @@ namespace Seventh
 	std::string CEngine::__RESOURCES_XML = "";
 
 	RESOURCE_MANAGER CEngine::Resources;
+	ENTITY_MANAGER CEngine::Entities;
 	boost::shared_ptr<CClock> CEngine::Clock = CClock::getInstance();
 	bool CEngine::s_Running = true;
 
@@ -43,6 +44,12 @@ namespace Seventh
 		EngineConfig.reset(new CEngineConfig);
 		EngineConfig->setConfigFile(CEngine::get__CONFIG_INI());
 		EngineConfig->Start();
+
+		/**
+		 * start entity manager
+		 */
+		Entities.reset(new CEntityManager());
+		Entities->Start();
 
 		/**
 		 * start display core
@@ -96,18 +103,18 @@ namespace Seventh
 		{
 			Clock->reset();
 
-			/**
-			 * events loop; loop for queued
-			 * events and register in the events
-			 * core class for future handling
-			 */
-			while(SDL_PollEvent(&event))
-			{
-				Events->RegisterEvent(event);
-			}
-
 			while(Clock->logic())
 			{
+
+				/**
+				 * events loop; loop for queued
+				 * events and register in the events
+				 * core class for future handling
+				 */
+				while(SDL_PollEvent(&event))
+				{
+					Events->RegisterEvent(event);
+				}
 
 				// do update game logic
 				UpdateGameLogic();

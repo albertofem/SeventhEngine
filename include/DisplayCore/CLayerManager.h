@@ -12,6 +12,8 @@
  *
  */
 
+#include "Engine/CEngine.h"
+
 #ifndef STH_CLAYERMANAGER_H_
 #define STH_CLAYERMANAGER_H_
 
@@ -20,6 +22,7 @@ namespace Seventh
 	class CLayer;
 	class CEntity;
 	class CMap;
+	class CEntityManager;
 
 	class CLayerManager
 	{
@@ -29,24 +32,14 @@ namespace Seventh
 
 		void Render();
 
-		/**
-		 * deprecated
-		 */
-		U16 CreateLayer();
-
-		boost::shared_ptr<CLayer> _Layer(U16 layer_id);
-
-		void RegisterOverallTexture(std::string name, std::string filename);
-		void TransformOverallTexture(std::string name, STH_Transform transform);
+		void RegisterOverallEntity(std::string name, CEntity* entity);
 
 	private:
 		// layers
 		std::map< U16, boost::shared_ptr<CLayer> > m_Layers;
 
 		// overall entities
-		std::map< U16, CEntity* > m_OverallEntities;
-
-		std::map< std::string, U32 > m_OverallTextures;
+		std::map< std::string, CEntity* > m_OverallEntities;
 
 		// current map
 		CMap* m_CurrentMap;
@@ -54,7 +47,12 @@ namespace Seventh
 		// num of layers
 		U16 m_Total;
 
-		void RenderOverallTextures();
+		CEntityManager* m_EntityManager;
+
+		U16 CreateLayer();
+		boost::shared_ptr<CLayer> _Layer(U16 layer_id);
+
+		void RenderOverallEntities();
 	};
 }
 

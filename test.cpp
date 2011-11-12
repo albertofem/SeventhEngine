@@ -21,14 +21,16 @@ void myGame::setInitialConfig()
 
 void myGame::DoSomeStuff()
 {
-	U16 layerID = _Display()->_Layers()->CreateLayer();
-
 	StateMenu* main_menu = new StateMenu(this);
-	MyPlayer player(this);
+	MyPlayer* player = new MyPlayer(this);
+	MyPlayer* player2 = new MyPlayer(this);
 
 	_Gameplay()->_States()->RegisterState("main_menu", main_menu);
+	_Display()->_Layers()->RegisterOverallEntity("player1", player);
+	_Display()->_Layers()->RegisterOverallEntity("player2", player);
 
-	_Resources()->LoadTexture("zelda_overall_01");
+	_Entities()->Entity("player1")->SetTexture("ryu");
+	_Entities()->Entity("player2")->SetTexture("ken");
 }
 
 myGame::~myGame()
@@ -48,29 +50,13 @@ void StateMenu::OnEvent(EVENT_INFO type)
 {
 	switch(type.ecase)
 	{
-	case KEY_PRESS_DOWN:
-		Engine->_Display()->_Layers()->TransformOverallTexture("zelda_overall_01", STH_Transform(0, 5));
-		break;
+		case KEY_PRESS_A:
+			TRACE("un event");
+			break;
 
-	case KEY_PRESS_UP:
-		Engine->_Display()->_Layers()->TransformOverallTexture("zelda_overall_01", STH_Transform(0, -5));
-		break;
-
-	case KEY_PRESS_RIGHT:
-		Engine->_Display()->_Layers()->TransformOverallTexture("zelda_overall_01", STH_Transform(5, 0));
-		break;
-
-	case KEY_PRESS_LEFT:
-		Engine->_Display()->_Layers()->TransformOverallTexture("zelda_overall_01", STH_Transform(-5, 0));
-		break;
-
-	case KEY_PRESS_A:
-
-		break;
-
-	default:
-		// do nothing
-		break;
+		default:
+			// do nothing
+			break;
 	}
 }
 
@@ -82,8 +68,53 @@ void StateMenu::UpdateGameLogic()
 MyPlayer::MyPlayer(myGame* game_ref)
 {
 	Engine = game_ref;
+
+	m_EntityHealth = 100;
+	m_CurrentPJ = "Ryu";
 }
 
 MyPlayer::~MyPlayer()
 {
+}
+
+void MyPlayer::OnEvent(EVENT_INFO type)
+{
+	STH_Transform move_entity(5, 0);
+
+	switch(type.ecase)
+	{
+		case KEY_PRESS_A:
+			if(m_EntityHealth > 0)
+			{
+				Move(move_entity);
+				ReduceHealth(10);
+
+				TRACE("Entity health is now %d", m_EntityHealth);
+			}
+			else
+			{
+				TRACE("Entity is dead!");
+				Hide();
+			}
+		break;
+
+		case KEY_PRESS_D:
+			if(m_CurrentPJ == "Ryu")
+			{
+				SetTexture("ken");
+				m_CurrentPJ = "Ken";
+			}
+			else
+			{
+				SetTexture("ryu");
+				m_CurrentPJ = "Ryu";
+			}
+
+		break;
+	}
+}
+
+void MyPlayer::ReduceHealth(S32 health)
+{
+	m_EntityHealth -= health;
 }

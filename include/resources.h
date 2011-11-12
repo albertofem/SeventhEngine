@@ -24,6 +24,8 @@ namespace Seventh
 	{
 		std::string src;
 		std::string format;
+
+		S64 texture_id;
 	};
 
 	struct s_Tile
@@ -79,7 +81,8 @@ namespace Seventh
 
 	enum e_EntityAsset
 	{
-		ENTITY_ASSET_TEXTURE = 0x0,
+		ENTITY_ASSET_NONE = 0x0,
+		ENTITY_ASSET_TEXTURE,
 		ENTITY_ASSET_ANIMATION,
 		ENTITY_ASSET_TILE
 	};

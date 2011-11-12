@@ -45,13 +45,12 @@ namespace Seventh
 		SDL_Surface* m_Surface;
 		SDL_Rect SDL_Coords;
 
-		void Transform(STH_Transform &transform);
+		void Position(S32 pos_x, S32 pos_y);
 
 		void inline SetTextureID(U32 texture_id)
 		{
 			m_TextureID = texture_id;
 		}
-
 
 	public:
 		// getters

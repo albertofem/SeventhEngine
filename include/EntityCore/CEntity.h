@@ -27,6 +27,8 @@ namespace Seventh
 {
 	class CEntity
 	{
+		friend class CEntityManager;
+
 	public:
 		CEntity();
 		CEntity(STH_Position& initial_position);
@@ -51,15 +53,16 @@ namespace Seventh
 		virtual void OnRegister() = 0;
 		virtual void OnDelete() = 0;
 
-	private:
+	public:
 		void SetAnimation(std::string animation_name);
 		void SetTexture(std::string animation_name);
 
+		void Render();
+
+	private:
 		e_EntityAsset m_CurrentAsset;
 
 		CEngine* m_Engine;
-
-		void Render();
 		/**
 		 * This method checks if the current camera
 		 * is attached to this particular entity
@@ -70,6 +73,11 @@ namespace Seventh
 		void AttachCamera() { m_CameraAttached = true; };
 		void DettachCamera() { m_CameraAttached = false; };
 
+		inline SetEntityLayer(S16 layer)
+		{
+			m_EntityLayer = layer;
+		}
+
 
 	private:
 		/**
@@ -77,10 +85,19 @@ namespace Seventh
 		 */
 		STH_Position m_Position;
 
+		S16 m_EntityLayer;
+
+		std::string m_EntityTextureName;
+
+		bool m_Show;
+
+	public:
 		void Move(STH_Transform& transform);
+		void MoveToPosition(STH_Position& new_position);
 
 		void Stop();
 		void Hide();
+		void Show();
 	};
 }
 

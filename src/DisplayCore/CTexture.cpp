@@ -68,13 +68,13 @@ namespace Seventh
 		return true;
 	}
 
-	void CTexture::Transform(STH_Transform &transform)
+	void CTexture::Position(S32 pos_x, S32 pos_y)
 	{
 		//TRACE("Applying transformation on texture_id (%d), previous position (%d, %d), new position (%d, %d)",
 		//	m_TextureID, SDL_Coords.x, SDL_Coords.y, transform.move_x, transform.move_y);
 
-		SDL_Coords.x = SDL_Coords.x+transform.move_x;
-		SDL_Coords.y = SDL_Coords.y+transform.move_y;
+		SDL_Coords.x = pos_x;
+		SDL_Coords.y = pos_y;
 
 		m_Draw = true;
 	}

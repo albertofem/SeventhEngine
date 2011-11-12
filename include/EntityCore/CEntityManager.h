@@ -25,14 +25,20 @@ namespace Seventh
 	class CEntity;
 	class CEntityManager
 	{
+		friend class CEventsCore;
+		friend class CLayerManager;
+
 	public:
 		CEntityManager();
 		~CEntityManager();
 
-		void RegisterEntity(std::string name, CEntity* entity_ptr);
-		CEntity* GetEntityPtr(std::string name);
+		CEntity* Entity(std::string name);
+
+		void Start();
 
 	private:
+		void RegisterEntity(std::string name, CEntity* entity_ptr);
+
 		std::map< std::string, CEntity* > m_Entities;
 
 		void CheckEvents(EVENT_INFO event);

@@ -105,7 +105,6 @@ namespace Seventh
 
 	void CDisplayCore::UpdateGameLogic() throw()
 	{
-
 	}
 
 	void CDisplayCore::Render()

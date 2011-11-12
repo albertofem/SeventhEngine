@@ -12,19 +12,37 @@
  *
  */
 
+#include "events.h"
+
 #ifndef STH_FUNCTORS_H_
 #define STH_FUNCTORS_H_
 
-template< typename Key, typename T >
-void RenderMapContainer(std::map< Key, T > map)
+namespace Seventh
 {
-	// iterate maps and delete resources
-	typename std::map< Key, T >::const_iterator it;
 
-	for(it=map.begin(); it!=map.end(); it++)
+	template< typename Key, typename T >
+	void RenderMapContainer(std::map< Key, T > map)
 	{
-		map[it->first]->Render();
+		// iterate maps and delete resources
+		typename std::map< Key, T >::const_iterator it;
+
+		for(it=map.begin(); it!=map.end(); it++)
+		{
+			map[it->first]->Render();
+		}
 	}
+
+	template< typename Key, typename T >
+	void OnEventGeneric(std::map< Key, T> map, EVENT_INFO& event)
+	{
+		typename std::map< Key, T>::const_iterator it;
+
+		for(it=map.begin(); it!=map.end(); it++)
+		{
+			map[it->first]->OnEvent(event);
+		}
+	}
+
 }
 
 #endif

@@ -23,7 +23,7 @@ namespace Seventh
 		m_Engine = engine;
 
 		// keyboard interval and delay
-		SDL_EnableKeyRepeat(1, 1);
+		SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 	}
 
 	CEventsCore::~CEventsCore()
@@ -116,5 +116,8 @@ namespace Seventh
 		// propage events across the engine
 		// first one, states
 		m_Engine->_Gameplay()->_States()->CheckEvents(event_case);
+
+		// entites
+		m_Engine->_Entities()->CheckEvents(event_case);
 	}
 }

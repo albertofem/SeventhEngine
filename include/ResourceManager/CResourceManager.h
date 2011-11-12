@@ -103,6 +103,10 @@ namespace Seventh
 		void RecursiveReloadTextures(TiXmlElement* xml_element);
 		void RecursiveReloadAnimations();
 		void RecursiveReloadAnimationFrames(std::string &animation_type, s_Animation* animation, TiXmlElement* xml_element);
+
+	public:
+		void RenderTexture(std::string name, S32 pos_x, S32 pos_y);
+		void HideTexture(std::string name);
 	};
 }
 

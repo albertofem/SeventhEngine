@@ -20,6 +20,7 @@
 #include "DisplayCore/CLayerManager.h"
 #include "ResourceManager/CResourceManager.h"
 #include "Engine/CEngine.h"
+#include "DisplayCore/CTextureManager.h"
 
 #include "tinyxml/tinyxml.h"
 #include "tinyxml/ticpp.h"
@@ -98,6 +99,7 @@ namespace Seventh
 			// get attributes
 			m_Resource_Textures[temp_name]->src = m_XMLElement->Attribute("src");
 			m_Resource_Textures[temp_name]->format = m_XMLElement->Attribute("format");
+			m_Resource_Textures[temp_name]->texture_id = -1;
 
 			TRACE("Texture %s", temp_name.c_str());
 		}
@@ -158,12 +160,24 @@ namespace Seventh
 
 		if(search_map != m_Resource_Textures.end())
 		{
-			// render texture
-			m_Engine->_Display()->_Layers()->RegisterOverallTexture(name, m_Resource_Textures[name]->src);
+			// load texture in the texturemanager and register id for later destruction
+			m_Resource_Textures[name]->texture_id = CDisplayCore::_Textures()->CreateTexture(m_Resource_Textures[name]->src);
+
+			TRACE("Texture loaded with ID: %d", m_Resource_Textures[name]->texture_id);
 		}
 		else
 		{
 			TRACE("WARNING: texture '%s' not found!", name.c_str());
 		}
+	}
+
+	void CResourceManager::RenderTexture(std::string name, S32 pos_x, S32 pos_y)
+	{
+		CDisplayCore::_Textures()->RenderTexture(m_Resource_Textures[name]->texture_id, pos_x, pos_y);
+	}
+
+	void CResourceManager::HideTexture(std::string name)
+	{
+		CDisplayCore::_Textures()->HideTexture(m_Resource_Textures[name]->texture_id);
 	}
 }

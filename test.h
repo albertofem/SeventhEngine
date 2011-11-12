@@ -43,6 +43,12 @@ public:
 	MyPlayer(myGame* game_ref);
 	~MyPlayer();
 
+	U32 m_EntityHealth;
+
+	void ReduceHealth(S32 health);
+
+	std::string m_CurrentPJ;
+
 private:
 	myGame* Engine;
 
@@ -50,5 +56,5 @@ private:
 	void OnRegister() {};
 	void OnDelete() {};
 	void OnCameraChange() {};
-	void OnEvent(EVENT_INFO type) {};
+	void OnEvent(EVENT_INFO type);
 };

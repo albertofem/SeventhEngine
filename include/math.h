@@ -39,7 +39,19 @@ namespace Seventh
 
 	struct STH_Position
 	{
-		S16 pos_x;
-		S16 pos_y;
+		STH_Position(S32 x, S32 y)
+			: pos_x(x), pos_y(y)
+		{
+
+		}
+
+		STH_Position()
+		{
+			pos_x = 0;
+			pos_y = 0;
+		}
+
+		S32 pos_x;
+		S32 pos_y;
 	};
 }

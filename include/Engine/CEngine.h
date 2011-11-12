@@ -20,6 +20,7 @@
 #include "GameplayCore/CGameplayCore.h"
 #include "EventsCore/CEventsCore.h"
 #include "ResourceManager/CResourceManager.h"
+#include "EntityCore/CEntityManager.h"
 
 #define TIXML_USE_STL
 
@@ -63,7 +64,7 @@ namespace Seventh
 		GAMEPLAY_CORE Gameplay;
 		static RESOURCE_MANAGER Resources;
 		EVENTS_CORE Events;
-		ENTITY_MANAGER Entities;
+		static ENTITY_MANAGER Entities;
 
 		/*
 		CSoundCore Sound;
@@ -115,14 +116,14 @@ namespace Seventh
 			return Display;
 		}
 
-		inline RESOURCE_MANAGER _Resources()
+		inline static RESOURCE_MANAGER _Resources()
 		{
 			return Resources;
 		}
 
-		inline ENTITY_MANAGER _Entities()
+		inline static CEntityManager* _Entities()
 		{
-			return Entities;
+			return Entities.get();
 		}
 
 	public:

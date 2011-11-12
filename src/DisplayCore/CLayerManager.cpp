@@ -18,11 +18,12 @@
 #include "DisplayCore/CTextureManager.h"
 #include "DisplayCore/CDisplayCore.h"
 #include "DisplayCore/CLayer.h"
+#include "EntityCore/CEntity.h"
 
 namespace Seventh
 {
 	CLayerManager::CLayerManager()
-		: m_Total(0)
+		: m_Total(0), m_EntityManager(CEngine::_Entities())
 	{
 		// do nothing
 	}
@@ -37,7 +38,7 @@ namespace Seventh
 		RenderMapContainer(m_Layers);
 
 		// render overall textures
-		RenderOverallTextures();
+		RenderOverallEntities();
 	}
 
 	U16 CLayerManager::CreateLayer()
@@ -53,27 +54,18 @@ namespace Seventh
 		return tempID;
 	}
 
-	void CLayerManager::RegisterOverallTexture(std::string name, std::string filename)
+	void CLayerManager::RegisterOverallEntity(std::string name, CEntity* entity)
 	{
-		U32 texture_id = CDisplayCore::_Textures()->CreateTexture(filename);
+		m_OverallEntities[name] = entity;
 
-		m_OverallTextures[name] = texture_id;
+		m_EntityManager->RegisterEntity(name, entity);
+
+		entity->SetEntityLayer(-1);
 	}
 
-	void CLayerManager::RenderOverallTextures()
+	void CLayerManager::RenderOverallEntities()
 	{
-		// iterate map of overall textures
-		std::map< std::string, U32 >::const_iterator it;
-
-		for(it=m_OverallTextures.begin(); it!=m_OverallTextures.end(); it++)
-		{
-			CDisplayCore::_Textures()->RenderTexture(m_OverallTextures[it->first]);
-		}
+		RenderMapContainer(m_OverallEntities);
 	}
 
-	void CLayerManager::TransformOverallTexture(std::string name, STH_Transform transform)
-	{
-		//TRACE("Getting transformation on texture ID (%d)", m_OverallTextures[name]);
-		CDisplayCore::_Textures()->TransformTexture(m_OverallTextures[name], transform);
-	}
 }
