@@ -87,7 +87,7 @@ namespace Seventh
 
 		S16 m_EntityLayer;
 
-		std::string m_EntityTextureName;
+		S64 m_ResourceID;
 
 		bool m_Show;
 

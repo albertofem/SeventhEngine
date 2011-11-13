@@ -51,6 +51,11 @@ namespace Seventh
 			pos_y = 0;
 		}
 
+		operator<(const STH_Position& rhs)
+		{
+			return (pos_x < rhs.pos_y && pos_y < rhs.pos_y);
+		}
+
 		S32 pos_x;
 		S32 pos_y;
 	};

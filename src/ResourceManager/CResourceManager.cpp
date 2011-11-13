@@ -152,7 +152,7 @@ namespace Seventh
 		TRACE("Reloading maps...");
 	}
 
-	void CResourceManager::LoadTexture(std::string name)
+	S64 CResourceManager::LoadTexture(std::string name)
 	{
 		std::map< std::string, boost::shared_ptr<s_Texture> >::const_iterator search_map;
 
@@ -160,24 +160,16 @@ namespace Seventh
 
 		if(search_map != m_Resource_Textures.end())
 		{
-			// load texture in the texturemanager and register id for later destruction
-			m_Resource_Textures[name]->texture_id = CDisplayCore::_Textures()->CreateTexture(m_Resource_Textures[name]->src);
 
-			TRACE("Texture loaded with ID: %d", m_Resource_Textures[name]->texture_id);
+			// load texture in the texturemanager and register id for later destruction
+			U64 texture_id = CDisplayCore::_Textures()->LoadTexture(m_Resource_Textures[name]->src);
+						TRACE("Texture loaded with ID: %d", texture_id);
+			return texture_id;
 		}
 		else
 		{
 			TRACE("WARNING: texture '%s' not found!", name.c_str());
+			return -1;
 		}
-	}
-
-	void CResourceManager::RenderTexture(std::string name, S32 pos_x, S32 pos_y)
-	{
-		CDisplayCore::_Textures()->RenderTexture(m_Resource_Textures[name]->texture_id, pos_x, pos_y);
-	}
-
-	void CResourceManager::HideTexture(std::string name)
-	{
-		CDisplayCore::_Textures()->HideTexture(m_Resource_Textures[name]->texture_id);
 	}
 }

@@ -15,6 +15,7 @@
 #include "Engine/CEngine.h"
 #include "DisplayCore/CDisplayCore.h"
 #include "EntityCore/CEntity.h"
+#include "DisplayCore/CTextureManager.h"
 
 namespace Seventh
 {
@@ -25,7 +26,7 @@ namespace Seventh
 		m_Position.pos_y = 0;
 
 		m_Show = true;
-		m_EntityTextureName = "";
+		m_ResourceID = -1;
 	}
 
 	CEntity::CEntity(STH_Position& initial_position)
@@ -35,7 +36,7 @@ namespace Seventh
 		m_Position.pos_y = initial_position.pos_y;
 
 		m_Show = true;
-		m_EntityTextureName = "";
+		m_ResourceID = -1;
 	}
 
 	CEntity::~CEntity()
@@ -49,17 +50,16 @@ namespace Seventh
 
 	void CEntity::SetTexture(std::string name)
 	{
-		m_CurrentAsset = ENTITY_ASSET_TEXTURE;
-
 		// hide entity if we've got another one already loaded
-		if(m_EntityTextureName != "")
+		if(m_ResourceID != -1)
 			Hide();
+
+		m_CurrentAsset = ENTITY_ASSET_TEXTURE;
 
 		// look for this texture name
 		// load the texture in memory
 		// we can handle the rendering in the Render() method
-		CEngine::_Resources()->LoadTexture(name);
-		m_EntityTextureName = name;
+		m_ResourceID = CEngine::_Resources()->LoadTexture(name);
 
 		// show again
 		Show();
@@ -85,7 +85,7 @@ namespace Seventh
 		if(m_CurrentAsset == ENTITY_ASSET_TEXTURE)
 		{
 			// render texture
-			CEngine::_Resources()->RenderTexture(m_EntityTextureName, m_Position.pos_x, m_Position.pos_y);
+			CDisplayCore::_Textures()->RenderTexture(m_ResourceID, m_Position.pos_x, m_Position.pos_y);
 		}
 		else if(m_CurrentAsset == ENTITY_ASSET_ANIMATION)
 		{
@@ -95,7 +95,7 @@ namespace Seventh
 
 	void CEntity::Hide()
 	{
-		CEngine::_Resources()->HideTexture(m_EntityTextureName);
+		CDisplayCore::_Textures()->HideTexture(m_ResourceID);
 
 		m_Show = false;
 	}

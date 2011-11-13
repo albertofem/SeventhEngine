@@ -21,8 +21,15 @@ namespace Seventh
 {
 	class CTexture;
 
+	struct s_DuplicateTexture
+	{
+		S64 code;
+		S64 texture_id;
+	};
+
 	class CTextureManager
 	{
+
 	public:
 		CTextureManager();
 		~CTextureManager();
@@ -30,7 +37,7 @@ namespace Seventh
 		void UpdateGameLogic();
 		void Render();
 
-		U32 CreateTexture(std::string filename);
+		U64 LoadTexture(std::string filename);
 
 		void RenderTexture(U32 texture_id, S32 pos_x, S32 pos_y);
 		void PositionTexture(U32 texture_id, S32 pos_x, S32 pos_y);
@@ -53,7 +60,7 @@ namespace Seventh
 
 		std::map< std::string, U32 > m_LoadedTextures;
 
-		S32 TextureIsLoaded(std::string filename);
+		s_DuplicateTexture TextureIsLoaded(std::string filename);
 	};
 }
 

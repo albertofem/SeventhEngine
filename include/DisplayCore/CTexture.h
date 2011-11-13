@@ -25,31 +25,36 @@ namespace Seventh
 	public:
 		CTexture();
 		CTexture(std::string filename);
+		CTexture(const CTexture& lhs);
+		operator=(const CTexture& lhs);
 
 		~CTexture();
 
 		void UpdateGameLogic();
 		void Render();
 
-		SDL_Surface* getSurfacePtr();
+		SDL_Surface* GetSurfacePtr();
 
-		bool loadResource();
+		bool LoadSurfaceMemory();
 
 	private:
 		std::string m_ResourceFile;
-		U32 m_TextureID;
 
 		bool m_Draw;
 		bool m_ResourceLoaded;
 
-		SDL_Surface* m_Surface;
+		boost::shared_ptr< SDL_Surface > m_Surface;
 		SDL_Rect SDL_Coords;
 
 		void Position(S32 pos_x, S32 pos_y);
 
-		void inline SetTextureID(U32 texture_id)
+		static U64 m_TextureCounter;
+		U64 m_TextureID;
+
+	public:
+		U64 inline GetTextureID()
 		{
-			m_TextureID = texture_id;
+			return m_TextureID;
 		}
 
 	public:
@@ -68,6 +73,16 @@ namespace Seventh
 		inline void SetDraw(bool set)
 		{
 			m_Draw = set;
+		}
+
+		inline U32 GetWidth()
+		{
+			return SDL_Coords.w;
+		}
+
+		inline U32 GetHeight()
+		{
+			return SDL_Coords.h;
 		}
 
 	friend class CTextureManager;

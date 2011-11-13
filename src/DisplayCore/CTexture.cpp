@@ -19,9 +19,10 @@
 
 namespace Seventh
 {
+	U64 CTexture::m_TextureCounter = 0;
+
 	CTexture::~CTexture()
 	{
-		SDL_FreeSurface(m_Surface);
 	}
 
 	CTexture::CTexture(std::string filename)
@@ -35,9 +36,25 @@ namespace Seventh
 		SDL_Coords.w = 0;
 		SDL_Coords.x = 0;
 		SDL_Coords.y = 0;
+
+		// texture static counter
+		m_TextureID = m_TextureCounter;
+		m_TextureCounter++;
 	}
 
-	bool CTexture::loadResource()
+	CTexture::CTexture(const CTexture& lhs)
+	{
+		m_ResourceLoaded = lhs.m_ResourceLoaded;
+		m_ResourceFile = lhs.m_ResourceFile;
+		m_Draw = true;
+
+		SDL_Coords = lhs.SDL_Coords;
+
+		// copy textured has the same surface data
+		m_Surface = lhs.m_Surface;
+	}
+
+	bool CTexture::LoadSurfaceMemory()
 	{
 		if(m_ResourceLoaded == false)
 		{
@@ -45,12 +62,10 @@ namespace Seventh
 			SDL_Surface* Surface_Temp = NULL;
 
 			if((Surface_Temp = IMG_Load(m_ResourceFile.c_str())) == NULL)
-			{
 				return false;
-			}
 
 			// set alpha for png-like formats
-			m_Surface = SDL_DisplayFormatAlpha(Surface_Temp);
+			m_Surface.reset(SDL_DisplayFormatAlpha(Surface_Temp));
 
 			// free old resource
 			SDL_FreeSurface(Surface_Temp);
@@ -70,20 +85,15 @@ namespace Seventh
 
 	void CTexture::Position(S32 pos_x, S32 pos_y)
 	{
-		//TRACE("Applying transformation on texture_id (%d), previous position (%d, %d), new position (%d, %d)",
-		//	m_TextureID, SDL_Coords.x, SDL_Coords.y, transform.move_x, transform.move_y);
-
 		SDL_Coords.x = pos_x;
 		SDL_Coords.y = pos_y;
-
-		m_Draw = true;
 	}
 
-	SDL_Surface* CTexture::getSurfacePtr()
+	SDL_Surface* CTexture::GetSurfacePtr()
 	{
-		loadResource();
+		LoadSurfaceMemory();
 
-		return m_Surface;
+		return m_Surface.get();
 	}
 }
 

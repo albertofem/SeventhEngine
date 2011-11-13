@@ -58,3 +58,19 @@ private:
 	void OnCameraChange() {};
 	void OnEvent(EVENT_INFO type);
 };
+
+class MyPlayer2 : public CEntity
+{
+public:
+	MyPlayer2(myGame* game_ref);
+	~MyPlayer2();
+
+private:
+	myGame* Engine;
+
+	void UpdateGameLogic() {};
+	void OnRegister() {};
+	void OnDelete() {};
+	void OnCameraChange() {};
+	void OnEvent(EVENT_INFO type) {};
+};

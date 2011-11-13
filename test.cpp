@@ -23,14 +23,12 @@ void myGame::DoSomeStuff()
 {
 	StateMenu* main_menu = new StateMenu(this);
 	MyPlayer* player = new MyPlayer(this);
-	MyPlayer* player2 = new MyPlayer(this);
+	MyPlayer2* player2 = new MyPlayer2(this);
 
 	_Gameplay()->_States()->RegisterState("main_menu", main_menu);
 	_Display()->_Layers()->RegisterOverallEntity("player1", player);
-	_Display()->_Layers()->RegisterOverallEntity("player2", player);
 
 	_Entities()->Entity("player1")->SetTexture("ryu");
-	_Entities()->Entity("player2")->SetTexture("ken");
 }
 
 myGame::~myGame()
@@ -77,6 +75,17 @@ MyPlayer::~MyPlayer()
 {
 }
 
+
+MyPlayer2::MyPlayer2(myGame* game_ref)
+{
+	Engine = game_ref;
+}
+
+MyPlayer2::~MyPlayer2()
+{
+}
+
+
 void MyPlayer::OnEvent(EVENT_INFO type)
 {
 	STH_Transform move_entity(5, 0);
@@ -109,7 +118,6 @@ void MyPlayer::OnEvent(EVENT_INFO type)
 				SetTexture("ryu");
 				m_CurrentPJ = "Ryu";
 			}
-
 		break;
 	}
 }
