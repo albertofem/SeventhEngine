@@ -55,6 +55,7 @@ namespace Seventh
 			Hide();
 
 		m_CurrentAsset = ENTITY_ASSET_TEXTURE;
+		m_CurrentResourceName = name;
 
 		// look for this texture name
 		// load the texture in memory
@@ -95,13 +96,23 @@ namespace Seventh
 
 	void CEntity::Hide()
 	{
+		if(m_Show != true)
+			return;
+
 		CDisplayCore::_Textures()->HideTexture(m_ResourceID);
+		m_ResourceID = -1;
 
 		m_Show = false;
 	}
 
 	void CEntity::Show()
 	{
+		if(m_ResourceID == -1)
+		{
+			if(m_CurrentAsset == ENTITY_ASSET_TEXTURE)
+				SetTexture(m_CurrentResourceName);
+		}
+
 		m_Show = true;
 	}
 }

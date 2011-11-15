@@ -22,7 +22,6 @@ namespace Seventh
 	CTextureManager::CTextureManager()
 		: m_TextureCounter(0)
 	{
-		//m_DBufferScreen = SDL_CreateRGBSurface(SDL_HWSURFACE, CDisplayCore::_Screen()->w, CDisplayCore::_Screen()->h, 32, rmask, gmask, bmask, amask);
 		m_DBufferScreen = SDL_DisplayFormat(CDisplayCore::_Screen());
 	}
 
@@ -32,42 +31,19 @@ namespace Seventh
 
 	U64 CTextureManager::LoadTexture(std::string filename)
 	{
-		// textureID temp
 		U32 texture_id = m_TextureCounter;
 		s_DuplicateTexture check_already_loaded = TextureIsLoaded(filename);
 
-		TRACE("Codigo de duplicado: %d", check_already_loaded.code);
-
-		switch(check_already_loaded.code)
+		if(check_already_loaded.code == 0)
 		{
-			case 0:
-				TRACE("Creating new");
-				// texture doesnt exists, crate new one
-				m_Textures[m_TextureCounter].reset(new CTexture(filename));
-
-				// add this texture to already loaded textures
-				m_LoadedTextures[filename] = texture_id;
-			break;
-
-			case 1:
-				TRACE("Returning existing");
-
-				// and draw it
-				m_Textures[check_already_loaded.texture_id]->SetDraw(true);
-				// texture exists in the same position, return it
-				return check_already_loaded.texture_id;
-
-			break;
-
-			case 2:
-				TRACE("Copying existing");
-				// return copy of the texture
-				m_Textures[m_TextureCounter].reset(new CTexture(*m_Textures[check_already_loaded.texture_id].get()));
-			break;
+			m_Textures[m_TextureCounter].reset(new CTexture(filename));
+			m_LoadedTextures[filename] = texture_id;
+		}
+		else
+		{
+			m_Textures[m_TextureCounter].reset(new CTexture(*m_Textures[check_already_loaded.texture_id].get()));
 		}
 
-		// set new ID in the texture object
-		//m_Textures[m_TextureCounter]->SetTextureID(texture_id);
 		m_TextureCounter++;
 
 		return texture_id;
@@ -77,20 +53,13 @@ namespace Seventh
 	{
 		PositionTexture(texture_id, pos_x, pos_y);
 
-		SDL_Rect new_pos;
-		new_pos.x = pos_x;
-		new_pos.y = pos_y;
-
 		// check if the texture is need to draw
 		if(m_Textures[texture_id]->needToDraw())
 		{
 			TRACE("Getting to render texture ID (%d)", texture_id);
-			TRACE("Trying to blit in (%d, %d)", m_Textures[texture_id]->getSDLRect().x, m_Textures[texture_id]->getSDLRect().y);
-			SDL_BlitSurface(m_Textures[texture_id]->GetSurfacePtr(), NULL, m_DBufferScreen, &new_pos);
+			SDL_BlitSurface(m_Textures[texture_id]->GetSurfacePtr(), NULL, m_DBufferScreen, &m_Textures[texture_id]->getSDLRect());
 
-			// texture already draw, no need to draw again until next
-			// transformation
-			//m_Textures[texture_id]->SetDraw(false);
+			m_Textures[texture_id]->SetDraw(false);
 		}
 	}
 
@@ -101,29 +70,12 @@ namespace Seventh
 
 		// check if the position hanst changed
 		if(old_portion.x == pos_x && old_portion.y == pos_y)
-		{
 			return;
-		}
 
 		// change position
 		m_Textures[texture_id]->Position(pos_x, pos_y);
 
-		// check for colliding textures to redraw if any
-		// get texture new position
-		std::map< U32, boost::shared_ptr<CTexture> >::const_iterator it;
-
-		for(it=m_Textures.begin(); it!=m_Textures.end(); it++)
-		{
-			if(texture_id != it->first)
-			{
-				if(CheckTextureCollision(&m_Textures[texture_id]->getSDLRect(),
-									&m_Textures[it->first]->getSDLRect()))
-				{
-					TRACE("Need to draw!");
-					m_Textures[it->first]->SetDraw(true);
-				}
-			}
-		}
+		TextureCollision(texture_id);
 
 		// clean only previous portion
 		CleanScreen(&old_portion);
@@ -155,12 +107,35 @@ namespace Seventh
 		return false;
 	}
 
+	void CTextureManager::TextureCollision(U64 texture_id)
+	{
+		// check for colliding textures to redraw if any
+		// get texture new position
+		std::map< U32, boost::shared_ptr<CTexture> >::const_iterator it;
+
+		for(it=m_Textures.begin(); it!=m_Textures.end(); it++)
+		{
+			if(texture_id != it->first)
+			{
+				if(CheckTextureCollision(&m_Textures[texture_id]->getSDLRect(),
+									&m_Textures[it->first]->getSDLRect()))
+				{
+					TRACE("In need to draw!");
+					m_Textures[it->first]->SetDraw(true);
+				}
+			}
+		}
+	}
+
 	void CTextureManager::HideTexture(U32 texture_id)
 	{
 		SDL_Rect old_portion = m_Textures[texture_id]->getSDLRect();
 		CleanScreen(&old_portion);
 
-		m_Textures[texture_id]->SetDraw(false);
+		TextureCollision(texture_id);
+
+		m_LoadedTextures.erase(m_Textures[texture_id]->GetSourceFile());
+		m_Textures.erase(texture_id);
 	}
 
 	void CTextureManager::Render()
@@ -192,17 +167,7 @@ namespace Seventh
 			// texture is found, lets see if it hasnt moved since
 			// it was loaded, so we can use exactly the same
 			return_info.texture_id = it->second;
-
-			if(m_Textures[it->second]->getSDLRect().x == 0 && m_Textures[it->second]->getSDLRect().y == 0)
-			{
-				// object exists and is in the same position, return the same texture
-				return_info.code = 1;
-			}
-			else
-			{
-				// object exists, but is in another position, return copy to the same data
-				return_info.code = 2;
-			}
+			return_info.code = 1;
 		}
 
 		return return_info;

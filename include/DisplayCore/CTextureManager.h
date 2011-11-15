@@ -34,7 +34,6 @@ namespace Seventh
 		CTextureManager();
 		~CTextureManager();
 
-		void UpdateGameLogic();
 		void Render();
 
 		U64 LoadTexture(std::string filename);
@@ -59,8 +58,11 @@ namespace Seventh
 		void CleanScreen(SDL_Rect* portion);
 
 		std::map< std::string, U32 > m_LoadedTextures;
+		std::map< U64, U32> m_TextureRefCounter;
 
 		s_DuplicateTexture TextureIsLoaded(std::string filename);
+
+		void TextureCollision(U64 texture_id);
 	};
 }
 

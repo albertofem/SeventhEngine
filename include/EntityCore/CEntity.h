@@ -61,6 +61,7 @@ namespace Seventh
 
 	private:
 		e_EntityAsset m_CurrentAsset;
+		std::string m_CurrentResourceName;
 
 		CEngine* m_Engine;
 		/**

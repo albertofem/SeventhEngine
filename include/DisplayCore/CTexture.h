@@ -52,12 +52,11 @@ namespace Seventh
 		U64 m_TextureID;
 
 	public:
-		U64 inline GetTextureID()
+		inline std::string GetSourceFile()
 		{
-			return m_TextureID;
+			return m_ResourceFile;
 		}
 
-	public:
 		// getters
 		inline bool needToDraw()
 		{

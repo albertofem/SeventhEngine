@@ -87,6 +87,8 @@ namespace Seventh
 	{
 		SDL_Coords.x = pos_x;
 		SDL_Coords.y = pos_y;
+
+		m_Draw = true;
 	}
 
 	SDL_Surface* CTexture::GetSurfacePtr()

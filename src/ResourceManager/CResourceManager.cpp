@@ -160,10 +160,8 @@ namespace Seventh
 
 		if(search_map != m_Resource_Textures.end())
 		{
-
 			// load texture in the texturemanager and register id for later destruction
 			U64 texture_id = CDisplayCore::_Textures()->LoadTexture(m_Resource_Textures[name]->src);
-						TRACE("Texture loaded with ID: %d", texture_id);
 			return texture_id;
 		}
 		else
