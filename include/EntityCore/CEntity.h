@@ -56,6 +56,7 @@ namespace Seventh
 	public:
 		void SetAnimation(std::string animation_name);
 		void SetTexture(std::string animation_name);
+		void SetTile(std::string tileset, std::string tile);
 
 		void Render();
 

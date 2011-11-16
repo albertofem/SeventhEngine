@@ -43,6 +43,8 @@ namespace Seventh
 
 		void HideTexture(U32 texture_id);
 
+		U64 LoadTile(std::string filename, U16 x, U16 y, U16 w, U16 h);
+
 	private:
 		// texture map
 		std::map< U32, boost::shared_ptr<CTexture> > m_Textures;

@@ -107,7 +107,39 @@ namespace Seventh
 
 	void CResourceManager::ReloadTilesets()
 	{
-		TRACE("Reloading tilesets...");
+		TRACE("Reloading animations...");
+
+		TiXmlHandle handletmp = m_XMLHandle->FirstChild("resources").FirstChildElement("tilesets").FirstChildElement("tileset");
+		m_XMLElement = handletmp.ToElement();
+
+		for(m_XMLElement; m_XMLElement; m_XMLElement = m_XMLElement->NextSiblingElement())
+		{
+			// safe to extract XML attributes
+			std::string tileset_name = m_XMLElement->Attribute("name");
+			std::string tile_src = m_XMLElement->Attribute("src");
+			std::string tile_format = m_XMLElement->Attribute("format");
+
+			m_Resource_Tilesets[tileset_name].reset(new s_Tileset);
+			m_Resource_Tilesets[tileset_name]->src = tile_src;
+			m_Resource_Tilesets[tileset_name]->format = tile_format;
+
+			TRACE("Getting tiles");
+
+			// get frames for each animation
+			TiXmlElement* frame_h = NULL;
+			frame_h = m_XMLElement->FirstChildElement("tile");
+
+			for(frame_h; frame_h; frame_h = frame_h->NextSiblingElement())
+			{
+				TRACE("Tile %s", frame_h->Attribute("name"));
+				m_Resource_Tilesets[tileset_name]->tiles[frame_h->Attribute("name")] = s_Tile(atoi(frame_h->Attribute("x")),
+								atoi(frame_h->Attribute("y")),
+								atoi(frame_h->Attribute("width")),
+								atoi(frame_h->Attribute("height")));
+			}
+
+			delete frame_h;
+		}
 	}
 
 	void CResourceManager::ReloadAnimations()
@@ -122,24 +154,30 @@ namespace Seventh
 			// safe to extract XML attributes
 			std::string temp_name = m_XMLElement->Attribute("name");
 			std::string anim_type = m_XMLElement->Attribute("type");
+			std::string anim_framerate = m_XMLElement->Attribute("framerate");
 
-			TRACE("Animation %s - %s", temp_name.c_str(), anim_type.c_str());
+			m_Resource_Animations[temp_name].reset(new s_Animation);
+			m_Resource_Animations[temp_name]->type = (anim_type == "texture") ? ANIM_TEXTURE : ANIM_TILE;
+			m_Resource_Animations[temp_name]->frame_rate = m_XMLElement->Attribute("framerate");
 
 			// get frames for each animation
 			TiXmlElement* frame_h = NULL;
-			frame_h = handletmp.FirstChildElement("frame").ToElement();
+			frame_h = m_XMLElement->FirstChildElement("frame");
 
 			for(frame_h; frame_h; frame_h = frame_h->NextSiblingElement())
 			{
 				if(anim_type == "texture")
 				{
-					// animation is texture-type
-					m_Resource_Animations[temp_name].reset(new s_Animation);
-
-					m_Resource_Animations[temp_name]->type = ANIM_TEXTURE;
-					m_Resource_Animations[temp_name]->frame_rate = frame_h->Attribute("framerate");
-
 					m_Resource_Animations[temp_name]->texture_frames.push_back(frame_h->Attribute("texture"));
+				}
+				else
+				{
+					s_AnimationTile animtile_tmp;
+
+					animtile_tmp.tileset = frame_h->Attribute("tileset");
+					animtile_tmp.tile = frame_h->Attribute("tile");
+
+					m_Resource_Animations[temp_name]->tile_frames.push_back(animtile_tmp);
 				}
 			}
 
@@ -167,6 +205,42 @@ namespace Seventh
 		else
 		{
 			TRACE("WARNING: texture '%s' not found!", name.c_str());
+			return -1;
+		}
+	}
+
+	S64 CResourceManager::LoadTile(std::string tileset, std::string tile)
+	{
+		std::map< std::string, boost::shared_ptr<s_Tileset> >::const_iterator search_map;
+
+		search_map = m_Resource_Tilesets.find(tileset);
+
+		if(search_map != m_Resource_Tilesets.end())
+		{
+			std::map< std::string, s_Tile >::const_iterator tile_map;
+
+			tile_map = m_Resource_Tilesets[tileset]->tiles.find(tile);
+
+			if(tile_map != m_Resource_Tilesets[tileset]->tiles.end())
+			{
+				// load texture in the texturemanager and register id for later destruction
+				U64 texture_id = CDisplayCore::_Textures()->LoadTile(m_Resource_Tilesets[tileset]->src,
+															m_Resource_Tilesets[tileset]->tiles[tile].posx,
+															m_Resource_Tilesets[tileset]->tiles[tile].posy,
+															m_Resource_Tilesets[tileset]->tiles[tile].width,
+															m_Resource_Tilesets[tileset]->tiles[tile].height);
+				return texture_id;
+
+			}
+			else
+			{
+				TRACE("WARNING: tile '%s' in tileset '%s' not found!", tile.c_str(), tileset.c_str());
+				return -1;
+			}
+		}
+		else
+		{
+			TRACE("WARNING: tileset '%s' not found!", tileset.c_str());
 			return -1;
 		}
 	}

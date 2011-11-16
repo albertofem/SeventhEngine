@@ -97,6 +97,10 @@ namespace Seventh
 		case SDLK_d:
 			event_ret.ecase = KEY_PRESS_D;
 			break;
+
+		case SDLK_ESCAPE:
+			m_Engine->EngineCall(STOP_ENGINE);
+			break;
 		}
 
 		if(ekey.state == PRESSED)

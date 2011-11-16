@@ -32,6 +32,15 @@ namespace Seventh
 	{
 		U16 posx, posy;
 		U16 width, height;
+
+		s_Tile(U16 x, U16 y, U16 w, U16 h)
+			: posx(x), posy(y), width(w), height(h)
+		{
+		}
+
+		s_Tile()
+		{
+		}
 	};
 
 	struct s_Tileset
@@ -40,7 +49,7 @@ namespace Seventh
 		std::string format;
 
 		// map with contained tiled
-		std::map< std::string, boost::shared_ptr<s_Tile> > tiles;
+		std::map< std::string, s_Tile > tiles;
 	};
 
 	enum e_AnimationType
@@ -66,7 +75,7 @@ namespace Seventh
 
 		// vector containing the frames of the animation
 		// when the type is a tile animation
-		std::vector< boost::shared_ptr<s_AnimationTile> > tile_frames;
+		std::vector< s_AnimationTile > tile_frames;
 	};
 
 	typedef s_Texture s_Map;

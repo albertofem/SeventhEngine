@@ -20,6 +20,12 @@
 namespace Seventh
 {
 
+	enum e_TextureType
+	{
+		TEXTURE_NORMAL = 0x0,
+		TEXTURE_TILE
+	};
+
 	class CTexture
 	{
 	public:
@@ -27,6 +33,8 @@ namespace Seventh
 		CTexture(std::string filename);
 		CTexture(const CTexture& lhs);
 		operator=(const CTexture& lhs);
+
+		CTexture(std::string filename, U16 x, U16 y, U16 w, U16 h);
 
 		~CTexture();
 
@@ -50,6 +58,11 @@ namespace Seventh
 
 		static U64 m_TextureCounter;
 		U64 m_TextureID;
+
+		SDL_Rect Tile_Coords;
+		e_TextureType m_TextureType;
+
+		void ExtractTile(SDL_Surface* sfc_origin);
 
 	public:
 		inline std::string GetSourceFile()

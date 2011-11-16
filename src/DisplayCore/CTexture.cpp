@@ -36,10 +36,20 @@ namespace Seventh
 		SDL_Coords.w = 0;
 		SDL_Coords.x = 0;
 		SDL_Coords.y = 0;
+	}
 
-		// texture static counter
-		m_TextureID = m_TextureCounter;
-		m_TextureCounter++;
+	CTexture::CTexture(std::string filename, U16 x, U16 y, U16 w, U16 h)
+	{
+		m_ResourceFile = filename;
+		m_ResourceLoaded = false;
+		m_Draw = true;
+
+		Tile_Coords.x = x;
+		Tile_Coords.y = y;
+		Tile_Coords.w = w;
+		Tile_Coords.h = h;
+
+		m_TextureType = TEXTURE_TILE;
 	}
 
 	CTexture::CTexture(const CTexture& lhs)
@@ -64,20 +74,27 @@ namespace Seventh
 			if((Surface_Temp = IMG_Load(m_ResourceFile.c_str())) == NULL)
 				return false;
 
-			// set alpha for png-like formats
-			m_Surface.reset(SDL_DisplayFormatAlpha(Surface_Temp));
+			if(m_TextureType == TEXTURE_TILE)
+			{
+				ExtractTile(Surface_Temp);
+			}
+			else
+			{
+				// set alpha for png-like formats
+				m_Surface.reset(SDL_DisplayFormatAlpha(Surface_Temp));
+			}
 
-			// free old resource
-			SDL_FreeSurface(Surface_Temp);
+			TRACE("Surface %dx%d", m_Surface->h, m_Surface->w);
 
 			// set width and height
 			SDL_Coords.h = m_Surface->h;
 			SDL_Coords.w = m_Surface->w;
 
+			// free old resource
+			SDL_FreeSurface(Surface_Temp);
+
 			// also set already loaded to true
 			m_ResourceLoaded = true;
-
-			m_Draw = false;
 		}
 
 		return true;
@@ -96,6 +113,46 @@ namespace Seventh
 		LoadSurfaceMemory();
 
 		return m_Surface.get();
+	}
+
+	void CTexture::ExtractTile(SDL_Surface* sfc_origin)
+	{
+		U32 rmask, gmask, bmask, amask;
+
+		// byte order
+	#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+		rmask = 0xff000000;
+		gmask = 0x00ff0000;
+		bmask = 0x0000ff00;
+		amask = 0x000000ff;
+	#else
+		rmask = 0x000000ff;
+		gmask = 0x0000ff00;
+		bmask = 0x00ff0000;
+		amask = 0xff000000;
+	#endif
+
+		// create a surface from scratch
+		m_Surface.reset(SDL_CreateRGBSurface(SDL_HWSURFACE, Tile_Coords.w, Tile_Coords.h,
+									sfc_origin->format->BitsPerPixel,
+									0x00ff0000,
+									0x0000ff00,
+									0x000000ff,
+									(sfc_origin->format->BitsPerPixel == 32 ? 0xff000000 : 0)));
+
+		SDL_SetAlpha(sfc_origin, 0, SDL_ALPHA_OPAQUE);
+
+		if(m_Surface == NULL)
+		{
+			TRACE("Creating surface tile failed: %s", SDL_GetError());
+		}
+		else
+		{
+			TRACE("Blitting surface to tile, %d - %d, %d, %d", Tile_Coords.x, Tile_Coords.y, Tile_Coords.w, Tile_Coords.h);
+			// blit surface tile to the new created surface
+			SDL_BlitSurface(sfc_origin, &Tile_Coords, m_Surface.get(), NULL);
+		}
+
 	}
 }
 

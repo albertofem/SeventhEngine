@@ -81,6 +81,16 @@ namespace Seventh
 			throw new seventh_displaycore_exception("Couldn't init SDL video mode", STH_EXCEPTION_CANNOT_SET_VIDEOMODE);
 		}
 
+		if ((m_DisplayScreen->flags & SDL_HWSURFACE) != SDL_HWSURFACE)
+		{
+			TRACE("WARNING: Can't get hardware rendering");
+		}
+
+		if ((m_DisplayScreen->flags & SDL_DOUBLEBUF) != SDL_DOUBLEBUF)
+		{
+			TRACE("WARNING: Can't get doublebuffer");
+		}
+
 		// set window title
 		SDL_WM_SetCaption("Simple Window", "Simple Window");
 
@@ -115,7 +125,7 @@ namespace Seventh
 		Textures->Render();
 
 		// swap buffers
-		SDL_Flip(m_DisplayScreen);
+		SDL_UpdateRect(m_DisplayScreen, 0, 0, m_DisplayWidth, m_DisplayHeight);
 	}
 
 	CDisplayCore::~CDisplayCore()

@@ -49,6 +49,18 @@ namespace Seventh
 		return texture_id;
 	}
 
+	U64 CTextureManager::LoadTile(std::string filename, U16 x, U16 y, U16 w, U16 h)
+	{
+		TRACE("Loading tile..");
+		U32 texture_id = m_TextureCounter;
+
+		m_Textures[m_TextureCounter].reset(new CTexture(filename, x, y, w, h));
+
+		m_TextureCounter++;
+
+		return texture_id;
+	}
+
 	void CTextureManager::RenderTexture(U32 texture_id, S32 pos_x, S32 pos_y)
 	{
 		PositionTexture(texture_id, pos_x, pos_y);
@@ -78,7 +90,7 @@ namespace Seventh
 		TextureCollision(texture_id);
 
 		// clean only previous portion
-		CleanScreen(&old_portion);
+		CleanScreen(NULL);
 	}
 
 	bool CTextureManager::CheckTextureCollision(SDL_Rect* texture1, SDL_Rect* texture2)
@@ -120,7 +132,6 @@ namespace Seventh
 				if(CheckTextureCollision(&m_Textures[texture_id]->getSDLRect(),
 									&m_Textures[it->first]->getSDLRect()))
 				{
-					TRACE("In need to draw!");
 					m_Textures[it->first]->SetDraw(true);
 				}
 			}
@@ -146,6 +157,9 @@ namespace Seventh
 	void CTextureManager::CleanScreen(SDL_Rect* portion = NULL)
 	{
 		//TRACE("Limpiando porción en (%d, %d), tamaño: %dx%d", portion->x, portion->y, portion->w, portion->h);
+		if(portion == NULL)
+			portion = &m_DBufferScreen->clip_rect;
+
 		SDL_FillRect(m_DBufferScreen, portion, 0x000000);
 	}
 

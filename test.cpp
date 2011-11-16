@@ -26,11 +26,11 @@ void myGame::DoSomeStuff()
 	MyPlayer2* player2 = new MyPlayer2(this);
 
 	_Gameplay()->_States()->RegisterState("main_menu", main_menu);
-	_Display()->_Layers()->RegisterOverallEntity("player1", player);
-	_Display()->_Layers()->RegisterOverallEntity("player2", player2);
+	_Display()->_Layers()->RegisterOverallEntity("player1", player2);
+	_Display()->_Layers()->RegisterOverallEntity("player2", player);
 
+	_Entities()->Entity("player2")->SetTile("maintile", "main_player_frame01");
 	_Entities()->Entity("player1")->SetTexture("ryu");
-	_Entities()->Entity("player2")->SetTexture("ken");
 }
 
 myGame::~myGame()
@@ -90,23 +90,12 @@ MyPlayer2::~MyPlayer2()
 
 void MyPlayer::OnEvent(EVENT_INFO type)
 {
-	STH_Transform move_entity(5, 0);
+	STH_Transform move_entity(10, 15);
 
 	switch(type.ecase)
 	{
 		case KEY_PRESS_A:
-			if(m_EntityHealth > 0)
-			{
-				Move(move_entity);
-				ReduceHealth(10);
-
-				TRACE("Entity health is now %d", m_EntityHealth);
-			}
-			else
-			{
-				TRACE("Entity is dead!");
-				Hide();
-			}
+			Move(move_entity);
 		break;
 
 		case KEY_PRESS_D:
