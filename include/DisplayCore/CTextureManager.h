@@ -52,9 +52,6 @@ namespace Seventh
 		// textures ID
 		U32 m_TextureCounter;
 
-		// second surface to double buffer
-		SDL_Surface* m_DBufferScreen;
-
 		bool CheckTextureCollision(SDL_Rect* texture1, SDL_Rect* texture2);
 
 		void CleanScreen(SDL_Rect* portion);
@@ -65,6 +62,8 @@ namespace Seventh
 		s_DuplicateTexture TextureIsLoaded(std::string filename);
 
 		void TextureCollision(U64 texture_id);
+
+		void BlitTexture(GLuint texture, SDL_Rect* tex_info);
 	};
 }
 

@@ -9,3 +9,7 @@ export.sh
 resources/*
 .gitignore
 SeventhEngine.cbTemp
+SeventhEngine.*
+ipch/
+Debug/
+.git/

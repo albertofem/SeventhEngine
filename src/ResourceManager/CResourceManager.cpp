@@ -158,7 +158,7 @@ namespace Seventh
 
 			m_Resource_Animations[temp_name].reset(new s_Animation);
 			m_Resource_Animations[temp_name]->type = (anim_type == "texture") ? ANIM_TEXTURE : ANIM_TILE;
-			m_Resource_Animations[temp_name]->frame_rate = m_XMLElement->Attribute("framerate");
+			m_Resource_Animations[temp_name]->frame_rate = atoi(m_XMLElement->Attribute("framerate"));
 
 			// get frames for each animation
 			TiXmlElement* frame_h = NULL;

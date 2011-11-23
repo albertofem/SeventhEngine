@@ -33,7 +33,8 @@ namespace Seventh
 
 	enum e_EventState
 	{
-		PRESSED = 0x0,
+		STATE_UNKNOWN = 0x0,
+		PRESSED,
 		RELEASED
 	};
 

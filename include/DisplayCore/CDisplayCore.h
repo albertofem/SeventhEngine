@@ -52,6 +52,7 @@ namespace Seventh
 		void Init_Animations() throw(seventh_displaycore_exception);
 		void Init_Maps() throw(seventh_displaycore_exception);
 		void Init_Movies() throw(seventh_displaycore_exception);
+		void Init_OpenGLContext();
 
 		/**
 		 * display config

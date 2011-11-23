@@ -26,10 +26,8 @@ void myGame::DoSomeStuff()
 	MyPlayer2* player2 = new MyPlayer2(this);
 
 	_Gameplay()->_States()->RegisterState("main_menu", main_menu);
-	_Display()->_Layers()->RegisterOverallEntity("player1", player2);
-	_Display()->_Layers()->RegisterOverallEntity("player2", player);
+	_Display()->_Layers()->RegisterOverallEntity("player1", player);
 
-	_Entities()->Entity("player2")->SetTile("maintile", "main_player_frame01");
 	_Entities()->Entity("player1")->SetTexture("ryu");
 }
 

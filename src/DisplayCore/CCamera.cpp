@@ -30,10 +30,12 @@ namespace Seventh
 
 	U32 CCamera::GetOffset_X()
 	{
+		return 0;
 	}
 
 	U32 CCamera::GetOffset_Y()
 	{
+		return 0;
 	}
 
 	U16 CCamera::GetCamera_ID()

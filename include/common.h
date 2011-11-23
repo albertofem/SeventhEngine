@@ -15,14 +15,33 @@
 #include <iostream>
 #include <map>
 
-#ifndef NDEBUG
-	#define TRACE(arg, ...) printf(arg, ##__VA_ARGS__); std::cout << std::endl;
+#ifndef _WIN32
+	#ifndef NDEBUG
+		#define TRACE(arg, ...) printf(arg, ##__VA_ARGS__); std::cout << std::endl;
+	#else
+		#define TRACE(arg, ...)
+#endif
 #else
-	#define TRACE(arg, ...)
+	#include <Platform/windows/trace.h>
 #endif
 
 #ifndef STH_COMMON_H_
 #define STH_COMMON_H_
+
+#ifdef _WIN32
+	#include <windows.h>
+#endif
+
+#include <gl/GL.h>
+#include <gl/GLU.h>
+
+#ifdef _WIN32
+	#pragma comment(lib, "opengl32.lib")
+	#pragma comment(lib, "glu32.lib")
+	#pragma comment(lib, "SDL.lib")
+	#pragma comment(lib, "SDLmain.lib")
+	#pragma comment(lib, "SDL_image.lib")
+#endif
 
 namespace Seventh
 {
@@ -42,8 +61,9 @@ namespace Seventh
 #include <boost/scoped_ptr.hpp>
 
 #include <SDL/SDL.h>
+#include <SDL_opengl.h>
 
-#include "math.h"
+#include "sth_math.h"
 #include "exception.h"
 
 #include <cassert>

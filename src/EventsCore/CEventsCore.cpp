@@ -54,8 +54,9 @@ namespace Seventh
 		default:
 			c_case.ecase = KEY_UNKNOWN;
 			break;
-
 		}
+
+		c_case.estate = STATE_UNKNOWN;
 
 		PropagateEvent(c_case);
 	}

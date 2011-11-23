@@ -52,9 +52,7 @@ namespace Seventh
 		//TRACE("Getting width: %d, height: %d, bpp: %d", m_DisplayWidth, m_DisplayHeight, m_DisplayBPP);
 
 		// if the values are wrong, throw an exception
-		if(m_DisplayWidth == 0 or
-			m_DisplayHeight == 0 or
-			m_DisplayBPP == 0)
+		if(m_DisplayWidth == 0 || m_DisplayHeight == 0 || m_DisplayBPP == 0)
 		{
 			throw seventh_displaycore_exception("Wrong values for width/height/bpp in .ini config file", STH_EXCEPTION_WRONG_INI_VALUES);
 		}
@@ -75,27 +73,62 @@ namespace Seventh
 		}
 
 		// set video mode and the base display screen
-		if((m_DisplayScreen = SDL_SetVideoMode(m_DisplayWidth, m_DisplayHeight, m_DisplayBPP, SDL_HWSURFACE | SDL_DOUBLEBUF)) == NULL)
+		if((m_DisplayScreen = SDL_SetVideoMode(m_DisplayWidth, m_DisplayHeight, m_DisplayBPP, SDL_GL_DOUBLEBUFFER | SDL_OPENGL)) == NULL)
 		{
 			TRACE("Couldn't init SDL video mode: %s", SDL_GetError());
 			throw new seventh_displaycore_exception("Couldn't init SDL video mode", STH_EXCEPTION_CANNOT_SET_VIDEOMODE);
 		}
 
-		if ((m_DisplayScreen->flags & SDL_HWSURFACE) != SDL_HWSURFACE)
-		{
-			TRACE("WARNING: Can't get hardware rendering");
-		}
-
-		if ((m_DisplayScreen->flags & SDL_DOUBLEBUF) != SDL_DOUBLEBUF)
-		{
-			TRACE("WARNING: Can't get doublebuffer");
-		}
+		Init_OpenGLContext();
 
 		// set window title
 		SDL_WM_SetCaption("Simple Window", "Simple Window");
 
 		// display basic subsystem is initialize, OK
 		TRACE("Display base core initialized: %dx%d@%d bpp", m_DisplayWidth, m_DisplayHeight, m_DisplayBPP);
+	}
+
+	void CDisplayCore::Init_OpenGLContext()
+	{
+		/**
+		 * SDL wrapper configuration options
+		 */
+
+		SDL_GL_SetAttribute(SDL_GL_RED_SIZE,        8);
+		SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,      8);
+		SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,       8);
+		SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE,      8);
+ 
+		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,      16);
+		SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE,        32);
+ 
+		SDL_GL_SetAttribute(SDL_GL_ACCUM_RED_SIZE,    8);
+		SDL_GL_SetAttribute(SDL_GL_ACCUM_GREEN_SIZE,    8);
+		SDL_GL_SetAttribute(SDL_GL_ACCUM_BLUE_SIZE,    8);
+		SDL_GL_SetAttribute(SDL_GL_ACCUM_ALPHA_SIZE,    8);
+ 
+		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS,  1);
+		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES,  2);
+
+		/**
+		 * Init OpenGL options
+		 */
+
+		glClearColor(0, 0, 0, 0);
+		glClearDepth(1.0f);
+ 
+		glViewport(0, 0, m_DisplayWidth, m_DisplayHeight);
+ 
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+ 
+		glOrtho(0, m_DisplayWidth, m_DisplayHeight, 0, 1, -1);
+ 
+		glMatrixMode(GL_MODELVIEW);
+ 
+		glEnable(GL_TEXTURE_2D);
+ 
+		glLoadIdentity();
 	}
 
 	void CDisplayCore::Init_Layers() throw(seventh_displaycore_exception)
@@ -125,7 +158,7 @@ namespace Seventh
 		Textures->Render();
 
 		// swap buffers
-		SDL_UpdateRect(m_DisplayScreen, 0, 0, m_DisplayWidth, m_DisplayHeight);
+		SDL_GL_SwapBuffers();
 	}
 
 	CDisplayCore::~CDisplayCore()

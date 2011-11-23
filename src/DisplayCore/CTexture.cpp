@@ -36,6 +36,8 @@ namespace Seventh
 		SDL_Coords.w = 0;
 		SDL_Coords.x = 0;
 		SDL_Coords.y = 0;
+
+		m_Texture = 0;
 	}
 
 	CTexture::CTexture(std::string filename, U16 x, U16 y, U16 w, U16 h)
@@ -61,7 +63,7 @@ namespace Seventh
 		SDL_Coords = lhs.SDL_Coords;
 
 		// copy textured has the same surface data
-		m_Surface = lhs.m_Surface;
+		m_Texture = lhs.m_Texture;
 	}
 
 	bool CTexture::LoadSurfaceMemory()
@@ -74,6 +76,48 @@ namespace Seventh
 			if((Surface_Temp = IMG_Load(m_ResourceFile.c_str())) == NULL)
 				return false;
 
+			GLint num_colors;
+			GLenum texture_format;
+
+			 // get the number of channels in the SDL surface
+			num_colors = Surface_Temp->format->BytesPerPixel;
+			if (num_colors == 4)     // contains an alpha channel
+			{
+				if (Surface_Temp->format->Rmask == 0x000000ff)
+							texture_format = GL_RGBA;
+					else
+							texture_format = GL_BGRA;
+			} 
+			else if (num_colors == 3)     // no alpha channel
+			{
+					if (Surface_Temp->format->Rmask == 0x000000ff)
+							texture_format = GL_RGB;
+					else
+							texture_format = GL_BGR;
+			} 
+			else 
+			{
+				// not true color
+			}
+
+			// set texture coords
+			SDL_Coords.w = Surface_Temp->w;
+			SDL_Coords.h = Surface_Temp->h;
+
+			glGenTextures(1, &m_Texture);
+
+			// Bind the texture object
+			glBindTexture(GL_TEXTURE_2D, m_Texture);
+ 
+			// Set the texture's stretching properties
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+ 
+			// Edit the texture object's image data using the information SDL_Surface gives us
+			glTexImage2D(GL_TEXTURE_2D, 0, num_colors, Surface_Temp->w, Surface_Temp->h, 0,
+				texture_format, GL_UNSIGNED_BYTE, Surface_Temp->pixels);
+
+			/*
 			if(m_TextureType == TEXTURE_TILE)
 			{
 				ExtractTile(Surface_Temp);
@@ -81,14 +125,8 @@ namespace Seventh
 			else
 			{
 				// set alpha for png-like formats
-				m_Surface.reset(SDL_DisplayFormatAlpha(Surface_Temp));
-			}
-
-			TRACE("Surface %dx%d", m_Surface->h, m_Surface->w);
-
-			// set width and height
-			SDL_Coords.h = m_Surface->h;
-			SDL_Coords.w = m_Surface->w;
+				m_Texture.reset(SDL_DisplayFormatAlpha(Surface_Temp));
+			}*/
 
 			// free old resource
 			SDL_FreeSurface(Surface_Temp);
@@ -108,16 +146,16 @@ namespace Seventh
 		m_Draw = true;
 	}
 
-	SDL_Surface* CTexture::GetSurfacePtr()
+	GLuint CTexture::GetTexture()
 	{
 		LoadSurfaceMemory();
 
-		return m_Surface.get();
+		return m_Texture;
 	}
 
 	void CTexture::ExtractTile(SDL_Surface* sfc_origin)
 	{
-		U32 rmask, gmask, bmask, amask;
+	/*	U32 rmask, gmask, bmask, amask;
 
 		// byte order
 	#if SDL_BYTEORDER == SDL_BIG_ENDIAN
@@ -133,7 +171,7 @@ namespace Seventh
 	#endif
 
 		// create a surface from scratch
-		m_Surface.reset(SDL_CreateRGBSurface(SDL_HWSURFACE, Tile_Coords.w, Tile_Coords.h,
+		m_Texture.reset(SDL_CreateRGBSurface(SDL_HWSURFACE, Tile_Coords.w, Tile_Coords.h,
 									sfc_origin->format->BitsPerPixel,
 									0x00ff0000,
 									0x0000ff00,
@@ -142,7 +180,7 @@ namespace Seventh
 
 		SDL_SetAlpha(sfc_origin, 0, SDL_ALPHA_OPAQUE);
 
-		if(m_Surface == NULL)
+		if(m_Texture == NULL)
 		{
 			TRACE("Creating surface tile failed: %s", SDL_GetError());
 		}
@@ -150,9 +188,10 @@ namespace Seventh
 		{
 			TRACE("Blitting surface to tile, %d - %d, %d, %d", Tile_Coords.x, Tile_Coords.y, Tile_Coords.w, Tile_Coords.h);
 			// blit surface tile to the new created surface
-			SDL_BlitSurface(sfc_origin, &Tile_Coords, m_Surface.get(), NULL);
+			//SDL_BlitSurface(sfc_origin, &Tile_Coords, m_Texture.get(), NULL);
 		}
 
+	}*/
 	}
 }
 

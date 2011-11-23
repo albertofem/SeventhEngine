@@ -12,6 +12,10 @@
  *
  */
 
+#ifdef _WIN32
+	#include <stdint.h>
+#endif
+
 namespace Seventh
 {
 	typedef int8_t		S8;
@@ -51,7 +55,7 @@ namespace Seventh
 			pos_y = 0;
 		}
 
-		operator<(const STH_Position& rhs)
+		bool operator<(const STH_Position& rhs)
 		{
 			return (pos_x < rhs.pos_y && pos_y < rhs.pos_y);
 		}

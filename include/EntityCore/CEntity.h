@@ -75,7 +75,7 @@ namespace Seventh
 		void AttachCamera() { m_CameraAttached = true; };
 		void DettachCamera() { m_CameraAttached = false; };
 
-		inline SetEntityLayer(S16 layer)
+		inline void SetEntityLayer(S16 layer)
 		{
 			m_EntityLayer = layer;
 		}

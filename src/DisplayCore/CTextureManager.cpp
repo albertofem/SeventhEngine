@@ -22,7 +22,6 @@ namespace Seventh
 	CTextureManager::CTextureManager()
 		: m_TextureCounter(0)
 	{
-		m_DBufferScreen = SDL_DisplayFormat(CDisplayCore::_Screen());
 	}
 
 	CTextureManager::~CTextureManager()
@@ -51,7 +50,6 @@ namespace Seventh
 
 	U64 CTextureManager::LoadTile(std::string filename, U16 x, U16 y, U16 w, U16 h)
 	{
-		TRACE("Loading tile..");
 		U32 texture_id = m_TextureCounter;
 
 		m_Textures[m_TextureCounter].reset(new CTexture(filename, x, y, w, h));
@@ -68,29 +66,40 @@ namespace Seventh
 		// check if the texture is need to draw
 		if(m_Textures[texture_id]->needToDraw())
 		{
-			TRACE("Getting to render texture ID (%d)", texture_id);
-			SDL_BlitSurface(m_Textures[texture_id]->GetSurfacePtr(), NULL, m_DBufferScreen, &m_Textures[texture_id]->getSDLRect());
-
+			BlitTexture(m_Textures[texture_id]->GetTexture(), &m_Textures[texture_id]->getSDLRect());
 			m_Textures[texture_id]->SetDraw(false);
 		}
 	}
 
+	void CTextureManager::BlitTexture(GLuint texture, SDL_Rect* tex_info)
+	{
+		TRACE("Binding texture ID: %d in (%d, %d) (%d, %d)", texture, tex_info->x, tex_info->y, tex_info->w, tex_info->h);
+
+		glBindTexture(GL_TEXTURE_2D, texture);
+
+		glBegin(GL_QUADS);
+			//Bottom-left vertex (corner)
+			glTexCoord2i(0, 0);
+			glVertex3f(tex_info->x, tex_info->y+tex_info->h, 0.0f);
+ 
+			//Bottom-right vertex (corner)
+			glTexCoord2i(1, 0);
+			glVertex3f(tex_info->x+tex_info->w, tex_info->y+tex_info->h, 0.f);
+ 
+			//Top-right vertex (corner)
+			glTexCoord2i(1, 1);
+			glVertex3f(tex_info->x+tex_info->w, tex_info->y, 0.f);
+ 
+			//Top-left vertex (corner)
+			glTexCoord2i(0, 1);
+			glVertex3f(tex_info->x, tex_info->y, 0.f);
+		glEnd();
+	}
+
 	void CTextureManager::PositionTexture(U32 texture_id, S32 pos_x, S32 pos_y)
 	{
-		//TRACE("Final get of transformation on texture ID (%d)", texture_id);
-		SDL_Rect old_portion = m_Textures[texture_id]->getSDLRect();
-
-		// check if the position hanst changed
-		if(old_portion.x == pos_x && old_portion.y == pos_y)
-			return;
-
 		// change position
 		m_Textures[texture_id]->Position(pos_x, pos_y);
-
-		TextureCollision(texture_id);
-
-		// clean only previous portion
-		CleanScreen(NULL);
 	}
 
 	bool CTextureManager::CheckTextureCollision(SDL_Rect* texture1, SDL_Rect* texture2)
@@ -151,16 +160,17 @@ namespace Seventh
 
 	void CTextureManager::Render()
 	{
-		SDL_BlitSurface(m_DBufferScreen, NULL, CDisplayCore::_Screen(), NULL);
+		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
+		//glLoadIdentity();
 	}
 
 	void CTextureManager::CleanScreen(SDL_Rect* portion = NULL)
 	{
 		//TRACE("Limpiando porción en (%d, %d), tamaño: %dx%d", portion->x, portion->y, portion->w, portion->h);
-		if(portion == NULL)
-			portion = &m_DBufferScreen->clip_rect;
+		//if(portion == NULL)
+		//	portion = &m_DBufferScreen->clip_rect;
 
-		SDL_FillRect(m_DBufferScreen, portion, 0x000000);
+		//SDL_FillRect(m_DBufferScreen, portion, 0x000000);
 	}
 
 	s_DuplicateTexture CTextureManager::TextureIsLoaded(std::string filename)
