@@ -47,7 +47,7 @@ namespace Seventh
 		 * actions to events, camera events, engine
 		 * calls, etc.
 		 */
-		virtual void UpdateGameLogic() = 0;
+		void UpdateGameLogic();
 		virtual void OnEvent(EVENT_INFO event_case) = 0;
 		virtual void OnCameraChange() = 0;
 		virtual void OnRegister() = 0;
@@ -57,8 +57,6 @@ namespace Seventh
 		void SetAnimation(std::string animation_name);
 		void SetTexture(std::string animation_name);
 		void SetTile(std::string tileset, std::string tile);
-
-		void Render();
 
 	private:
 		e_EntityAsset m_CurrentAsset;
@@ -75,7 +73,7 @@ namespace Seventh
 		void AttachCamera() { m_CameraAttached = true; };
 		void DettachCamera() { m_CameraAttached = false; };
 
-		inline void SetEntityLayer(S16 layer)
+		STH_INLINE void SetEntityLayer(S16 layer)
 		{
 			m_EntityLayer = layer;
 		}

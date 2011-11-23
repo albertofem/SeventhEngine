@@ -20,85 +20,90 @@
 namespace Seventh
 {
 
-    enum e_TextureType
-    {
-        TEXTURE_NORMAL = 0x0,
-        TEXTURE_TILE
-    };
+	enum e_TextureType
+	{
+		TEXTURE_NORMAL = 0x0,
+		TEXTURE_TILE
+	};
 
-    class CTexture
-    {
-    public:
-        CTexture();
-        CTexture(std::string filename);
-        CTexture(const CTexture& lhs);
-        CTexture& operator=(const CTexture& lhs);
+	class CTexture
+	{
+	public:
+		CTexture();
+		CTexture(std::string filename);
+		CTexture(const CTexture& lhs);
+		CTexture& operator=(const CTexture& lhs);
 
-        CTexture(std::string filename, U16 x, U16 y, U16 w, U16 h);
+		CTexture(std::string filename, U16 x, U16 y, U16 w, U16 h);
 
-        ~CTexture();
+		~CTexture();
 
-        void UpdateGameLogic();
-        void Render();
+		void UpdateGameLogic();
+		void Render();
 
-        GLuint GetTexture();
+		GLuint Get();
 
-        bool LoadSurfaceMemory();
+		bool LoadSurfaceMemory();
 
-    private:
-        std::string m_ResourceFile;
+	private:
+		std::string m_ResourceFile;
 
-        bool m_Draw;
-        bool m_ResourceLoaded;
+		bool m_Draw;
+		bool m_ResourceLoaded;
 
-        GLuint m_Texture;
-        SDL_Rect SDL_Coords;
+		GLuint m_Texture;
+		SDL_Rect SDL_Coords;
 
-        void Position(S32 pos_x, S32 pos_y);
+		void Position(S32 pos_x, S32 pos_y);
 
-        static U64 m_TextureCounter;
-        U64 m_TextureID;
+		static U64 m_TextureCounter;
+		U64 m_TextureID;
 
-        SDL_Rect Tile_Coords;
-        e_TextureType m_TextureType;
+		SDL_Rect Tile_Coords;
+		e_TextureType m_TextureType;
 
-        void ExtractTile(SDL_Surface* sfc_origin);
+		void ExtractTile(SDL_Surface* sfc_origin);
 
-    public:
-        inline std::string GetSourceFile()
-        {
-            return m_ResourceFile;
-        }
+	public:
+		STH_INLINE std::string GetSourceFile()
+		{
+			return m_ResourceFile;
+		}
 
-        // getters
-        inline bool needToDraw()
-        {
-            return m_Draw;
-        }
+		STH_INLINE void Load()
+		{
+			LoadSurfaceMemory();
+		}
 
-        inline SDL_Rect getSDLRect()
-        {
-            return SDL_Coords;
-        }
+		// getters
+		STH_INLINE bool needToDraw()
+		{
+			return m_Draw;
+		}
 
-    public:
-        inline void SetDraw(bool set)
-        {
-            m_Draw = set;
-        }
+		STH_INLINE SDL_Rect getSDLRect()
+		{
+			return SDL_Coords;
+		}
 
-        inline U32 GetWidth()
-        {
-            return SDL_Coords.w;
-        }
+	public:
+		STH_INLINE void SetDraw(bool set)
+		{
+			m_Draw = set;
+		}
 
-        inline U32 GetHeight()
-        {
-            return SDL_Coords.h;
-        }
+		STH_INLINE U32 GetWidth()
+		{
+			return SDL_Coords.w;
+		}
 
-    friend class CTextureManager;
-    };
+		STH_INLINE U32 GetHeight()
+		{
+			return SDL_Coords.h;
+		}
+
+	friend class CTextureManager;
+	};
 }
 
 #endif

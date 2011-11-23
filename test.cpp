@@ -27,8 +27,10 @@ void myGame::DoSomeStuff()
 
 	_Gameplay()->_States()->RegisterState("main_menu", main_menu);
 	_Display()->_Layers()->RegisterOverallEntity("player1", player);
+	_Display()->_Layers()->RegisterOverallEntity("player2", player2);
 
 	_Entities()->Entity("player1")->SetTexture("ryu");
+	_Entities()->Entity("player2")->SetTexture("ken");
 }
 
 myGame::~myGame()

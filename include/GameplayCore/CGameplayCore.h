@@ -29,7 +29,7 @@ namespace Seventh
 		void Start();
 		void Shutdown();
 
-		inline const STATE_MANAGER _States() const
+		STH_INLINE const STATE_MANAGER _States() const
 		{
 			return m_StateManager;
 		}

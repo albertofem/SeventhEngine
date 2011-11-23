@@ -85,43 +85,43 @@ namespace Seventh
 
 	public:
 		// configuration setters methods
-		inline void set__CONFIG_INI(std::string config_ini)
+		STH_INLINE void set__CONFIG_INI(std::string config_ini)
 		{
 			__CONFIG_INI = config_ini;
 		}
 
-		inline void set__RESOURCES_XML(std::string filename)
+		STH_INLINE void set__RESOURCES_XML(std::string filename)
 		{
 			__RESOURCES_XML = filename;
 		}
 
 		// configuration getters methods
-		inline std::string get__CONFIG_INI()
+		STH_INLINE std::string get__CONFIG_INI()
 		{
 			return CEngine::__CONFIG_INI;
 		}
 
-		inline std::string get__RESOURCES_XML()
+		STH_INLINE std::string get__RESOURCES_XML()
 		{
 			return CEngine::__RESOURCES_XML;
 		}
 
-		inline GAMEPLAY_CORE _Gameplay()
+		STH_INLINE GAMEPLAY_CORE _Gameplay()
 		{
 			return Gameplay;
 		}
 
-		inline DISPLAY_CORE _Display()
+		STH_INLINE DISPLAY_CORE _Display()
 		{
 			return Display;
 		}
 
-		inline static RESOURCE_MANAGER _Resources()
+		STH_INLINE static RESOURCE_MANAGER _Resources()
 		{
 			return Resources;
 		}
 
-		inline static CEntityManager* _Entities()
+		STH_INLINE static CEntityManager* _Entities()
 		{
 			return Entities.get();
 		}

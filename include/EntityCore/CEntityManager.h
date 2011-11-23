@@ -36,6 +36,8 @@ namespace Seventh
 
 		void Start();
 
+		void UpdateGameLogic();
+
 	private:
 		void RegisterEntity(std::string name, CEntity* entity_ptr);
 

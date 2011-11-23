@@ -35,10 +35,6 @@ namespace Seventh
 
 	void CLayerManager::Render()
 	{
-		RenderMapContainer(m_Layers);
-
-		// render overall textures
-		RenderOverallEntities();
 	}
 
 	U16 CLayerManager::CreateLayer()
@@ -65,7 +61,6 @@ namespace Seventh
 
 	void CLayerManager::RenderOverallEntities()
 	{
-		RenderMapContainer(m_OverallEntities);
 	}
 
 }

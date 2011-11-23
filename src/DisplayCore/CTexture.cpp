@@ -16,9 +16,11 @@
 
 #include "common.h"
 #include "DisplayCore/CTexture.h"
+#include "DisplayCore/CDisplayCore.h"
 
 namespace Seventh
 {
+
 	U64 CTexture::m_TextureCounter = 0;
 
 	CTexture::~CTexture()
@@ -38,6 +40,8 @@ namespace Seventh
 		SDL_Coords.y = 0;
 
 		m_Texture = 0;
+
+		Get();
 	}
 
 	CTexture::CTexture(std::string filename, U16 x, U16 y, U16 w, U16 h)
@@ -87,15 +91,15 @@ namespace Seventh
 							texture_format = GL_RGBA;
 					else
 							texture_format = GL_BGRA;
-			} 
+			}
 			else if (num_colors == 3)     // no alpha channel
 			{
 					if (Surface_Temp->format->Rmask == 0x000000ff)
 							texture_format = GL_RGB;
 					else
 							texture_format = GL_BGR;
-			} 
-			else 
+			}
+			else
 			{
 				// not true color
 			}
@@ -108,11 +112,11 @@ namespace Seventh
 
 			// Bind the texture object
 			glBindTexture(GL_TEXTURE_2D, m_Texture);
- 
+
 			// Set the texture's stretching properties
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
- 
+
 			// Edit the texture object's image data using the information SDL_Surface gives us
 			glTexImage2D(GL_TEXTURE_2D, 0, num_colors, Surface_Temp->w, Surface_Temp->h, 0,
 				texture_format, GL_UNSIGNED_BYTE, Surface_Temp->pixels);
@@ -140,17 +144,47 @@ namespace Seventh
 
 	void CTexture::Position(S32 pos_x, S32 pos_y)
 	{
-		SDL_Coords.x = pos_x;
-		SDL_Coords.y = pos_y;
+		if(pos_x != SDL_Coords.x || pos_y != SDL_Coords.y)
+		{
+			SDL_Coords.x = pos_x;
+			SDL_Coords.y = pos_y;
 
-		m_Draw = true;
+			m_Draw = true;
+		}
 	}
 
-	GLuint CTexture::GetTexture()
+	GLuint CTexture::Get()
 	{
 		LoadSurfaceMemory();
 
 		return m_Texture;
+	}
+
+	void CTexture::Render()
+	{
+		if(m_Draw)
+		{
+			TRACE("Rendering texture ID: %d - (%d, %d) - (%dx%d)", m_Texture, SDL_Coords.x, SDL_Coords.y, SDL_Coords.w, SDL_Coords.h);
+			glBegin(GL_QUADS);
+				//Bottom-left vertex (corner)
+				glTexCoord2i(0, 0);
+				glVertex3f(SDL_Coords.x, SDL_Coords.y+SDL_Coords.h, 0.0f);
+
+				//Bottom-right vertex (corner)
+				glTexCoord2i(1, 0);
+				glVertex3f(SDL_Coords.x+SDL_Coords.w, SDL_Coords.y+SDL_Coords.h, 0.f);
+
+				//Top-right vertex (corner)
+				glTexCoord2i(1, 1);
+				glVertex3f(SDL_Coords.x+SDL_Coords.w, SDL_Coords.y, 0.f);
+
+				//Top-left vertex (corner)
+				glTexCoord2i(0, 1);
+				glVertex3f(SDL_Coords.x, SDL_Coords.y, 0.f);
+			glEnd();
+
+			m_Draw = false;
+		}
 	}
 
 	void CTexture::ExtractTile(SDL_Surface* sfc_origin)

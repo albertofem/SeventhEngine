@@ -49,4 +49,9 @@ namespace Seventh
 		// propage event across all entities
 		OnEventGeneric(m_Entities, event);
 	}
+
+	void CEntityManager::UpdateGameLogic()
+	{
+		UpdateGameLogicGeneric(m_Entities);
+	}
 }

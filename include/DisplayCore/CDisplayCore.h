@@ -99,20 +99,25 @@ namespace Seventh
 		}
 
 	public:
-		// inline getters
-		static inline boost::shared_ptr<CLayerManager> _Layers()
+		// STH_INLINE getters
+		static STH_INLINE boost::shared_ptr<CLayerManager> _Layers()
 		{
 			return Layers;
 		}
 
-		static inline boost::shared_ptr<CTextureManager> _Textures()
+		static STH_INLINE boost::shared_ptr<CTextureManager> _Textures()
 		{
 			return Textures;
 		}
 
-		static inline SDL_Surface* _Screen()
+		static STH_INLINE SDL_Surface* _Screen()
 		{
 			return m_DisplayScreen;
+		}
+
+		static STH_INLINE CleanScreen()
+		{
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		}
 	};
 }

@@ -43,6 +43,18 @@ namespace Seventh
 		}
 	}
 
+	template< typename Key, typename T >
+	void UpdateGameLogicGeneric(std::map< Key, T > map)
+	{
+		// iterate maps and delete resources
+		typename std::map< Key, T >::const_iterator it;
+
+		for(it=map.begin(); it!=map.end(); it++)
+		{
+			map[it->first]->UpdateGameLogic();
+		}
+	}
+
 }
 
 #endif

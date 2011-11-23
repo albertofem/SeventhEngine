@@ -89,7 +89,7 @@ namespace Seventh
 		m_Position.pos_y += transform.move_y;
 	}
 
-	void CEntity::Render()
+	void CEntity::UpdateGameLogic()
 	{
 		if(m_Show == false)
 			return;

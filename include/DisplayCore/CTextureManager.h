@@ -13,6 +13,7 @@
  */
 
 #include "common.h"
+#include "DisplayCore/CDisplayCore.h"
 
 #ifndef STH_CTEXTUREMANAGER_H_
 #define STH_CTEXTUREMANAGER_H_
@@ -64,6 +65,16 @@ namespace Seventh
 		void TextureCollision(U64 texture_id);
 
 		void BlitTexture(GLuint texture, SDL_Rect* tex_info);
+
+		STH_INLINE void MustRender()
+		{
+			CDisplayCore::CleanScreen();
+			m_Render = true;
+		}
+
+		bool m_Render;
+
+	friend class CTexture;
 	};
 }
 

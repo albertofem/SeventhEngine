@@ -28,20 +28,24 @@
 #ifndef STH_COMMON_H_
 #define STH_COMMON_H_
 
+#define STH_INLINE 			inline
+
 #ifdef _WIN32
 	#include <windows.h>
-#endif
 
-#include <gl/GL.h>
-#include <gl/GLU.h>
+	#include <gl/GL.h>
+	#include <gl/GLU.h>
 
-#ifdef _WIN32
 	#pragma comment(lib, "opengl32.lib")
 	#pragma comment(lib, "glu32.lib")
 	#pragma comment(lib, "SDL.lib")
 	#pragma comment(lib, "SDLmain.lib")
 	#pragma comment(lib, "SDL_image.lib")
+
+	#define STH_INLINE		__forceinline
 #endif
+
+
 
 namespace Seventh
 {

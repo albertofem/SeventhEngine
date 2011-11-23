@@ -162,6 +162,7 @@ namespace Seventh
 	{
 		// update different subsystems game logic
 		Display->UpdateGameLogic();
+		Entities->UpdateGameLogic();
 	}
 
 	void CEngine::RenderGame() throw()
