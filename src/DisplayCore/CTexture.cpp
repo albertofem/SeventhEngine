@@ -80,6 +80,8 @@ namespace Seventh
 			if((Surface_Temp = IMG_Load(m_ResourceFile.c_str())) == NULL)
 				return false;
 
+			SDL_LockSurface(Surface_Temp);
+
 			GLint num_colors;
 			GLenum texture_format;
 
@@ -133,6 +135,7 @@ namespace Seventh
 			}*/
 
 			// free old resource
+			SDL_UnlockSurface(Surface_Temp);
 			SDL_FreeSurface(Surface_Temp);
 
 			// also set already loaded to true
@@ -165,22 +168,26 @@ namespace Seventh
 		if(m_Draw)
 		{
 			TRACE("Rendering texture ID: %d - (%d, %d) - (%dx%d)", m_Texture, SDL_Coords.x, SDL_Coords.y, SDL_Coords.w, SDL_Coords.h);
+			glBindTexture(GL_TEXTURE_2D, m_Texture);
+
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 			glBegin(GL_QUADS);
 				//Bottom-left vertex (corner)
 				glTexCoord2i(0, 0);
-				glVertex3f(SDL_Coords.x, SDL_Coords.y+SDL_Coords.h, 0.0f);
+				glVertex3f(SDL_Coords.x, SDL_Coords.y, 0.0f);
 
 				//Bottom-right vertex (corner)
 				glTexCoord2i(1, 0);
-				glVertex3f(SDL_Coords.x+SDL_Coords.w, SDL_Coords.y+SDL_Coords.h, 0.f);
+				glVertex3f(SDL_Coords.x+SDL_Coords.w, SDL_Coords.y, 0.f);
 
 				//Top-right vertex (corner)
 				glTexCoord2i(1, 1);
-				glVertex3f(SDL_Coords.x+SDL_Coords.w, SDL_Coords.y, 0.f);
+				glVertex3f(SDL_Coords.x+SDL_Coords.w, SDL_Coords.y+SDL_Coords.h, 0.f);
 
 				//Top-left vertex (corner)
 				glTexCoord2i(0, 1);
-				glVertex3f(SDL_Coords.x, SDL_Coords.y, 0.f);
+				glVertex3f(SDL_Coords.x, SDL_Coords.y+SDL_Coords.h, 0.f);
 			glEnd();
 
 			m_Draw = false;
