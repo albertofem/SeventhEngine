@@ -1,5 +1,7 @@
 #include "test.h"
 
+bool STH_GLOBAL::TEXTURE_PERSISTENT = false;
+
 using namespace Seventh;
 
 // set initial configuration
@@ -90,13 +92,13 @@ MyPlayer2::~MyPlayer2()
 
 void MyPlayer::OnEvent(EVENT_INFO type)
 {
-	STH_Transform move_entity(10, 15);
+	STH_Transform move_right(5, 0);
+	STH_Transform move_left(-5, 0);
+	STH_Transform move_up(0, -5);
+	STH_Transform move_down(0, 5);
 
 	switch(type.ecase)
 	{
-		case KEY_PRESS_A:
-			Move(move_entity);
-		break;
 
 		case KEY_PRESS_D:
 			if(m_CurrentPJ == "Ryu")
@@ -111,8 +113,20 @@ void MyPlayer::OnEvent(EVENT_INFO type)
 			}
 		break;
 
+		case KEY_PRESS_UP:
+			Move(move_up);
+		break;
+
+		case KEY_PRESS_DOWN:
+			Move(move_down);
+		break;
+
+		case KEY_PRESS_LEFT:
+			Move(move_left);
+		break;
+
 		case KEY_PRESS_RIGHT:
-			Show();
+			Move(move_right);
 		break;
 	}
 }

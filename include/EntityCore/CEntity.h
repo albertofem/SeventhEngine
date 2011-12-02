@@ -87,7 +87,7 @@ namespace Seventh
 
 		S16 m_EntityLayer;
 
-		S64 m_ResourceID;
+		U64 m_ResourceID;
 
 		bool m_Show;
 

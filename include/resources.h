@@ -24,8 +24,6 @@ namespace Seventh
 	{
 		std::string src;
 		std::string format;
-
-		S64 texture_id;
 	};
 
 	struct s_Tile

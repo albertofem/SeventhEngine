@@ -15,7 +15,7 @@
 #include "SDL_image.h"
 
 #include "common.h"
-#include "DisplayCore/CTexture.h"
+#include "Rendering/CTexture.h"
 #include "DisplayCore/CDisplayCore.h"
 
 namespace Seventh
@@ -25,6 +25,7 @@ namespace Seventh
 
 	CTexture::~CTexture()
 	{
+		TRACE("Destructing texture %d", m_Texture->get());
 	}
 
 	CTexture::CTexture(std::string filename)
@@ -39,7 +40,7 @@ namespace Seventh
 		SDL_Coords.x = 0;
 		SDL_Coords.y = 0;
 
-		m_Texture = 0;
+		m_Texture.reset(new GL_Texture(0));
 
 		Get();
 	}
@@ -110,10 +111,10 @@ namespace Seventh
 			SDL_Coords.w = Surface_Temp->w;
 			SDL_Coords.h = Surface_Temp->h;
 
-			glGenTextures(1, &m_Texture);
+			glGenTextures(1, m_Texture->getptr());
 
 			// Bind the texture object
-			glBindTexture(GL_TEXTURE_2D, m_Texture);
+			glBindTexture(GL_TEXTURE_2D, m_Texture->get());
 
 			// Set the texture's stretching properties
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -160,15 +161,15 @@ namespace Seventh
 	{
 		LoadSurfaceMemory();
 
-		return m_Texture;
+		return m_Texture.get();
 	}
 
 	void CTexture::Render()
 	{
 		if(m_Draw)
 		{
-			TRACE("Rendering texture ID: %d - (%d, %d) - (%dx%d)", m_Texture, SDL_Coords.x, SDL_Coords.y, SDL_Coords.w, SDL_Coords.h);
-			glBindTexture(GL_TEXTURE_2D, m_Texture);
+			TRACE("Rendering texture ID: %d - (%d, %d) - (%dx%d)", m_Texture->get(), SDL_Coords.x, SDL_Coords.y, SDL_Coords.w, SDL_Coords.h);
+			glBindTexture(GL_TEXTURE_2D, m_Texture->get());
 
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -196,7 +197,9 @@ namespace Seventh
 
 	void CTexture::ExtractTile(SDL_Surface* sfc_origin)
 	{
-	/*	U32 rmask, gmask, bmask, amask;
+		/*
+		U32 rmask, gmask, bmask, amask;
+		SDL_Surface* sfc_temp;
 
 		// byte order
 	#if SDL_BYTEORDER == SDL_BIG_ENDIAN
@@ -229,10 +232,9 @@ namespace Seventh
 		{
 			TRACE("Blitting surface to tile, %d - %d, %d, %d", Tile_Coords.x, Tile_Coords.y, Tile_Coords.w, Tile_Coords.h);
 			// blit surface tile to the new created surface
-			//SDL_BlitSurface(sfc_origin, &Tile_Coords, m_Texture.get(), NULL);
+			SDL_BlitSurface(sfc_origin, &Tile_Coords, sfc_temp, NULL);
 		}
-
-	}*/
+*/
 	}
 }
 

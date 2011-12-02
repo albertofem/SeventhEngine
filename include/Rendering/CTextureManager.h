@@ -37,7 +37,7 @@ namespace Seventh
 
 		void Render();
 
-		U64 LoadTexture(std::string filename);
+		U64 LoadTexture(std::string filename, U64 prev_texture_id);
 
 		void RenderTexture(U32 texture_id, S32 pos_x, S32 pos_y);
 		void PositionTexture(U32 texture_id, S32 pos_x, S32 pos_y);
@@ -48,17 +48,19 @@ namespace Seventh
 
 	private:
 		// texture map
-		std::map< U32, boost::shared_ptr<CTexture> > m_Textures;
+		std::map< U64, boost::shared_ptr<CTexture> > m_Textures;
 
 		// textures ID
 		U32 m_TextureCounter;
+
+		// texture reference counter
+		std::map< U32, U64 > m_TextureRefCounter;
 
 		bool CheckTextureCollision(SDL_Rect* texture1, SDL_Rect* texture2);
 
 		void CleanScreen(SDL_Rect* portion);
 
 		std::map< std::string, U32 > m_LoadedTextures;
-		std::map< U64, U32> m_TextureRefCounter;
 
 		s_DuplicateTexture TextureIsLoaded(std::string filename);
 

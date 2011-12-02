@@ -26,6 +26,30 @@ namespace Seventh
 		TEXTURE_TILE
 	};
 
+	class GL_Texture
+	{
+	private:
+		GLuint texture_id;
+
+	public:
+		GL_Texture(GLuint text_id):
+			texture_id(text_id)
+		{
+		}
+
+		inline GLuint get()
+		{
+			return texture_id;
+		}
+
+		inline GLuint* getptr()
+		{
+			return &texture_id;
+		}
+
+		~GL_Texture() { glDeleteTextures(1, &texture_id); }
+	};
+
 	class CTexture
 	{
 	public:
@@ -51,7 +75,7 @@ namespace Seventh
 		bool m_Draw;
 		bool m_ResourceLoaded;
 
-		GLuint m_Texture;
+		boost::shared_ptr< GL_Texture > m_Texture;
 		SDL_Rect SDL_Coords;
 
 		void Position(S32 pos_x, S32 pos_y);

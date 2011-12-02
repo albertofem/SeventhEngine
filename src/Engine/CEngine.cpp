@@ -121,10 +121,10 @@ namespace Seventh
 
 				// update clock
 				Clock->update();
-			}
 
-			// render
-			RenderGame();
+				// render
+				RenderGame();
+			}
 
 			// stop loop in the static variable has
 			// been modified

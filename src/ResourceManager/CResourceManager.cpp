@@ -99,7 +99,6 @@ namespace Seventh
 			// get attributes
 			m_Resource_Textures[temp_name]->src = m_XMLElement->Attribute("src");
 			m_Resource_Textures[temp_name]->format = m_XMLElement->Attribute("format");
-			m_Resource_Textures[temp_name]->texture_id = -1;
 
 			TRACE("Texture %s", temp_name.c_str());
 		}
@@ -190,7 +189,7 @@ namespace Seventh
 		TRACE("Reloading maps...");
 	}
 
-	S64 CResourceManager::LoadTexture(std::string name)
+	S64 CResourceManager::LoadTexture(std::string name, U64 prev_resourceID)
 	{
 		std::map< std::string, boost::shared_ptr<s_Texture> >::const_iterator search_map;
 
@@ -199,7 +198,7 @@ namespace Seventh
 		if(search_map != m_Resource_Textures.end())
 		{
 			// load texture in the texturemanager and register id for later destruction
-			U64 texture_id = CDisplayCore::_Textures()->LoadTexture(m_Resource_Textures[name]->src);
+			U64 texture_id = CDisplayCore::_Textures()->LoadTexture(m_Resource_Textures[name]->src, prev_resourceID);
 			return texture_id;
 		}
 		else

@@ -20,13 +20,21 @@
 		#define TRACE(arg, ...) printf(arg, ##__VA_ARGS__); std::cout << std::endl;
 	#else
 		#define TRACE(arg, ...)
-#endif
+	#endif
 #else
 	#include <Platform/windows/trace.h>
 #endif
 
 #ifndef STH_COMMON_H_
 #define STH_COMMON_H_
+
+/**
+ * engine configuration vars
+ */
+namespace STH_GLOBAL
+{
+	extern bool TEXTURE_PERSISTENT;
+}
 
 #define STH_INLINE 			inline
 

@@ -115,7 +115,7 @@ namespace Seventh
 			return m_DisplayScreen;
 		}
 
-		static STH_INLINE CleanScreen()
+		static STH_INLINE void CleanScreen()
 		{
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		}
