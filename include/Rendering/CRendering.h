@@ -1,31 +1,53 @@
 /**
- *
  * SeventhEngine, an SDL-based general-purpose
  * game engine. Made for learning purposes
  *
- * Licensed under GNU General Public License v3
- * <http://www.gnu.org/licenses/gpl.html>
+ * Copyright (C) 2011 Alberto Fernández
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author	Alberto Fernández <albertofem@gmail.com>
- * @version	1.0
- * @since		2011.1202
+ * @version	0.1
  *
  */
 
 #include "common.h"
 
-#include "DisplayCore/CTexture.h"
+// rendering needed assets
+#include "resources.h"
+#include "Rendering/GLtexture.h"
+#include "Rendering/CTexture.h"
 
 #ifndef STH_CRENDERING_H_
 #define STH_CRENDERING_H_
 
 namespace Seventh
 {
+	/**
+	 * Generic resource struct
+	 */
 	template< typename R >
-	struct s_RenderingResource
+	struct SRenderingResource
 	{
-		T* resource;
+		R* resource;
 		U32 refcount;
+	};
+
+	struct SResourceLoaded
+	{
+		U64 resource_id;
+		e_ResourceType type;
 	};
 
 	class CRendering
@@ -47,17 +69,26 @@ namespace Seventh
 		void RenderTile(U64 resource_id, U64 pos_x, U64 pos_y);
 
 		/**
+		 * Same as before, but for hiding
+		 * resources in the screen
+		 */
+		void HideTexture(U64 resource_id);
+		void HideAnimation(U64 resource_id);
+		void HideMapLayer(U64 resource_id);
+		void HideTile(U64 resource_id);
+
+		/**
 		 * This generic function is used by the
 		 * resource manager, to load in memory
 		 * the resource needed. No further action
-		 * requeride, the loaded memory will clean
+		 * required, the loaded memory will clean
 		 * itself once it's no longer needed
 		 */
-		U64 ResourceLoad_Texture(s_Texture texture);
-		U64 ResourceLoad_Animation(s_Animation animation);
-		U64 ResourceLoad_Map(s_Map map);
-		U64 ResourceLoad_Tileset(s_Tileset tileset);
-		U64 ResourceLoad_Tile(s_Tileset tileset, s_Tile tile);
+		U64 ResourceLoad_Texture(s_Texture* texture);
+		U64 ResourceLoad_Animation(s_Animation* animation);
+		U64 ResourceLoad_Map(s_Map* map);
+		U64 ResourceLoad_Tileset(s_Tileset* tileset);
+		U64 ResourceLoad_Tile(s_Tileset* tileset, s_Tile* tile);
 
 	private:
 		/**
@@ -67,11 +98,12 @@ namespace Seventh
 		 * they are refered to each others constantly
 		 * and we need to keep separate IDs in tĥis class
 		 */
-		std::map < U64, s_RenderingResource< CTexture > > m_Textures;
-		//std::map < U64, CTile* > m_Tiles;
-		//std::map < U64, CAnimation* > m_Animations;
-		//std::map < U64, CTileset* > m_Tilesets;
-		//std::map < U64, CMapLayer* > m_MapLayers;
+		std::map < U64, SRenderingResource< CTexture > > m_Textures;
+
+		/**
+		 * Counters
+		 */
+		U64 m_CounterTextures;
 
 		/**
 		 * Loaders, functions to be called internally
@@ -97,8 +129,13 @@ namespace Seventh
 		 * Resources loaded, keeps a raw list
 		 * of resources already loaded
 		 */
-		std::map < std::string, U64 > m_ResourcesLoaded;
-	}
+		std::map < std::string, boost::shared_ptr<GLtexture> > m_TexturesLoaded;
+
+		/**
+		 * Misc. methods
+		 */
+		boost::shared_ptr< GLtexture > CheckResourceLoaded(std::string filename);
+	};
 }
 
 #endif

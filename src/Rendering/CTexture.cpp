@@ -1,240 +1,71 @@
 /**
- *
  * SeventhEngine, an SDL-based general-purpose
  * game engine. Made for learning purposes
  *
- * Licensed under GNU General Public License v3
- * <http://www.gnu.org/licenses/gpl.html>
+ * Copyright (C) 2011 Alberto Fernández
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author	Alberto Fernández <albertofem@gmail.com>
- * @version	1.0
- * @since		2011.0625
+ * @version	0.1
  *
  */
 
-#include "SDL_image.h"
-
 #include "common.h"
+
+#include "Rendering/GLtexture.h"
 #include "Rendering/CTexture.h"
-#include "DisplayCore/CDisplayCore.h"
 
 namespace Seventh
 {
+	CTexture::CTexture(std::string filename)
+	{
+		// create new GLtexture
+		m_GLtexture.reset(new GLtexture);
 
-	U64 CTexture::m_TextureCounter = 0;
+		// load texture resource
+		m_GLtexture->load(filename);
+
+		m_Draw = true;
+	}
 
 	CTexture::~CTexture()
 	{
-		TRACE("Destructing texture %d", m_Texture->get());
+		TRACE("Calling texture destructor");
 	}
 
-	CTexture::CTexture(std::string filename)
+	CTexture::CTexture(boost::shared_ptr< GLtexture >& texture)
 	{
-		m_ResourceFile = filename;
-		m_ResourceLoaded = false;
-		m_Draw = true;
-
-		// save coords
-		SDL_Coords.h = 0;
-		SDL_Coords.w = 0;
-		SDL_Coords.x = 0;
-		SDL_Coords.y = 0;
-
-		m_Texture.reset(new GL_Texture(0));
-
-		Get();
+		m_GLtexture = texture;
 	}
 
-	CTexture::CTexture(std::string filename, U16 x, U16 y, U16 w, U16 h)
+	boost::shared_ptr< GLtexture > CTexture::GetGLtexture()
 	{
-		m_ResourceFile = filename;
-		m_ResourceLoaded = false;
-		m_Draw = true;
-
-		Tile_Coords.x = x;
-		Tile_Coords.y = y;
-		Tile_Coords.w = w;
-		Tile_Coords.h = h;
-
-		m_TextureType = TEXTURE_TILE;
+		return m_GLtexture;
 	}
 
-	CTexture::CTexture(const CTexture& lhs)
-	{
-		m_ResourceLoaded = lhs.m_ResourceLoaded;
-		m_ResourceFile = lhs.m_ResourceFile;
-		m_Draw = true;
-
-		SDL_Coords = lhs.SDL_Coords;
-
-		// copy textured has the same surface data
-		m_Texture = lhs.m_Texture;
-	}
-
-	bool CTexture::LoadSurfaceMemory()
-	{
-		if(m_ResourceLoaded == false)
-		{
-			// get the texture struct and store the texture in the map
-			SDL_Surface* Surface_Temp = NULL;
-
-			if((Surface_Temp = IMG_Load(m_ResourceFile.c_str())) == NULL)
-				return false;
-
-			SDL_LockSurface(Surface_Temp);
-
-			GLint num_colors;
-			GLenum texture_format;
-
-			 // get the number of channels in the SDL surface
-			num_colors = Surface_Temp->format->BytesPerPixel;
-			if (num_colors == 4)     // contains an alpha channel
-			{
-				if (Surface_Temp->format->Rmask == 0x000000ff)
-							texture_format = GL_RGBA;
-					else
-							texture_format = GL_BGRA;
-			}
-			else if (num_colors == 3)     // no alpha channel
-			{
-					if (Surface_Temp->format->Rmask == 0x000000ff)
-							texture_format = GL_RGB;
-					else
-							texture_format = GL_BGR;
-			}
-			else
-			{
-				// not true color
-			}
-
-			// set texture coords
-			SDL_Coords.w = Surface_Temp->w;
-			SDL_Coords.h = Surface_Temp->h;
-
-			glGenTextures(1, m_Texture->getptr());
-
-			// Bind the texture object
-			glBindTexture(GL_TEXTURE_2D, m_Texture->get());
-
-			// Set the texture's stretching properties
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-			// Edit the texture object's image data using the information SDL_Surface gives us
-			glTexImage2D(GL_TEXTURE_2D, 0, num_colors, Surface_Temp->w, Surface_Temp->h, 0,
-				texture_format, GL_UNSIGNED_BYTE, Surface_Temp->pixels);
-
-			/*
-			if(m_TextureType == TEXTURE_TILE)
-			{
-				ExtractTile(Surface_Temp);
-			}
-			else
-			{
-				// set alpha for png-like formats
-				m_Texture.reset(SDL_DisplayFormatAlpha(Surface_Temp));
-			}*/
-
-			// free old resource
-			SDL_UnlockSurface(Surface_Temp);
-			SDL_FreeSurface(Surface_Temp);
-
-			// also set already loaded to true
-			m_ResourceLoaded = true;
-		}
-
-		return true;
-	}
-
-	void CTexture::Position(S32 pos_x, S32 pos_y)
-	{
-		if(pos_x != SDL_Coords.x || pos_y != SDL_Coords.y)
-		{
-			SDL_Coords.x = pos_x;
-			SDL_Coords.y = pos_y;
-
-			m_Draw = true;
-		}
-	}
-
-	GLuint CTexture::Get()
-	{
-		LoadSurfaceMemory();
-
-		return m_Texture.get();
-	}
-
-	void CTexture::Render()
+	void CTexture::Render(U64 pos_x, U64 pos_y)
 	{
 		if(m_Draw)
-		{
-			TRACE("Rendering texture ID: %d - (%d, %d) - (%dx%d)", m_Texture->get(), SDL_Coords.x, SDL_Coords.y, SDL_Coords.w, SDL_Coords.h);
-			glBindTexture(GL_TEXTURE_2D, m_Texture->get());
+			m_GLtexture->draw(pos_x, pos_y);
 
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-			glBegin(GL_QUADS);
-				//Bottom-left vertex (corner)
-				glTexCoord2i(0, 0);
-				glVertex3f(SDL_Coords.x, SDL_Coords.y, 0.0f);
-
-				//Bottom-right vertex (corner)
-				glTexCoord2i(1, 0);
-				glVertex3f(SDL_Coords.x+SDL_Coords.w, SDL_Coords.y, 0.f);
-
-				//Top-right vertex (corner)
-				glTexCoord2i(1, 1);
-				glVertex3f(SDL_Coords.x+SDL_Coords.w, SDL_Coords.y+SDL_Coords.h, 0.f);
-
-				//Top-left vertex (corner)
-				glTexCoord2i(0, 1);
-				glVertex3f(SDL_Coords.x, SDL_Coords.y+SDL_Coords.h, 0.f);
-			glEnd();
-
-			m_Draw = false;
-		}
+		m_Draw = false;
 	}
 
-	void CTexture::ExtractTile(SDL_Surface* sfc_origin)
+	void CTexture::Hide()
 	{
-		/*
-		U32 rmask, gmask, bmask, amask;
-		SDL_Surface* sfc_temp;
-
-		// byte order
-	#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-		rmask = 0xff000000;
-		gmask = 0x00ff0000;
-		bmask = 0x0000ff00;
-		amask = 0x000000ff;
-	#else
-		rmask = 0x000000ff;
-		gmask = 0x0000ff00;
-		bmask = 0x00ff0000;
-		amask = 0xff000000;
-	#endif
-
-		// create a surface from scratch
-		m_Texture.reset(SDL_CreateRGBSurface(SDL_HWSURFACE, Tile_Coords.w, Tile_Coords.h,
-									sfc_origin->format->BitsPerPixel,
-									0x00ff0000,
-									0x0000ff00,
-									0x000000ff,
-									(sfc_origin->format->BitsPerPixel == 32 ? 0xff000000 : 0)));
-
-		SDL_SetAlpha(sfc_origin, 0, SDL_ALPHA_OPAQUE);
-
-		if(m_Texture == NULL)
-		{
-			TRACE("Creating surface tile failed: %s", SDL_GetError());
-		}
-		else
-		{
-			TRACE("Blitting surface to tile, %d - %d, %d, %d", Tile_Coords.x, Tile_Coords.y, Tile_Coords.w, Tile_Coords.h);
-			// blit surface tile to the new created surface
-			SDL_BlitSurface(sfc_origin, &Tile_Coords, sfc_temp, NULL);
-		}
-*/
+		m_Draw = false;
+		m_Hide = true;
 	}
 }
-

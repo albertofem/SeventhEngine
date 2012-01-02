@@ -1,14 +1,24 @@
 /**
- *
  * SeventhEngine, an SDL-based general-purpose
  * game engine. Made for learning purposes
  *
- * Licensed under GNU General Public License v3
- * <http://www.gnu.org/licenses/gpl.html>
+ * Copyright (C) 2011 Alberto Fernández
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author	Alberto Fernández <albertofem@gmail.com>
- * @version	1.0
- * @since		2011.1026
+ * @version	0.1
  *
  */
 
@@ -20,7 +30,7 @@
 #include "DisplayCore/CLayerManager.h"
 #include "ResourceManager/CResourceManager.h"
 #include "Engine/CEngine.h"
-#include "DisplayCore/CTextureManager.h"
+
 
 #include "tinyxml/tinyxml.h"
 #include "tinyxml/ticpp.h"
@@ -198,7 +208,7 @@ namespace Seventh
 		if(search_map != m_Resource_Textures.end())
 		{
 			// load texture in the texturemanager and register id for later destruction
-			U64 texture_id = CDisplayCore::_Textures()->LoadTexture(m_Resource_Textures[name]->src, prev_resourceID);
+			U64 texture_id = CDisplayCore::_Render().ResourceLoad_Texture(m_Resource_Textures[name].get());
 			return texture_id;
 		}
 		else
@@ -223,12 +233,8 @@ namespace Seventh
 			if(tile_map != m_Resource_Tilesets[tileset]->tiles.end())
 			{
 				// load texture in the texturemanager and register id for later destruction
-				U64 texture_id = CDisplayCore::_Textures()->LoadTile(m_Resource_Tilesets[tileset]->src,
-															m_Resource_Tilesets[tileset]->tiles[tile].posx,
-															m_Resource_Tilesets[tileset]->tiles[tile].posy,
-															m_Resource_Tilesets[tileset]->tiles[tile].width,
-															m_Resource_Tilesets[tileset]->tiles[tile].height);
-				return texture_id;
+				//U64 texture_id = CDisplayCore::_Render().ResourceLoad_Tile(m_Resource_Tilesets[tileset].get(), &m_Resource_Tilesets[tileset]->tiles[tile]);
+				//return texture_id;
 
 			}
 			else

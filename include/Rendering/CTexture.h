@@ -1,132 +1,54 @@
 /**
- *
  * SeventhEngine, an SDL-based general-purpose
  * game engine. Made for learning purposes
  *
- * Licensed under GNU General Public License v3
- * <http://www.gnu.org/licenses/gpl.html>
+ * Copyright (C) 2011 Alberto Fernández
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author	Alberto Fernández <albertofem@gmail.com>
- * @version	1.0
- * @since		2011.0816
+ * @version	0.1
  *
  */
 
 #include "common.h"
+
+#include "Rendering/GLtexture.h"
 
 #ifndef STH_CTEXTURE_H_
 #define STH_CTEXTURE_H_
 
 namespace Seventh
 {
-
-	enum e_TextureType
-	{
-		TEXTURE_NORMAL = 0x0,
-		TEXTURE_TILE
-	};
-
-	class GL_Texture
-	{
-	private:
-		GLuint texture_id;
-
-	public:
-		GL_Texture(GLuint text_id):
-			texture_id(text_id)
-		{
-		}
-
-		inline GLuint get()
-		{
-			return texture_id;
-		}
-
-		inline GLuint* getptr()
-		{
-			return &texture_id;
-		}
-
-		~GL_Texture() { glDeleteTextures(1, &texture_id); }
-	};
-
-	class CTexture
-	{
-	public:
-		CTexture();
+ 	class CTexture
+ 	{
+ 	public:
 		CTexture(std::string filename);
-		CTexture(const CTexture& lhs);
-		CTexture& operator=(const CTexture& lhs);
-
-		CTexture(std::string filename, U16 x, U16 y, U16 w, U16 h);
+		CTexture(boost::shared_ptr< GLtexture >& texture);
 
 		~CTexture();
 
-		void UpdateGameLogic();
-		void Render();
+		STH_INLINE boost::shared_ptr< GLtexture > GetGLtexture();
 
-		GLuint Get();
-
-		bool LoadSurfaceMemory();
+		void Render(U64 pos_x, U64 pos_y);
+		void Hide();
 
 	private:
-		std::string m_ResourceFile;
+		boost::shared_ptr< GLtexture > m_GLtexture;
 
+		bool m_Hide;
 		bool m_Draw;
-		bool m_ResourceLoaded;
-
-		boost::shared_ptr< GL_Texture > m_Texture;
-		SDL_Rect SDL_Coords;
-
-		void Position(S32 pos_x, S32 pos_y);
-
-		static U64 m_TextureCounter;
-		U64 m_TextureID;
-
-		SDL_Rect Tile_Coords;
-		e_TextureType m_TextureType;
-
-		void ExtractTile(SDL_Surface* sfc_origin);
-
-	public:
-		STH_INLINE std::string GetSourceFile()
-		{
-			return m_ResourceFile;
-		}
-
-		STH_INLINE void Load()
-		{
-			LoadSurfaceMemory();
-		}
-
-		// getters
-		STH_INLINE bool needToDraw()
-		{
-			return m_Draw;
-		}
-
-		STH_INLINE SDL_Rect getSDLRect()
-		{
-			return SDL_Coords;
-		}
-
-	public:
-		STH_INLINE void SetDraw(bool set)
-		{
-			m_Draw = set;
-		}
-
-		STH_INLINE U32 GetWidth()
-		{
-			return SDL_Coords.w;
-		}
-
-		STH_INLINE U32 GetHeight()
-		{
-			return SDL_Coords.h;
-		}
-
-	friend class CTextureManager;
 	};
 }
 

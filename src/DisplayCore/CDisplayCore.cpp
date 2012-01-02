@@ -1,14 +1,24 @@
 /**
- *
  * SeventhEngine, an SDL-based general-purpose
  * game engine. Made for learning purposes
  *
- * Licensed under GNU General Public License v3
- * <http://www.gnu.org/licenses/gpl.html>
+ * Copyright (C) 2011 Alberto Fernández
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author	Alberto Fernández <albertofem@gmail.com>
- * @version	1.0
- * @since		2011.0625
+ * @version	0.1
  *
  */
 
@@ -16,7 +26,6 @@
 
 #include "common.h"
 
-#include "DisplayCore/CTextureManager.h"
 #include "DisplayCore/CLayerManager.h"
 #include "DisplayCore/CDisplayCore.h"
 
@@ -24,8 +33,8 @@ namespace Seventh
 {
 	// initialize static members
 	boost::shared_ptr<CLayerManager> CDisplayCore::Layers;
-	boost::shared_ptr<CTextureManager> CDisplayCore::Textures;
 	boost::shared_ptr<CCamera> CDisplayCore::m_CurrentCamera;
+	CRendering CDisplayCore::RENDER_PIPELINE;
 
 	SDL_Surface* CDisplayCore::m_DisplayScreen = NULL;
 
@@ -57,10 +66,12 @@ namespace Seventh
 			throw seventh_displaycore_exception("Wrong values for width/height/bpp in .ini config file", STH_EXCEPTION_WRONG_INI_VALUES);
 		}
 
-		// Init display
+		// start rendering pipeline
+
+
+		// star display subsystems
 		Init_Display();
 		Init_Layers();
-		Init_Textures();
 	}
 
 	void CDisplayCore::Init_Display() throw(seventh_displaycore_exception)
@@ -137,11 +148,6 @@ namespace Seventh
 		Layers.reset(new CLayerManager);
 	}
 
-	void CDisplayCore::Init_Textures() throw(seventh_displaycore_exception)
-	{
-		Textures.reset(new CTextureManager);
-	}
-
 	void CDisplayCore::Shutdown() throw()
 	{
 		SDL_Quit();
@@ -153,14 +159,12 @@ namespace Seventh
 
 	void CDisplayCore::Render()
 	{
-		// render stuff from the texture subsystem
-		Textures->Render();
-
 		// swap buffers
 		SDL_GL_SwapBuffers();
 	}
 
 	CDisplayCore::~CDisplayCore()
 	{
+		TRACE("Destroying CDisplayCore");
 	}
 }

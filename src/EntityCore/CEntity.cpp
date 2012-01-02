@@ -1,21 +1,30 @@
 /**
- *
  * SeventhEngine, an SDL-based general-purpose
  * game engine. Made for learning purposes
  *
- * Licensed under GNU General Public License v3
- * <http://www.gnu.org/licenses/gpl.html>
+ * Copyright (C) 2011 Alberto Fernández
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author	Alberto Fernández <albertofem@gmail.com>
- * @version	1.0
- * @since		2011.1104
+ * @version	0.1
  *
  */
 
-#include "Engine/CEngine.h"
 #include "DisplayCore/CDisplayCore.h"
 #include "EntityCore/CEntity.h"
-#include "DisplayCore/CTextureManager.h"
+
 
 namespace Seventh
 {
@@ -52,7 +61,7 @@ namespace Seventh
 	{
 		// hide entity if we've got another one already loaded
 		if(m_ResourceID != 0)
-			Hide();
+			Clear();
 
 		m_CurrentAsset = ENTITY_ASSET_TEXTURE;
 		m_CurrentResourceName = name;
@@ -61,9 +70,6 @@ namespace Seventh
 		// load the texture in memory
 		// we can handle the rendering in the Render() method
 		m_ResourceID = CEngine::_Resources()->LoadTexture(name, m_ResourceID);
-
-		// show again
-		Show();
 	}
 
 	void CEntity::SetTile(std::string tileset, std::string tile)
@@ -75,6 +81,8 @@ namespace Seventh
 		m_CurrentResourceName = tileset;
 
 		m_ResourceID = CEngine::_Resources()->LoadTile(tileset, tile);
+
+		m_Show = true;
 	}
 
 	void CEntity::MoveToPosition(STH_Position& new_position)
@@ -97,12 +105,12 @@ namespace Seventh
 		if(m_CurrentAsset == ENTITY_ASSET_TEXTURE)
 		{
 			// render texture
-			CDisplayCore::_Textures()->RenderTexture(m_ResourceID, m_Position.pos_x, m_Position.pos_y);
+			CDisplayCore::_Render().RenderTexture(m_ResourceID, m_Position.pos_x, m_Position.pos_y);
 		}
 		else if(m_CurrentAsset == ENTITY_ASSET_TILE)
 		{
 			// render tile
-			CDisplayCore::_Textures()->RenderTexture(m_ResourceID, m_Position.pos_x, m_Position.pos_y);
+			//CDisplayCore::_Render().RenderTile(m_ResourceID, m_Position.pos_x, m_Position.pos_y);
 		}
 		else if(m_CurrentAsset == ENTITY_ASSET_ANIMATION)
 		{
@@ -115,9 +123,19 @@ namespace Seventh
 		if(m_Show != true)
 			return;
 
-		CDisplayCore::_Textures()->HideTexture(m_ResourceID);
+		if(m_CurrentAsset == ENTITY_ASSET_TEXTURE)
+			CDisplayCore::_Render().HideTexture(m_ResourceID);
 
 		m_Show = false;
+	}
+
+	void CEntity::Clear()
+	{
+		if(m_Show != true)
+			return;
+
+		if(m_CurrentAsset == ENTITY_ASSET_TEXTURE)
+			CDisplayCore::_Render().HideTexture(m_ResourceID);
 	}
 
 	void CEntity::Show()
