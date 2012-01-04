@@ -199,7 +199,7 @@ namespace Seventh
 		TRACE("Reloading maps...");
 	}
 
-	S64 CResourceManager::LoadTexture(std::string name, U64 prev_resourceID)
+	S64 CResourceManager::LoadTexture(std::string name)
 	{
 		std::map< std::string, boost::shared_ptr<s_Texture> >::const_iterator search_map;
 

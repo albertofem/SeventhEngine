@@ -69,7 +69,7 @@ namespace Seventh
 		// look for this texture name
 		// load the texture in memory
 		// we can handle the rendering in the Render() method
-		m_ResourceID = CEngine::_Resources()->LoadTexture(name, m_ResourceID);
+		m_ResourceID = CEngine::_Resources()->LoadTexture(name);
 	}
 
 	void CEntity::SetTile(std::string tileset, std::string tile)
@@ -123,29 +123,19 @@ namespace Seventh
 		if(m_Show != true)
 			return;
 
-		if(m_CurrentAsset == ENTITY_ASSET_TEXTURE)
-			CDisplayCore::_Render().HideTexture(m_ResourceID);
+		Clear();
 
 		m_Show = false;
 	}
 
 	void CEntity::Clear()
 	{
-		if(m_Show != true)
-			return;
-
 		if(m_CurrentAsset == ENTITY_ASSET_TEXTURE)
 			CDisplayCore::_Render().HideTexture(m_ResourceID);
 	}
 
 	void CEntity::Show()
 	{
-		if(m_ResourceID == 0)
-		{
-			if(m_CurrentAsset == ENTITY_ASSET_TEXTURE)
-				SetTexture(m_CurrentResourceName);
-		}
-
 		m_Show = true;
 	}
 }

@@ -40,8 +40,13 @@ namespace Seventh
 	template< typename R >
 	struct SRenderingResource
 	{
-		R* resource;
+		boost::shared_ptr< R > resource;
 		U32 refcount;
+
+		SRenderingResource()
+			: refcount(0)
+		{
+		}
 	};
 
 	struct SResourceLoaded
@@ -129,12 +134,17 @@ namespace Seventh
 		 * Resources loaded, keeps a raw list
 		 * of resources already loaded
 		 */
-		std::map < std::string, boost::shared_ptr<GLtexture> > m_TexturesLoaded;
+		std::map < std::string, boost::shared_ptr< GLtexture > > m_TexturesLoaded;
 
 		/**
 		 * Misc. methods
 		 */
 		boost::shared_ptr< GLtexture > CheckResourceLoaded(std::string filename);
+
+		/**
+		 * Rendering collision methods
+		 */
+		bool CheckTextureCollision(CTexture* top_side, CTexture* down_side);
 	};
 }
 

@@ -33,7 +33,7 @@ namespace Seventh
 		CResourceManager(std::string filename, CEngine* engine);
 		~CResourceManager();
 
-		S64 LoadTexture(std::string name, U64 prev_resourceID);
+		S64 LoadTexture(std::string name);
 		S64 LoadTile(std::string tileset, std::string tile);
 
 		void LoadMap(std::string name);

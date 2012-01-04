@@ -41,10 +41,12 @@ namespace Seventh
 		boost::shared_ptr< GLtexture > loaded;
 		SRenderingResource< CTexture > new_texture;
 
+		loaded = CheckResourceLoaded(texture->src);
+
 		if(!loaded)
 		{
 			// create new texture
-			new_texture.resource = new CTexture(texture->src);
+			new_texture.resource.reset(new CTexture(texture->src));
 
 			// add it to already loaded textures
 			m_TexturesLoaded[texture->src] = loaded;
@@ -52,7 +54,7 @@ namespace Seventh
 		else
 		{
 			// create new texture from previous GLtexture id
-			new_texture.resource = new CTexture(loaded);
+			new_texture.resource.reset(new CTexture(loaded));
 		}
 
 		new_texture.refcount++;
@@ -81,6 +83,17 @@ namespace Seventh
 
 	void CRendering::RenderTexture(U64 resource_id, U64 pos_x, U64 pos_y)
 	{
+		// first we have to check what textures are in the area
+		// of this current texture position, and set the rest of textures
+		// to redraw if the old position if the texture is going to redraw
+		if(m_Textures[resource_id].resource->PositionChanged(pos_x, pos_y))
+		{
+			// look for collision in this area with the rest of texture
+			// iterate map of textures and compare positions
+
+			// also we need to check for collisions in the previous area
+		}
+
 		m_Textures[resource_id].resource->Render(pos_x, pos_y);
 	}
 
@@ -97,5 +110,12 @@ namespace Seventh
 
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f );
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	}
+
+	bool CRendering::CheckTextureCollision(CTexture* top_side, CTexture* down_side)
+	{
+		// first easy comparision
+		if(top_side->GetCurrentX() > down_side->GetCurrentX()
+			&& down_side->GetCurrentY())
 	}
 }

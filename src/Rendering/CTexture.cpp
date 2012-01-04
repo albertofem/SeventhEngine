@@ -30,6 +30,7 @@
 namespace Seventh
 {
 	CTexture::CTexture(std::string filename)
+		: m_CurrentX(0), m_CurrentY(0)
 	{
 		// create new GLtexture
 		m_GLtexture.reset(new GLtexture);
@@ -37,7 +38,7 @@ namespace Seventh
 		// load texture resource
 		m_GLtexture->load(filename);
 
-		m_Draw = true;
+		m_FirstDraw = true;
 	}
 
 	CTexture::~CTexture()
@@ -55,17 +56,44 @@ namespace Seventh
 		return m_GLtexture;
 	}
 
+	bool CTexture::PositionChanged(U64 pos_x, U64 pos_y)
+	{
+		if(m_CurrentX == pos_x && m_CurrentY == pos_y && !m_FirstDraw)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
 	void CTexture::Render(U64 pos_x, U64 pos_y)
 	{
-		if(m_Draw)
-			m_GLtexture->draw(pos_x, pos_y);
+		if(!PositionChanged)
+			return;
 
-		m_Draw = false;
+		m_CurrentX = pos_x;
+		m_CurrentY = pos_y;
+
+		m_GLtexture->draw(pos_x, pos_y);
+
+		if(m_FirstDraw)
+			m_FirstDraw = false;
+
 	}
 
 	void CTexture::Hide()
 	{
 		m_Draw = false;
 		m_Hide = true;
+	}
+
+	U64 CTexture::GetCurrentX()
+	{
+		return m_CurrentX;
+	}
+
+	U64 CTexture::GetCurrentY()
+	{
+		return m_CurrentY;
 	}
 }

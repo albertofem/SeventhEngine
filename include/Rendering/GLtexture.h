@@ -39,7 +39,8 @@ namespace Seventh
 
 		~GLtexture()
 		{
-			glDeleteTextures(1, get());
+			TRACE("Deleting texture ID: %d\n-----------------", GLtexture_id);
+			glDeleteTextures(1, &GLtexture_id);
 		}
 
 		GLuint& get()
