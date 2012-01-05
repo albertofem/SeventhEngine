@@ -24,37 +24,33 @@
 
 #include "resources.h"
 
-#include "Rendering/GLtexture.h"
-
-#ifndef STH_TILESET_H_
-#define STH_TILESET_H_
+#ifndef STH_CTILE_H_
+#define STH_CTILE_H_
 
 namespace Seventh
 {
-	class CTile;
-	class CTileset
+	class GLtexture;
+	class CTile
 	{
 	public:
-		CTileset(std::string filename);
-		~CTileset();
+		CTile(boost::shared_ptr< GLtexture >& tileset_texture, s_Tile* tile);
+		~CTile();
 
-		CTileset(boost::shared_ptr< GLtexture >& texture);
+		CTile(const CTile& rhs);
 
-		U64 LoadTile(s_Tile* tile);
+		CTile(boost::shared_ptr < GLtexture > &texture);
 
-		STH_INLINE boost::shared_ptr< GLtexture > GetGLtexture();
+		STH_INLINE boost::shared_ptr< GLtexture >& GetGLTexture();
 
 	private:
-		// counter for internal tiles
-		U64 m_CounterTiles;
+		U64 m_PosX;
+		U64 m_PosY;
 
-		// main resource, will be shared by all the tiles
-		boost::shared_ptr< GLtexture > m_GLtexture;
+		U64 m_FromX;
+		U64 m_FromY;
 
-		// tiles map
-		std::map< U64, SRenderingResource< CTile > > m_Tiles;
-		std::map< s_Tile*, U64 > m_LoadedTiles;
-
+		U64 m_Width;
+		U64 m_Height;
 	};
 }
 

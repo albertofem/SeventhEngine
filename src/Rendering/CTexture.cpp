@@ -39,11 +39,11 @@ namespace Seventh
 		m_GLtexture->load(filename);
 
 		m_FirstDraw = true;
+		m_Draw = true;
 	}
 
 	CTexture::~CTexture()
 	{
-		TRACE("Calling texture destructor");
 	}
 
 	CTexture::CTexture(boost::shared_ptr< GLtexture >& texture)
@@ -58,7 +58,7 @@ namespace Seventh
 
 	bool CTexture::PositionChanged(U64 pos_x, U64 pos_y)
 	{
-		if(m_CurrentX == pos_x && m_CurrentY == pos_y && !m_FirstDraw)
+		if(m_CurrentX == pos_x && m_CurrentY == pos_y)
 		{
 			return false;
 		}
@@ -68,7 +68,7 @@ namespace Seventh
 
 	void CTexture::Render(U64 pos_x, U64 pos_y)
 	{
-		if(!PositionChanged)
+		if(!PositionChanged(pos_x, pos_y) && !m_Draw && !m_FirstDraw)
 			return;
 
 		m_CurrentX = pos_x;
@@ -79,6 +79,7 @@ namespace Seventh
 		if(m_FirstDraw)
 			m_FirstDraw = false;
 
+		m_Draw = false;
 	}
 
 	void CTexture::Hide()
@@ -95,5 +96,15 @@ namespace Seventh
 	U64 CTexture::GetCurrentY()
 	{
 		return m_CurrentY;
+	}
+
+	U64 CTexture::GetW()
+	{
+		return m_GLtexture->get_w();
+	}
+
+	U64 CTexture::GetH()
+	{
+		return m_GLtexture->get_h();
 	}
 }

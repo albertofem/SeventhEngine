@@ -44,9 +44,14 @@ namespace Seventh
 		void Render(U64 pos_x, U64 pos_y);
 		void Hide();
 
-		STH_INLINE bool PositionChanged();
+		STH_INLINE bool PositionChanged(U64 posx, U64 pos_y);
 		STH_INLINE U64 GetCurrentX();
 		STH_INLINE U64 GetCurrentY();
+
+		STH_INLINE U64 GetW();
+		STH_INLINE U64 GetH();
+
+		STH_INLINE void ReDraw() { m_Draw = true; };
 
 	private:
 		boost::shared_ptr< GLtexture > m_GLtexture;

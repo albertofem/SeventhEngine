@@ -132,8 +132,6 @@ namespace Seventh
 			m_Resource_Tilesets[tileset_name]->src = tile_src;
 			m_Resource_Tilesets[tileset_name]->format = tile_format;
 
-			TRACE("Getting tiles");
-
 			// get frames for each animation
 			TiXmlElement* frame_h = NULL;
 			frame_h = m_XMLElement->FirstChildElement("tile");
@@ -220,27 +218,25 @@ namespace Seventh
 
 	S64 CResourceManager::LoadTile(std::string tileset, std::string tile)
 	{
-		std::map< std::string, boost::shared_ptr<s_Tileset> >::const_iterator search_map;
+		std::map< std::string, boost::shared_ptr< s_Tileset > >::const_iterator search_map;
 
 		search_map = m_Resource_Tilesets.find(tileset);
 
 		if(search_map != m_Resource_Tilesets.end())
 		{
-			std::map< std::string, s_Tile >::const_iterator tile_map;
+			// tileset exists, look for the tile itself
+			std::map< std::string, s_Tile >::const_iterator search_tile;
 
-			tile_map = m_Resource_Tilesets[tileset]->tiles.find(tile);
+			search_tile = m_Resource_Tilesets[tileset]->tiles.find(tile);
 
-			if(tile_map != m_Resource_Tilesets[tileset]->tiles.end())
+			if(search_tile != m_Resource_Tilesets[tileset]->tiles.end())
 			{
-				// load texture in the texturemanager and register id for later destruction
-				//U64 texture_id = CDisplayCore::_Render().ResourceLoad_Tile(m_Resource_Tilesets[tileset].get(), &m_Resource_Tilesets[tileset]->tiles[tile]);
-				//return texture_id;
-
+				U64 texture_id = CDisplayCore::_Render().ResourceLoad_Tile(m_Resource_Tilesets[tileset].get(), &m_Resource_Tilesets[tileset]->tiles[tile]);
+				return texture_id;
 			}
 			else
 			{
-				TRACE("WARNING: tile '%s' in tileset '%s' not found!", tile.c_str(), tileset.c_str());
-				return -1;
+				TRACE("Warning: tile '%s' not found!", tile.c_str());
 			}
 		}
 		else
@@ -249,4 +245,5 @@ namespace Seventh
 			return -1;
 		}
 	}
+
 }

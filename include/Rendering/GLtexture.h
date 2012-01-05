@@ -51,6 +51,9 @@ namespace Seventh
 		void draw(U32 x, U32 y);
 		void load(std::string filename);
 
+		U32 get_w() { return GLwidth; };
+		U32 get_h() { return GLheight; };
+
 	private:
 		GLuint GLtexture_id;
 

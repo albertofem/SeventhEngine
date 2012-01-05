@@ -32,7 +32,7 @@ namespace Seventh
 {
 	void GLtexture::draw(U32 x, U32 y)
 	{
-		TRACE("Drawing texture ID: %d", GLtexture_id);
+		TRACE("Drawing texture ID: %d in %dx%d", GLtexture_id, x, y);
 
 		if(GLtexture_id == 0)
 			throw seventh_displaycore_exception("Couldn't draw texture, it hans't been initialized", STH_EXCEPTION_GLTEXTURE_NOT_INITIALIZED);
@@ -43,18 +43,33 @@ namespace Seventh
 		if(GLalpha)
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+		GLint gl_x = x;
+		GLint gl_y = y;
+		GLint gl_w = GLwidth;
+		GLint gl_h = GLheight;
+
+		if(x<0)
+		{
+			gl_x = 0;
+		}
+
+		if(y<0)
+		{
+			gl_y = 0;
+		}
+
 		glBegin(GL_QUADS);
 			glTexCoord2i(0, 0);
-			glVertex3f(x, y, 0.0f);
+			glVertex3f(gl_x, gl_y, 0.0f);
 
 			glTexCoord2i(1, 0);
-			glVertex3f(x+GLwidth, y, 0.f);
+			glVertex3f(gl_x+gl_w, gl_y, 0.f);
 
 			glTexCoord2i(1, 1);
-			glVertex3f(x+GLwidth, y+GLheight, 0.f);
+			glVertex3f(gl_x+gl_w, gl_y+gl_h, 0.f);
 
 			glTexCoord2i(0, 1);
-			glVertex3f(x, y+GLheight, 0.f);
+			glVertex3f(gl_x, gl_y+gl_h, 0.f);
 		glEnd();
 	}
 

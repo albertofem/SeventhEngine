@@ -62,8 +62,8 @@ private:
 class MyPlayer2 : public CEntity
 {
 public:
-	MyPlayer2(myGame* game_ref);
-	~MyPlayer2();
+	MyPlayer2(myGame* game_ref) {};
+	~MyPlayer2() {};
 
 private:
 	myGame* Engine;

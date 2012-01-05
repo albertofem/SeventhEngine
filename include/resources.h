@@ -22,7 +22,8 @@
  *
  */
 
-#include <map>
+#include "common.h"
+
 #include <vector>
 
 #ifndef STH_RESOURCES_H_
@@ -102,6 +103,21 @@ namespace Seventh
 		ENTITY_ASSET_TEXTURE,
 		ENTITY_ASSET_ANIMATION,
 		ENTITY_ASSET_TILE
+	};
+
+	/**
+	 * Generic resource struct
+	 */
+	template< typename R >
+	struct SRenderingResource
+	{
+		boost::shared_ptr< R > resource;
+		U32 refcount;
+
+		SRenderingResource()
+			: refcount(0)
+		{
+		}
 	};
 }
 

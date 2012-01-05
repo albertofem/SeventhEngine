@@ -25,11 +25,14 @@ void myGame::DoSomeStuff()
 {
 	StateMenu* main_menu = new StateMenu(this);
 	MyPlayer* player = new MyPlayer(this);
+	MyPlayer2* player2 = new MyPlayer2(this);
 
 	_Gameplay()->_States()->RegisterState("main_menu", main_menu);
+	_Display()->_Layers()->RegisterOverallEntity("player2", player2);
 	_Display()->_Layers()->RegisterOverallEntity("player1", player);
 
-	_Entities()->Entity("player1")->SetTexture("ryu");
+	_Entities()->Entity("player1")->SetTexture("ken");
+	_Entities()->Entity("player2")->SetTexture("ryu");
 }
 
 myGame::~myGame()

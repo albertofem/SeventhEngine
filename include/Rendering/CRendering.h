@@ -28,27 +28,14 @@
 #include "resources.h"
 #include "Rendering/GLtexture.h"
 #include "Rendering/CTexture.h"
+#include "Rendering/CTileset.h"
+#include "Rendering/CTile.h"
 
 #ifndef STH_CRENDERING_H_
 #define STH_CRENDERING_H_
 
 namespace Seventh
 {
-	/**
-	 * Generic resource struct
-	 */
-	template< typename R >
-	struct SRenderingResource
-	{
-		boost::shared_ptr< R > resource;
-		U32 refcount;
-
-		SRenderingResource()
-			: refcount(0)
-		{
-		}
-	};
-
 	struct SResourceLoaded
 	{
 		U64 resource_id;
@@ -92,10 +79,14 @@ namespace Seventh
 		U64 ResourceLoad_Texture(s_Texture* texture);
 		U64 ResourceLoad_Animation(s_Animation* animation);
 		U64 ResourceLoad_Map(s_Map* map);
-		U64 ResourceLoad_Tileset(s_Tileset* tileset);
 		U64 ResourceLoad_Tile(s_Tileset* tileset, s_Tile* tile);
 
 	private:
+		// loading a tileset should be used only within this class
+		U64 ResourceLoad_Tileset(s_Tileset* tileset);
+
+	private:
+
 		/**
 		 * Containers, contains all the
 		 * data needed by the rendering pipeline
@@ -103,32 +94,15 @@ namespace Seventh
 		 * they are refered to each others constantly
 		 * and we need to keep separate IDs in tĥis class
 		 */
-		std::map < U64, SRenderingResource< CTexture > > m_Textures;
+		std::map< U64, SRenderingResource< CTexture > > m_Textures;
+		std::map< U64, SRenderingResource< CTileset > > m_Tilesets;
 
 		/**
 		 * Counters
 		 */
 		U64 m_CounterTextures;
-
-		/**
-		 * Loaders, functions to be called internally
-		 * that get the job of loading textures and
-		 * managing resources efficiently
-		 */
-		U64 CreateTexture(s_Texture texture);
-		U64 CreateAnimation(s_Animation animation);
-		U64 CreateMapLayer(s_Map map, U8 layer);
-		U64 CreateTile(s_Tileset tileset, s_Tile tile);
-		U64 CreateTileset(s_Tileset tileset);
-
-		/**
-		 * Destructors for the previous functions
-		 */
-		void DestroyTexture();
-		void DestroyAnimation();
-		void DestroyMapLayer();
-		void DestroyTile();
-		void DestroyTileset();
+		U64 m_CounterTilesets;
+		U64 m_CounterTiles;
 
 		/**
 		 * Resources loaded, keeps a raw list
@@ -145,6 +119,8 @@ namespace Seventh
 		 * Rendering collision methods
 		 */
 		bool CheckTextureCollision(CTexture* top_side, CTexture* down_side);
+
+		void ClearScreen();
 	};
 }
 

@@ -29,6 +29,8 @@ namespace Seventh
 	CRendering::CRendering()
 	{
 		m_CounterTextures = 0;
+		m_CounterTilesets = 0;
+		m_CounterTiles = 0;
 	}
 
 	CRendering::~CRendering()
@@ -66,6 +68,48 @@ namespace Seventh
 		return m_CounterTextures;
 	}
 
+	U64 CRendering::ResourceLoad_Tileset(s_Tileset* tileset)
+	{
+		// check if already exists
+		boost::shared_ptr< GLtexture > loaded;
+		SRenderingResource< CTileset > new_tileset;
+
+		loaded = CheckResourceLoaded(tileset->src);
+
+		if(!loaded)
+		{
+			// create new texture
+			new_tileset.resource.reset(new CTileset(tileset->src));
+
+			// add it to already loaded textures
+			m_TexturesLoaded[tileset->src] = loaded;
+		}
+		else
+		{
+			// create new texture from previous GLtexture id
+			new_tileset.resource.reset(new CTileset(loaded));
+		}
+
+		new_tileset.refcount++;
+
+		// sum up the texture counter and add it to the map
+		m_CounterTilesets++;
+		m_Tilesets[m_CounterTilesets] = new_tileset;
+
+		return m_CounterTilesets;
+	}
+
+	U64 CRendering::ResourceLoad_Tile(s_Tileset* tileset, s_Tile* tile)
+	{
+		// first, we have to load the tileset and get the ID
+		U64 tileset_id = ResourceLoad_Tileset(tileset);
+
+		if(tileset_id != 0)
+		{
+			m_Tilesets[tileset_id].resource->LoadTile(tile);
+		}
+	}
+
 	boost::shared_ptr< GLtexture > CRendering::CheckResourceLoaded(std::string filename)
 	{
 		std::map< std::string, boost::shared_ptr< GLtexture > >::const_iterator it;
@@ -90,8 +134,14 @@ namespace Seventh
 		{
 			// look for collision in this area with the rest of texture
 			// iterate map of textures and compare positions
+			std::map< U64, SRenderingResource< CTexture > >::const_iterator it_collision;
 
-			// also we need to check for collisions in the previous area
+			for(it_collision=m_Textures.begin(); it_collision!=m_Textures.end(); it_collision++)
+			{
+				m_Textures[it_collision->first].resource->ReDraw();
+			}
+
+			ClearScreen();
 		}
 
 		m_Textures[resource_id].resource->Render(pos_x, pos_y);
@@ -107,15 +157,16 @@ namespace Seventh
 			// we can now delete texture safely
 			m_Textures.erase(resource_id);
 		}
-
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f );
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 	bool CRendering::CheckTextureCollision(CTexture* top_side, CTexture* down_side)
 	{
-		// first easy comparision
-		if(top_side->GetCurrentX() > down_side->GetCurrentX()
-			&& down_side->GetCurrentY())
+		return true;
+	}
+
+	void CRendering::ClearScreen()
+	{
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f );
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 }
