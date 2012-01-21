@@ -24,6 +24,8 @@
 
 #include "common.h"
 
+#include "resources.h"
+
 #ifndef STH_GLTEXTURE_H_
 #define STH_GLTEXTURE_H_
 
@@ -49,7 +51,10 @@ namespace Seventh
 		}
 
 		void draw(U32 x, U32 y);
-		void load(std::string filename);
+
+		void load(std::string filename, e_TextureFormat = TEXTURE_NORMAL,
+				U32 tile_fromx = 0, U32 tile_fromy = 0,
+				U32 tile_width = 0, U32 tile_height = 0);
 
 		U32 get_w() { return GLwidth; };
 		U32 get_h() { return GLheight; };
@@ -61,6 +66,10 @@ namespace Seventh
 
 		U32 GLwidth;
 		U32 GLheight;
+
+		SDL_Surface* ExtractTile(SDL_Surface* sfc_origin,
+							U32 tile_fromx, U32 tile_fromy,
+							U32 tile_width, U32 tile_height);
 	};
 }
 

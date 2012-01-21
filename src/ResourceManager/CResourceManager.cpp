@@ -207,6 +207,7 @@ namespace Seventh
 		{
 			// load texture in the texturemanager and register id for later destruction
 			U64 texture_id = CDisplayCore::_Render().ResourceLoad_Texture(m_Resource_Textures[name].get());
+			TRACE("Created texture with ID: %d", texture_id);
 			return texture_id;
 		}
 		else

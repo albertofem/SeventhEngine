@@ -32,10 +32,10 @@ namespace Seventh
 {
 	void GLtexture::draw(U32 x, U32 y)
 	{
-		TRACE("Drawing texture ID: %d in %dx%d", GLtexture_id, x, y);
+		TRACE("Drawing texture ID: %d, tamaño: %dx%d", GLtexture_id, x, y, GLwidth, GLheight);
 
 		if(GLtexture_id == 0)
-			throw seventh_displaycore_exception("Couldn't draw texture, it hans't been initialized", STH_EXCEPTION_GLTEXTURE_NOT_INITIALIZED);
+			throw seventh_displaycore_exception("Couldn't draw texture, it hasn't been initialized", STH_EXCEPTION_GLTEXTURE_NOT_INITIALIZED);
 
 		// GL stuff
 		glBindTexture(GL_TEXTURE_2D, &GLtexture_id);
@@ -59,21 +59,21 @@ namespace Seventh
 		}
 
 		glBegin(GL_QUADS);
-			glTexCoord2i(0, 0);
+			glTexCoord2f(0, 0);
 			glVertex3f(gl_x, gl_y, 0.0f);
 
-			glTexCoord2i(1, 0);
+			glTexCoord2f(1, 0);
 			glVertex3f(gl_x+gl_w, gl_y, 0.f);
 
-			glTexCoord2i(1, 1);
+			glTexCoord2f(1, 1);
 			glVertex3f(gl_x+gl_w, gl_y+gl_h, 0.f);
 
-			glTexCoord2i(0, 1);
+			glTexCoord2f(0, 1);
 			glVertex3f(gl_x, gl_y+gl_h, 0.f);
 		glEnd();
 	}
 
-	void GLtexture::load(std::string filename)
+	void GLtexture::load(std::string filename, e_TextureFormat format, U32 tile_fromx, U32 tile_fromy, U32 tile_width, U32 tile_height)
 	{
 		if(GLtexture_id == 0)
 		{
@@ -82,6 +82,12 @@ namespace Seventh
 
 			if(temp == NULL)
 				throw seventh_displaycore_exception("Couldn't load surface resource", STH_EXCEPTION_SURFACE_LOAD);
+
+			// in case we have a tile, extract it
+			if(format == TEXTURE_TILE)
+			{
+				temp = ExtractTile(temp, tile_fromx, tile_fromy, tile_width, tile_height);
+			}
 
 			GLint GL_colors;
 			GLenum GL_texture_format;
@@ -134,5 +140,63 @@ namespace Seventh
 			 */
 			SDL_FreeSurface(temp);
 		}
+	}
+
+	SDL_Surface* GLtexture::ExtractTile(SDL_Surface* sfc_origin, U32 tile_fromx, U32 tile_fromy, U32 tile_width, U32 tile_height)
+	{
+		U32 rmask, gmask, bmask, amask;
+
+		// byte order
+		#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+			rmask = 0xff000000;
+			gmask = 0x00ff0000;
+			bmask = 0x0000ff00;
+			amask = 0x000000ff;
+		#else
+			rmask = 0x000000ff;
+			gmask = 0x0000ff00;
+			bmask = 0x00ff0000;
+			amask = 0xff000000;
+		#endif
+
+		SDL_Surface* surface_tile;
+
+		// create a surface from scratch
+		surface_tile = SDL_CreateRGBSurface(SDL_HWSURFACE, tile_width, tile_height,
+									sfc_origin->format->BitsPerPixel,
+									0x00ff0000,
+									0x0000ff00,
+									0x000000ff,
+									(sfc_origin->format->BitsPerPixel == 32 ? 0xff000000 : 0));
+
+		SDL_SetAlpha(sfc_origin, 0, SDL_ALPHA_OPAQUE);
+
+		if(surface_tile == NULL)
+		{
+			TRACE("Creating surface tile failed: %s", SDL_GetError());
+			return NULL;
+		}
+		else
+		{
+			SDL_Rect rect_temp;
+
+			rect_temp.x = tile_fromx;
+			rect_temp.y = tile_fromy;
+			rect_temp.w = tile_width;
+			rect_temp.h = tile_height;
+
+			TRACE("Creating tile from: %dx%d, size: %dx%d", tile_fromx, tile_fromy, tile_width, tile_height);
+
+			// blit surface tile to the new created surface
+			if(SDL_BlitSurface(sfc_origin, &rect_temp, surface_tile, NULL) == -1)
+			{
+				TRACE("Blitting unsuccesfull!");
+			}
+
+			SDL_FreeSurface(sfc_origin);
+
+			return surface_tile;
+		}
+
 	}
 }

@@ -34,12 +34,16 @@ namespace Seventh
  	class CTexture
  	{
  	public:
+		CTexture() { };
 		CTexture(std::string filename);
 		CTexture(boost::shared_ptr< GLtexture >& texture);
 
 		~CTexture();
 
-		STH_INLINE boost::shared_ptr< GLtexture > GetGLtexture();
+		boost::shared_ptr< GLtexture >& GetGLtexture()
+		{
+			return m_GLtexture;
+		}
 
 		void Render(U64 pos_x, U64 pos_y);
 		void Hide();
@@ -53,7 +57,7 @@ namespace Seventh
 
 		STH_INLINE void ReDraw() { m_Draw = true; };
 
-	private:
+	protected:
 		boost::shared_ptr< GLtexture > m_GLtexture;
 
 		bool m_Hide;

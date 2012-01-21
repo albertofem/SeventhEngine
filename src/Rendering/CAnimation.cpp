@@ -22,40 +22,62 @@
  *
  */
 
-#include "resources.h"
-
-#include "Rendering/GLtexture.h"
-
-#ifndef STH_TILESET_H_
-#define STH_TILESET_H_
+#include "main.h"
+#include "Rendering/CAnimation.h"
 
 namespace Seventh
 {
-	class CTile;
-	class CTileset
+	CAnimation::CAnimation()
 	{
-	public:
-		CTileset(std::string filename);
-		~CTileset();
+		m_CurrentFrame = 0;
+		m_MaxFrames = 0;
 
-		CTileset(boost::shared_ptr< GLtexture >& texture);
+		m_FrameIncrement = 0;
+		m_FrameRate = 100;
 
-		U64 LoadTile(s_Tile* tile);
+		m_Oscillation = false;
+		m_OldTime = 0;
+	}
 
-		STH_INLINE boost::shared_ptr< GLtexture > GetGLtexture();
+	void CAnimation::UpdateFrames()
+	{
+		if(m_OldTime+m_FrameRate > SDL_GetTicks())
+		{
+			return;
+		}
 
-	private:
-		// counter for internal tiles
-		U64 m_CounterTiles;
+		m_OldTime = SDL_GetTicks();
 
-		// main resource, will be shared by all the tiles
-		boost::shared_ptr< GLtexture > m_GLtexture;
+		m_CurrentFrame += m_FrameIncrement;
 
-		// tiles map
-		std::map< U64, SRenderingResource< CTile > > m_Tiles;
-		std::map< s_Tile*, U64 > m_LoadedTiles;
+		if(m_Oscillation)
+		{
+			if(m_FrameIncrement > 0)
+			{
+				if(m_CurrentFrame >= m_MaxFrames)
+				{
+					m_FrameIncrement = -m_FrameIncrement;
+				}
+			}
+			else
+			{
+				if(m_CurrentFrame <= 0)
+				{
+					m_FrameIncrement = -m_FrameIncrement;
+				}
+			}
+		}
+		else
+		{
+			if(m_CurrentFrame >= m_MaxFrames)
+			{
+				m_CurrentFrame = 0;
+			}
+		}
+	}
 
-	};
+	void CAnimation::Render(U32 pos_x, U32 pos_y)
+	{
+		UpdateFrames();
+	}
 }
-
-#endif

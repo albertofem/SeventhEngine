@@ -28,11 +28,11 @@ void myGame::DoSomeStuff()
 	MyPlayer2* player2 = new MyPlayer2(this);
 
 	_Gameplay()->_States()->RegisterState("main_menu", main_menu);
-	_Display()->_Layers()->RegisterOverallEntity("player2", player2);
 	_Display()->_Layers()->RegisterOverallEntity("player1", player);
+	_Display()->_Layers()->RegisterOverallEntity("player2", player2);
 
-	_Entities()->Entity("player1")->SetTexture("ken");
-	_Entities()->Entity("player2")->SetTexture("ryu");
+	_Entities()->Entity("player1")->SetTexture("ryu");
+	_Entities()->Entity("player2")->SetTile("maintile", "main_player_frame01");;
 }
 
 myGame::~myGame()
@@ -92,7 +92,7 @@ void MyPlayer::OnEvent(EVENT_INFO type)
 		case KEY_PRESS_D:
 			if(m_CurrentPJ == "Ryu")
 			{
-				SetTexture("ken");
+				SetTile("maintile", "main_player_frame01");
 				m_CurrentPJ = "Ken";
 			}
 			else

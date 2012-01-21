@@ -119,6 +119,12 @@ namespace Seventh
 		{
 		}
 	};
+
+	enum e_TextureFormat
+	{
+		TEXTURE_NORMAL,
+		TEXTURE_TILE
+	};
 }
 
 #endif

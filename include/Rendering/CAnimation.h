@@ -22,45 +22,36 @@
  *
  */
 
-#include "resources.h"
-
-#include "Rendering/CTile.h"
+#ifndef STH_CANIMATION_H_
+#define STH_CANIMATION_H_
 
 namespace Seventh
 {
-	CTile::CTile(std::string filename, s_Tile* tile)
+	class CAnimation
 	{
-		m_FromX = tile->posx;
-		m_FromY = tile->posy;
+	public:
+		CAnimation();
+		~CAnimation();
 
-		m_CurrentX = 0;
-		m_CurrentY = 0;
+		Render();
 
-		m_Width = tile->width;
-		m_Height = tile->height;
+	private:
+		std::vector< U64 > m_AnimationFrames;
 
-		// create new GLtexture
-		m_GLtexture.reset(new GLtexture);
+		/**
+		 * Members that directly controls
+		 * the animation behavior
+		 */
+		U8 m_CurrentFrame;
+		U8 m_FrameIncrement;
+		U8 m_FrameRate;
+		U8 m_MaxFrames;
+		U64 m_OldTime;
 
-		// load texture resource
-		m_GLtexture->load(filename, TEXTURE_TILE, m_FromX, m_FromY, m_Width, m_Height);
+		bool m_Oscillation;
 
-		m_FirstDraw = true;
-		m_Draw = true;
-	}
-
-	CTile::CTile(boost::shared_ptr< GLtexture >& texture)
-	{
-		m_GLtexture = texture;
-	}
-
-	CTile::~CTile()
-	{
-
-	}
-
-	CTile::CTile(const CTile& rhs)
-	{
-
+		void UpdateFrames();
 	}
 }
+
+#endif

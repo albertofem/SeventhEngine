@@ -74,15 +74,13 @@ namespace Seventh
 
 	void CEntity::SetTile(std::string tileset, std::string tile)
 	{
-		if(m_ResourceID != -1)
-			Hide();
+		if(m_ResourceID != 0)
+			Clear();
 
 		m_CurrentAsset = ENTITY_ASSET_TILE;
-		m_CurrentResourceName = tileset;
+		m_CurrentResourceName = tile;
 
 		m_ResourceID = CEngine::_Resources()->LoadTile(tileset, tile);
-
-		m_Show = true;
 	}
 
 	void CEntity::MoveToPosition(STH_Position& new_position)
@@ -110,7 +108,7 @@ namespace Seventh
 		else if(m_CurrentAsset == ENTITY_ASSET_TILE)
 		{
 			// render tile
-			//CDisplayCore::_Render().RenderTile(m_ResourceID, m_Position.pos_x, m_Position.pos_y);
+			CDisplayCore::_Render().RenderTile(m_ResourceID, m_Position.pos_x, m_Position.pos_y);
 		}
 		else if(m_CurrentAsset == ENTITY_ASSET_ANIMATION)
 		{

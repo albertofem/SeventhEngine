@@ -24,28 +24,23 @@
 
 #include "resources.h"
 
+#include "Rendering/CTexture.h"
+
 #ifndef STH_CTILE_H_
 #define STH_CTILE_H_
 
 namespace Seventh
 {
 	class GLtexture;
-	class CTile
+	class CTile : public CTexture
 	{
 	public:
-		CTile(boost::shared_ptr< GLtexture >& tileset_texture, s_Tile* tile);
+		CTile(std::string filename, s_Tile* tile);
+		CTile(boost::shared_ptr < GLtexture > &texture);
+		CTile(const CTile& rhs);
 		~CTile();
 
-		CTile(const CTile& rhs);
-
-		CTile(boost::shared_ptr < GLtexture > &texture);
-
-		STH_INLINE boost::shared_ptr< GLtexture >& GetGLTexture();
-
 	private:
-		U64 m_PosX;
-		U64 m_PosY;
-
 		U64 m_FromX;
 		U64 m_FromY;
 

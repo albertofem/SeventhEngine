@@ -51,11 +51,6 @@ namespace Seventh
 		m_GLtexture = texture;
 	}
 
-	boost::shared_ptr< GLtexture > CTexture::GetGLtexture()
-	{
-		return m_GLtexture;
-	}
-
 	bool CTexture::PositionChanged(U64 pos_x, U64 pos_y)
 	{
 		if(m_CurrentX == pos_x && m_CurrentY == pos_y)

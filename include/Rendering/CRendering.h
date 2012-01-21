@@ -28,7 +28,6 @@
 #include "resources.h"
 #include "Rendering/GLtexture.h"
 #include "Rendering/CTexture.h"
-#include "Rendering/CTileset.h"
 #include "Rendering/CTile.h"
 
 #ifndef STH_CRENDERING_H_
@@ -95,13 +94,12 @@ namespace Seventh
 		 * and we need to keep separate IDs in tĥis class
 		 */
 		std::map< U64, SRenderingResource< CTexture > > m_Textures;
-		std::map< U64, SRenderingResource< CTileset > > m_Tilesets;
+		std::map< U64, SRenderingResource< CTile > > m_Tiles;
 
 		/**
 		 * Counters
 		 */
 		U64 m_CounterTextures;
-		U64 m_CounterTilesets;
 		U64 m_CounterTiles;
 
 		/**
@@ -109,6 +107,7 @@ namespace Seventh
 		 * of resources already loaded
 		 */
 		std::map < std::string, boost::shared_ptr< GLtexture > > m_TexturesLoaded;
+		std::map < s_Tile*, boost::shared_ptr< GLtexture > > m_TilesLoaded;
 
 		/**
 		 * Misc. methods
@@ -121,6 +120,18 @@ namespace Seventh
 		bool CheckTextureCollision(CTexture* top_side, CTexture* down_side);
 
 		void ClearScreen();
+
+		/**
+		 * Generic functions
+		 *
+		 * This generic functions are used to avoid code
+		 * duplication in specific parts of the rendering engine
+		 */
+		template< typename Key >
+		void RedrawRenderingResource(std::map< U64, SRenderingResource< Key > >& map);
+
+		template< typename Key >
+		void Render(std::map< U64, SRenderingResource< Key > >& map, U64 resource_id, U64 pos_x, U64 pos_y);
 	};
 }
 
