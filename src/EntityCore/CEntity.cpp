@@ -25,7 +25,6 @@
 #include "DisplayCore/CDisplayCore.h"
 #include "EntityCore/CEntity.h"
 
-
 namespace Seventh
 {
 	CEntity::CEntity()
@@ -52,9 +51,15 @@ namespace Seventh
 	{
 	}
 
-	void CEntity::SetAnimation(std::string animation_name)
+	void CEntity::SetAnimation(std::string anim_name)
 	{
-		//TRACE("Animation in top CEntity");
+		if(m_ResourceID != 0)
+			Clear();
+
+		m_CurrentAsset = ENTITY_ASSET_ANIMATION;
+		m_CurrentResourceName = anim_name;
+
+		m_ResourceID = CEngine::_Resources()->LoadAnimation(anim_name);
 	}
 
 	void CEntity::SetTexture(std::string name)
@@ -113,6 +118,7 @@ namespace Seventh
 		else if(m_CurrentAsset == ENTITY_ASSET_ANIMATION)
 		{
 			// render animation
+			CDisplayCore::_Render().RenderAnimation(m_ResourceID, m_Position.pos_x, m_Position.pos_y);
 		}
 	}
 

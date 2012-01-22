@@ -35,6 +35,7 @@ namespace Seventh
 
 		S64 LoadTexture(std::string name);
 		S64 LoadTile(std::string tileset, std::string tile);
+		S64 LoadAnimation(std::string anim_name);
 
 		void Start();
 

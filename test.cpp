@@ -31,8 +31,8 @@ void myGame::DoSomeStuff()
 	_Display()->_Layers()->RegisterOverallEntity("player1", player);
 	_Display()->_Layers()->RegisterOverallEntity("player2", player2);
 
-	_Entities()->Entity("player1")->SetTexture("ryu");
-	_Entities()->Entity("player2")->SetTile("maintile", "main_player_frame01");;
+	_Entities()->Entity("player1")->SetAnimation("clouds_level1");
+	_Entities()->Entity("player2")->SetAnimation("yoshi");
 }
 
 myGame::~myGame()

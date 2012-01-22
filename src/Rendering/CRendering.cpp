@@ -67,6 +67,31 @@ namespace Seventh
 		return m_CounterTextures;
 	}
 
+	U64 CRendering::ResourceLoad_Animation(s_Animation* animation)
+	{
+		// check if already exists
+		SRenderingResource< CAnimation > new_animation;
+
+		// create new animation depende on the type
+		if(animation->type == ANIM_TEXTURE)
+		{
+			// call animation texture constructor
+			new_animation.resource.reset(new CAnimation(animation->texture_frames, animation->frame_rate));
+		}
+		else
+		{
+			new_animation.resource.reset(new CAnimation(animation->tile_frames, animation->frame_rate));
+		}
+
+		new_animation.refcount++;
+
+		// sum up the texture counter and add it to the map
+		m_CounterAnimations++;
+		m_Animations[m_CounterAnimations] = new_animation;
+
+		return m_CounterAnimations;
+	}
+
 	U64 CRendering::ResourceLoad_Tile(s_Tileset* tileset, s_Tile* tile)
 	{
 		// first, we have to load the tileset and get the ID
@@ -90,7 +115,7 @@ namespace Seventh
 			m_Tiles[m_CounterTiles].resource.reset(new CTile(tileset->src, tile));
 
 			// add to previously loaded tiles
-			m_TilesLoaded[tile] = m_Tiles[m_CounterTextures].resource->GetGLtexture();
+			m_TilesLoaded[tile] = m_Tiles[m_CounterTiles].resource->GetGLtexture();
 		}
 
 		return m_CounterTiles;
@@ -119,6 +144,14 @@ namespace Seventh
 	void CRendering::RenderTile(U64 resource_id, U64 pos_x, U64 pos_y)
 	{
 		Render(m_Tiles, resource_id, pos_x, pos_y);
+	}
+
+	void CRendering::RenderAnimation(U64 resource_id, U64 pos_x, U64 pos_y)
+	{
+		if(m_Animations[resource_id].resource->UpdateFrames())
+		{
+			Render(m_Animations, resource_id, pos_x, pos_y);
+		}
 	}
 
 	void CRendering::HideTexture(U64 resource_id)
@@ -178,6 +211,7 @@ namespace Seventh
 			// remap textures
 			RedrawRenderingResource(m_Textures);
 			RedrawRenderingResource(m_Tiles);
+			RedrawRenderingResource(m_Animations);
 
 			ClearScreen();
 		}

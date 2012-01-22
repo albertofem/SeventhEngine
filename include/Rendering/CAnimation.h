@@ -22,6 +22,8 @@
  *
  */
 
+#include "resources.h"
+
 #ifndef STH_CANIMATION_H_
 #define STH_CANIMATION_H_
 
@@ -33,10 +35,28 @@ namespace Seventh
 		CAnimation();
 		~CAnimation();
 
-		Render();
+		// texture constructor
+		CAnimation(std::vector< std::string >& texture_frames, U16 frame_rate);
+
+		// tile constructor
+		CAnimation(std::vector< s_AnimationTile >& tile_frames, U16 frame_rate);
+
+		void Render(U32 pos_x, U32 pos_y);
+
+		bool PositionChanged(U32 pos_x, U32 pos_y) { return true; }
+		void ReDraw() { return; }
+
+		bool UpdateFrames();
 
 	private:
-		std::vector< U64 > m_AnimationFrames;
+		/**
+		 * Animation frames
+		 *
+		 * This map contains in the left the number
+		 * of frame, in the right the ID of texture
+		 * to show in that frame
+		 */
+		std::map< U16, U64 > m_AnimationFrames;
 
 		/**
 		 * Members that directly controls
@@ -48,10 +68,14 @@ namespace Seventh
 		U8 m_MaxFrames;
 		U64 m_OldTime;
 
+		e_AnimationType m_Type;
+
 		bool m_Oscillation;
 
-		void UpdateFrames();
-	}
+		void Init(U16 frame_rate, e_AnimationType type);
+		void SetFrames(U16 num_frames);
+
+	};
 }
 
 #endif

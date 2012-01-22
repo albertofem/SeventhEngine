@@ -29,6 +29,7 @@
 #include "Rendering/GLtexture.h"
 #include "Rendering/CTexture.h"
 #include "Rendering/CTile.h"
+#include "Rendering/CAnimation.h"
 
 #ifndef STH_CRENDERING_H_
 #define STH_CRENDERING_H_
@@ -95,12 +96,14 @@ namespace Seventh
 		 */
 		std::map< U64, SRenderingResource< CTexture > > m_Textures;
 		std::map< U64, SRenderingResource< CTile > > m_Tiles;
+		std::map< U64, SRenderingResource< CAnimation > > m_Animations;
 
 		/**
 		 * Counters
 		 */
 		U64 m_CounterTextures;
 		U64 m_CounterTiles;
+		U64 m_CounterAnimations;
 
 		/**
 		 * Resources loaded, keeps a raw list
@@ -108,6 +111,7 @@ namespace Seventh
 		 */
 		std::map < std::string, boost::shared_ptr< GLtexture > > m_TexturesLoaded;
 		std::map < s_Tile*, boost::shared_ptr< GLtexture > > m_TilesLoaded;
+		std::map < std::string, U64 > m_AnimationsLoaded;
 
 		/**
 		 * Misc. methods

@@ -247,4 +247,22 @@ namespace Seventh
 		}
 	}
 
+	S64 CResourceManager::LoadAnimation(std::string anim_name)
+	{
+		std::map< std::string, boost::shared_ptr< s_Animation > >::const_iterator search_map;
+
+		search_map = m_Resource_Animations.find(anim_name);
+
+		if(search_map != m_Resource_Animations.end())
+		{
+			U64 anim_id = CDisplayCore::_Render().ResourceLoad_Animation(m_Resource_Animations[anim_name].get());
+			return anim_id;
+		}
+		else
+		{
+			TRACE("WARNING: animation '%s' not found!", anim_name.c_str());
+			return -1;
+		}
+	}
+
 }
