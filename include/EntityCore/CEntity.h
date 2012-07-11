@@ -1,8 +1,9 @@
-/**
+
+/*
  * SeventhEngine, an SDL-based general-purpose
  * game engine. Made for learning purposes
  *
- * Copyright (C) 2011 Alberto Fernández
+ * Copyright (C) 2012 Alberto Fernández
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,13 +45,15 @@ namespace Seventh
 		CEntity(STH_Position& initial_position);
 		virtual ~CEntity();
 
-		/**
+		
+/*
 		 * TODO: copy & assignement constructor
 		 * also comparators (position) operators
 		 */
 
 	public:
-		/**
+		
+/*
 		 * Public class methods that should be
 		 * overriden in the final entity inherited
 		 * classes. Those will be called to provide
@@ -74,7 +77,8 @@ namespace Seventh
 		std::string m_CurrentResourceName;
 
 		CEngine* m_Engine;
-		/**
+		
+/*
 		 * This method checks if the current camera
 		 * is attached to this particular entity
 		 */
@@ -91,7 +95,8 @@ namespace Seventh
 
 
 	private:
-		/**
+		
+/*
 		 * Entity possition members and methods
 		 */
 		STH_Position m_Position;

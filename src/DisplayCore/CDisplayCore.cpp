@@ -1,8 +1,8 @@
-/**
+/*
  * SeventhEngine, an SDL-based general-purpose
  * game engine. Made for learning purposes
  *
- * Copyright (C) 2011 Alberto Fernández
+ * Copyright (C) 2012 Alberto Fernández
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -50,7 +50,7 @@ namespace Seventh
 		m_ENGINE_CONFIG = engine_config;
 	}
 
-	void CDisplayCore::Start() throw(seventh_displaycore_exception)
+	void CDisplayCore::Start()
 	{
 		// get display values from the .ini config
 		m_DisplayWidth = m_ENGINE_CONFIG->getConfigValue_Int("graphics", "display_width", -1);
@@ -74,19 +74,19 @@ namespace Seventh
 		Init_Layers();
 	}
 
-	void CDisplayCore::Init_Display() throw(seventh_displaycore_exception)
+	void CDisplayCore::Init_Display()
 	{
 		// init SDL core layer
 		if(SDL_Init(SDL_INIT_EVERYTHING) > 0)
 		{
-			TRACE("Couldn't init SDL layer: %s", SDL_GetError());
+			//TRACE("Couldn't init SDL layer: %s", SDL_GetError());
 			throw seventh_displaycore_exception("Couldn't init SDL layer", STH_EXCEPTION_CANNOT_LOAD_SDL);
 		}
 
 		// set video mode and the base display screen
 		if((m_DisplayScreen = SDL_SetVideoMode(m_DisplayWidth, m_DisplayHeight, m_DisplayBPP, SDL_GL_DOUBLEBUFFER | SDL_OPENGL)) == NULL)
 		{
-			TRACE("Couldn't init SDL video mode: %s", SDL_GetError());
+			//TRACE("Couldn't init SDL video mode: %s", SDL_GetError());
 			throw new seventh_displaycore_exception("Couldn't init SDL video mode", STH_EXCEPTION_CANNOT_SET_VIDEOMODE);
 		}
 
@@ -96,12 +96,12 @@ namespace Seventh
 		SDL_WM_SetCaption("Simple Window", "Simple Window");
 
 		// display basic subsystem is initialize, OK
-		TRACE("Display base core initialized: %dx%d@%d bpp", m_DisplayWidth, m_DisplayHeight, m_DisplayBPP);
+		//TRACE("Display base core initialized: %dx%d@%d bpp", m_DisplayWidth, m_DisplayHeight, m_DisplayBPP);
 	}
 
 	void CDisplayCore::Init_OpenGLContext()
 	{
-		/**
+		/*
 		 * SDL wrapper configuration options
 		 */
 
@@ -121,7 +121,7 @@ namespace Seventh
 		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS,  1);
 		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES,  2);
 
-		/**
+		/*
 		 * Init OpenGL options
 		 */
 
@@ -143,17 +143,17 @@ namespace Seventh
 		glLoadIdentity();
 	}
 
-	void CDisplayCore::Init_Layers() throw(seventh_displaycore_exception)
+	void CDisplayCore::Init_Layers()
 	{
 		Layers.reset(new CLayerManager);
 	}
 
-	void CDisplayCore::Shutdown() throw()
+	void CDisplayCore::Shutdown()
 	{
 		SDL_Quit();
 	}
 
-	void CDisplayCore::UpdateGameLogic() throw()
+	void CDisplayCore::UpdateGameLogic()
 	{
 	}
 

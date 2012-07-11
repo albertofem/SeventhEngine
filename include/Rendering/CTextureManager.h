@@ -1,4 +1,5 @@
-/**
+
+/*
  *
  * SeventhEngine, an SDL-based general-purpose
  * game engine. Made for learning purposes

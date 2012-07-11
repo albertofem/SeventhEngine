@@ -1,8 +1,9 @@
-/**
+
+/*
  * SeventhEngine, an SDL-based general-purpose
  * game engine. Made for learning purposes
  *
- * Copyright (C) 2011 Alberto Fernández
+ * Copyright (C) 2012 Alberto Fernández
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,11 +47,11 @@ namespace Seventh
 		CDisplayCore(ENGINE_CONFIG& engine_config);
 		~CDisplayCore();
 
-		void Start() throw(seventh_displaycore_exception);
-		void Shutdown() throw();
+		void Start();
+		void Shutdown();
 
 		// this method is implemented internally in each subsystem
-		void UpdateGameLogic() throw();
+		void UpdateGameLogic();
 
 		// this method is only implemented by the display subsystem
 		void Render();
@@ -59,15 +60,16 @@ namespace Seventh
 		// prevent use of the default constructor
 		CDisplayCore();
 
-		void Init_Display() throw(seventh_displaycore_exception);
-		void Init_Layers() throw(seventh_displaycore_exception);
-		void Init_Textures() throw(seventh_displaycore_exception);
-		void Init_Animations() throw(seventh_displaycore_exception);
-		void Init_Maps() throw(seventh_displaycore_exception);
-		void Init_Movies() throw(seventh_displaycore_exception);
+		void Init_Display();
+		void Init_Layers();
+		void Init_Textures();
+		void Init_Animations();
+		void Init_Maps();
+		void Init_Movies();
 		void Init_OpenGLContext();
 
-		/**
+		
+/*
 		 * display config
 		 */
 		U16 m_DisplayWidth;
@@ -75,28 +77,33 @@ namespace Seventh
 		U8 m_DisplayBPP;
 		bool m_DisplayFScreen;
 
-		/**
+		
+/*
 		 * engine config
 		 */
 		ENGINE_CONFIG m_ENGINE_CONFIG;
 
-		/**
+		
+/*
 		 * rendering pipeline
 		 */
 		static CRendering RENDER_PIPELINE;
 
-		/**
+		
+/*
 		 * displays subsystems members
 		 */
 		static boost::shared_ptr<CLayerManager> Layers;
 
-		/**
+		
+/*
 		 * main surface
 		 */
 		static SDL_Surface* m_DisplayScreen;
 
 	public:
-		/**
+		
+/*
 		 * Camera
 		 */
 		static boost::shared_ptr<CCamera> m_CurrentCamera;

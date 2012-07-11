@@ -1,8 +1,8 @@
-/**
+/*
  * SeventhEngine, an SDL-based general-purpose
  * game engine. Made for learning purposes
  *
- * Copyright (C) 2011 Alberto Fernández
+ * Copyright (C) 2012 Alberto Fernández
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,8 +29,12 @@
 #ifndef STH_GLTEXTURE_H_
 #define STH_GLTEXTURE_H_
 
+
 namespace Seventh
 {
+	/**
+	 * 
+	 */
 	class GLtexture
 	{
 	public:
@@ -41,7 +45,7 @@ namespace Seventh
 
 		~GLtexture()
 		{
-			TRACE("Deleting texture ID: %d\n-----------------", GLtexture_id);
+			//TRACE("Deleting texture ID: %d\n-----------------", GLtexture_id);
 			glDeleteTextures(1, &GLtexture_id);
 		}
 
@@ -68,8 +72,7 @@ namespace Seventh
 		U32 GLheight;
 
 		SDL_Surface* ExtractTile(SDL_Surface* sfc_origin,
-							U32 tile_fromx, U32 tile_fromy,
-							U32 tile_width, U32 tile_height);
+			U32 tile_fromx, U32 tile_fromy, U32 tile_width, U32 tile_height);
 	};
 }
 

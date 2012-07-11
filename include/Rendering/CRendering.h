@@ -1,8 +1,9 @@
-/**
+
+/*
  * SeventhEngine, an SDL-based general-purpose
  * game engine. Made for learning purposes
  *
- * Copyright (C) 2011 Alberto Fernández
+ * Copyright (C) 2012 Alberto Fernández
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,7 +49,8 @@ namespace Seventh
 		CRendering();
 		~CRendering();
 
-		/**
+		
+/*
 		 * Public rendering methods
 		 * The rendering pipeline offers
 		 * a simple way to render something
@@ -60,7 +62,8 @@ namespace Seventh
 		void RenderMapLayer(U64 resource_id, U64 pos_x, U64 pos_y);
 		void RenderTile(U64 resource_id, U64 pos_x, U64 pos_y);
 
-		/**
+		
+/*
 		 * Same as before, but for hiding
 		 * resources in the screen
 		 */
@@ -69,7 +72,8 @@ namespace Seventh
 		void HideMapLayer(U64 resource_id);
 		void HideTile(U64 resource_id);
 
-		/**
+		
+/*
 		 * This generic function is used by the
 		 * resource manager, to load in memory
 		 * the resource needed. No further action
@@ -87,7 +91,8 @@ namespace Seventh
 
 	private:
 
-		/**
+		
+/*
 		 * Containers, contains all the
 		 * data needed by the rendering pipeline
 		 * Each class has its internal IDs, because
@@ -98,14 +103,16 @@ namespace Seventh
 		std::map< U64, SRenderingResource< CTile > > m_Tiles;
 		std::map< U64, SRenderingResource< CAnimation > > m_Animations;
 
-		/**
+		
+/*
 		 * Counters
 		 */
 		U64 m_CounterTextures;
 		U64 m_CounterTiles;
 		U64 m_CounterAnimations;
 
-		/**
+		
+/*
 		 * Resources loaded, keeps a raw list
 		 * of resources already loaded
 		 */
@@ -113,19 +120,22 @@ namespace Seventh
 		std::map < s_Tile*, boost::shared_ptr< GLtexture > > m_TilesLoaded;
 		std::map < std::string, U64 > m_AnimationsLoaded;
 
-		/**
+		
+/*
 		 * Misc. methods
 		 */
 		boost::shared_ptr< GLtexture > CheckResourceLoaded(std::string filename);
 
-		/**
+		
+/*
 		 * Rendering collision methods
 		 */
 		bool CheckTextureCollision(CTexture* top_side, CTexture* down_side);
 
 		void ClearScreen();
 
-		/**
+		
+/*
 		 * Generic functions
 		 *
 		 * This generic functions are used to avoid code

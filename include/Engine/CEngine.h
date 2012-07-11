@@ -1,8 +1,8 @@
-/**
+/*
  * SeventhEngine, an SDL-based general-purpose
  * game engine. Made for learning purposes
  *
- * Copyright (C) 2011 Alberto Fernández
+ * Copyright (C) 2012 Alberto Fernández
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,8 +39,9 @@
 
 namespace Seventh
 {
-	/**
-	 * Main engine class, take care of initialice
+	
+/*
+	 * Main engine class, take care of initialize
 	 * every subsystem and loading the engine internal
 	 * configuration: must be inherited by the game client
 	 *
@@ -66,7 +67,8 @@ namespace Seventh
 		void RenderGame() throw();
 
 	private:
-		/**
+		
+/*
 		 * subsytem core
 		 */
 		ENGINE_CONFIG EngineConfig;

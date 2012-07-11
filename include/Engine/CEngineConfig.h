@@ -1,8 +1,8 @@
-/**
+/*
  * SeventhEngine, an SDL-based general-purpose
  * game engine. Made for learning purposes
  *
- * Copyright (C) 2011 Alberto Fernández
+ * Copyright (C) 2012 Alberto Fernández
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,7 +34,8 @@
 
 namespace Seventh
 {
-	/**
+	
+/*
 	 * CEngineConfig -- This class manages the basic
 	 * configuration the engine will use in multiple
 	 * ways; during initialization & runtime. It should
@@ -51,13 +52,15 @@ namespace Seventh
 		typedef boost::shared_ptr<INIReader> IniPtr;
 
 	public:
-		/**
+		
+/*
 		 * Ctor/dtor
 		 */
 		CEngineConfig();
 		~CEngineConfig();
 
-		/**
+		
+/*
 		 * Getters, used by the client to access
 		 * properties in the .ini file
 		 */
@@ -65,18 +68,21 @@ namespace Seventh
 		std::string getConfigValue_String(std::string section, std::string param, std::string default_return);
 		bool getConfigValue_Bool(std::string section, std::string param);
 
-		/**
+		
+/*
 		 * (TODO) Setters
 		 */
 		void setConfigValue();
 
-		/**
+		
+/*
 		 * init and shutdown
 		 */
 		void Start();
 		void Shutdown();
 
-		/**
+		
+/*
 		 * (TODO) Function used to change
 		 * configuration file at runtime
 		 */

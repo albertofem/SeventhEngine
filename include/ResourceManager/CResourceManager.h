@@ -1,4 +1,5 @@
-/**
+
+/*
  *
  * SeventhEngine, an SDL-based general-purpose
  * game engine. Made for learning purposes
@@ -39,7 +40,8 @@ namespace Seventh
 
 		void Start();
 
-		/**
+		
+/*
 		 * This methods are used to reload
 		 * everything from the xml file into
 		 * the resource manager object
@@ -50,7 +52,8 @@ namespace Seventh
 		void ReloadAnimations();
 		void ReloadMaps();
 
-		/**
+		
+/*
 		 * This methods are for reloading of
 		 * specific elements within the groups
 		 * of resources (TODO)
@@ -59,7 +62,8 @@ namespace Seventh
 		// void ReloadTileset(std::string);
 		// ...
 
-		/**
+		
+/*
 		 * Resource Getters
 		 */
 		s_Animation* GetTextureInfo(std::string name);
@@ -67,12 +71,14 @@ namespace Seventh
 	private:
 		CEngine* m_Engine;
 
-		/**
+		
+/*
 		 * Core methods
 		 */
 		bool ResourceExists(std::string name, e_ResourceType resource_type);
 
-		/**
+		
+/*
 		 * TinyXML++ specific members
 		 */
 		TiXmlDocument* m_XMLFile;
@@ -86,7 +92,8 @@ namespace Seventh
 		// resources xml file
 		std::string m_ResourceXML;
 
-		/**
+		
+/*
 		 * Maps to contain everything extracted
 		 * from the xml resource file.
 		 */
@@ -95,7 +102,8 @@ namespace Seventh
 		std::map< std::string, boost::shared_ptr<s_Animation> > m_Resource_Animations;
 		std::map< std::string, boost::shared_ptr<s_Map> > m_Resource_Maps;
 
-		/**
+		
+/*
 		 * Recursive resource loaders
 		 */
 		void RecursiveReloadTextures(TiXmlElement* xml_element);

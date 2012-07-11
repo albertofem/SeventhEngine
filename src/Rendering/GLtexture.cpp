@@ -1,8 +1,8 @@
-/**
+/*
  * SeventhEngine, an SDL-based general-purpose
  * game engine. Made for learning purposes
  *
- * Copyright (C) 2011 Alberto Fernández
+ * Copyright (C) 2012 Alberto Fernández
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 
 #include "common.h"
 
-#include "SDL_image.h"
+#include <SDL/SDL_image.h>
 
 #include "Rendering/GLtexture.h"
 
@@ -38,7 +38,7 @@ namespace Seventh
 			throw seventh_displaycore_exception("Couldn't draw texture, it hasn't been initialized", STH_EXCEPTION_GLTEXTURE_NOT_INITIALIZED);
 
 		// GL stuff
-		glBindTexture(GL_TEXTURE_2D, &GLtexture_id);
+		glBindTexture(GL_TEXTURE_2D, GLtexture_id);
 
 		if(GLalpha)
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -92,7 +92,7 @@ namespace Seventh
 			GLint GL_colors;
 			GLenum GL_texture_format;
 
-			/**
+			/*
 			 * Get the colors/channels
 			 * from the surface data
 			 */
@@ -118,24 +118,24 @@ namespace Seventh
 					GL_texture_format = GL_BGR;
 			}
 
-			/**
+			/*
 			 * set width & height
 			 */
 			GLwidth = temp->w;
 			GLheight = temp->h;
 
-			/**
+			/*
 			 * generate OpenGL texture
 			 */
 			glGenTextures(1, &GLtexture_id);
-			glBindTexture(GL_TEXTURE_2D, &GLtexture_id);
+			glBindTexture(GL_TEXTURE_2D, GLtexture_id);
 
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_colors, GLwidth, GLheight, 0, GL_texture_format, GL_UNSIGNED_BYTE, temp->pixels);
 
-			/**
+			/*
 			 * free temporary resource
 			 */
 			SDL_FreeSurface(temp);

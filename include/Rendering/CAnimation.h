@@ -1,8 +1,9 @@
-/**
+
+/*
  * SeventhEngine, an SDL-based general-purpose
  * game engine. Made for learning purposes
  *
- * Copyright (C) 2011 Alberto Fernández
+ * Copyright (C) 2012 Alberto Fernández
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,7 +50,8 @@ namespace Seventh
 		bool UpdateFrames();
 
 	private:
-		/**
+		
+/*
 		 * Animation frames
 		 *
 		 * This map contains in the left the number
@@ -58,7 +60,8 @@ namespace Seventh
 		 */
 		std::map< U16, U64 > m_AnimationFrames;
 
-		/**
+		
+/*
 		 * Members that directly controls
 		 * the animation behavior
 		 */

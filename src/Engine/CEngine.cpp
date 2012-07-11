@@ -1,8 +1,8 @@
-/**
+/*
  * SeventhEngine, an SDL-based general-purpose
  * game engine. Made for learning purposes
  *
- * Copyright (C) 2011 Alberto Fernández
+ * Copyright (C) 2012 Alberto Fernández
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,38 +48,38 @@ namespace Seventh
 
 	void CEngine::Initialize()
 	{
-		/**
+		/*
 		 * start and get config
 		 */
 		EngineConfig.reset(new CEngineConfig);
 		EngineConfig->setConfigFile(CEngine::get__CONFIG_INI());
 		EngineConfig->Start();
 
-		/**
+		/*
 		 * start entity manager
 		 */
 		Entities.reset(new CEntityManager());
 		Entities->Start();
 
-		/**
+		/*
 		 * start display core
 		 */
 		Display.reset(new CDisplayCore(EngineConfig));
 		Display->Start();
 
-		/**
+		/*
 		 * start gameplay core
 		 */
 		Gameplay.reset(new CGameplayCore);
 		Gameplay->Start();
 
-		/**
+		/*
 		 * start events core
 		 */
 		Events.reset(new CEventsCore(this));
 		Events->Start();
 
-		/**
+		/*
 		 * start resources
 		 */
 		Resources.reset(new CResourceManager(__RESOURCES_XML, this));
@@ -89,7 +89,7 @@ namespace Seventh
 	// main loop, everything happens here
 	void CEngine::RunGame()
 	{
-		/**
+		/*
 		 * After systems had been initialized, we enter
 		 * in the main game loop where all the operations
 		 * takes place. This is controlled directly by the
@@ -116,7 +116,7 @@ namespace Seventh
 			while(Clock->logic())
 			{
 
-				/**
+				/*
 				 * events loop; loop for queued
 				 * events and register in the events
 				 * core class for future handling

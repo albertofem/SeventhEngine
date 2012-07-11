@@ -1,8 +1,9 @@
-/**
+
+/*
  * SeventhEngine, an SDL-based general-purpose
  * game engine. Made for learning purposes
  *
- * Copyright (C) 2011 Alberto Fernández
+ * Copyright (C) 2012 Alberto Fernández
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,6 +26,8 @@
 #include <iostream>
 #include <map>
 
+#include <string>
+
 #ifndef _WIN32
 	#ifndef NDEBUG
 		#define TRACE(arg, ...) printf(arg, ##__VA_ARGS__); std::cout << std::endl;
@@ -38,15 +41,14 @@
 #ifndef STH_COMMON_H_
 #define STH_COMMON_H_
 
-/**
+
+/*
  * engine configuration vars
  */
 namespace STH_GLOBAL
 {
 	extern bool TEXTURE_PERSISTENT;
 }
-
-#define STH_INLINE 			inline
 
 #ifdef _WIN32
 	#include <windows.h>
@@ -61,6 +63,8 @@ namespace STH_GLOBAL
 	#pragma comment(lib, "SDL_image.lib")
 
 	#define STH_INLINE		__forceinline
+#else
+#define STH_INLINE	inline
 #endif
 
 
@@ -82,7 +86,7 @@ namespace Seventh
 #include <boost/scoped_ptr.hpp>
 
 #include <SDL/SDL.h>
-#include <SDL_opengl.h>
+#include <SDL/SDL_opengl.h>
 
 #include "sth_math.h"
 #include "exception.h"
@@ -91,7 +95,8 @@ namespace Seventh
 
 #include "functors.h"
 
-/**
+
+/*
  * define useful typedefs
  * to be used all around the
  * engine
@@ -126,7 +131,8 @@ namespace Seventh
 	typedef boost::shared_ptr<CLayer> LAYER;
 }
 
-/**
+
+/*
  * types of cameras
  */
 namespace Seventh

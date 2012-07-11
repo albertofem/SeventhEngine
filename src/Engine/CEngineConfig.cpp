@@ -1,8 +1,8 @@
-/**
+/*
  * SeventhEngine, an SDL-based general-purpose
  * game engine. Made for learning purposes
  *
- * Copyright (C) 2011 Alberto Fernández
+ * Copyright (C) 2012 Alberto Fernández
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,7 +29,8 @@
 
 namespace Seventh
 {
-	/**
+	
+/*
 	 * Constructor, do nothing :(
 	 */
 	CEngineConfig::CEngineConfig()
@@ -37,7 +38,8 @@ namespace Seventh
 		// do nothing
 	}
 
-	/**
+	
+/*
 	 * Set the URL of file to load
 	 *
 	 * @param std:string filename
@@ -48,7 +50,8 @@ namespace Seventh
 		m_ConfigFile = filename;
 	}
 
-	/**
+	
+/*
 	 * Start the config subsystem by
 	 * initializing the IniParser module
 	 *
@@ -67,7 +70,8 @@ namespace Seventh
 		}
 	}
 
-	/**
+	
+/*
 	 * Get a parameter from an specific
 	 * configuration section, expressed
 	 * as an integer
@@ -82,7 +86,8 @@ namespace Seventh
 		return m_IniHandler->GetInteger(section, param, default_return);
 	}
 
-	/**
+	
+/*
 	 * Get a parameter from an specific
 	 * configuration section, expressed
 	 * as an std::string
@@ -97,7 +102,8 @@ namespace Seventh
 		return m_IniHandler->Get(section, param, default_return);
 	}
 
-	/**
+	
+/*
 	 * Get a parameter from an specific
 	 * configuration section, expressed
 	 * as a boolean. Defaults to false if
@@ -111,7 +117,8 @@ namespace Seventh
 		return m_IniHandler->GetBoolean(section, param, false);
 	}
 
-	/**
+	
+/*
 	 * This method is currently void, but
 	 * is required by the CEngine class, and
 	 * must be called even if its empty

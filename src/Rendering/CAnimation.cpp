@@ -1,8 +1,8 @@
-/**
+/*
  * SeventhEngine, an SDL-based general-purpose
  * game engine. Made for learning purposes
  *
- * Copyright (C) 2011 Alberto Fernández
+ * Copyright (C) 2012 Alberto Fernández
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -55,7 +55,7 @@ namespace Seventh
 		m_MaxFrames = num_frames;
 	}
 
-	/**
+	/*
 	 * Texture frames constructors
 	 */
 	CAnimation::CAnimation(std::vector< std::string >& texture_frames, U16 frame_rate)
