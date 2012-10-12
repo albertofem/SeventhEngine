@@ -6,6 +6,11 @@
 *.vcxproj.*
 *.opensdf
 */*.vcxproj.*
+*/vendor/*
+*/[Bb]in
+*/[Dd]ebug*/
+*/[Rr]elease*/
+*/*.cd
 *.[Oo]bj
 *.user
 *.aps

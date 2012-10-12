@@ -6,6 +6,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ResourceManager", "ResourceManager\ResourceManager.vcxproj", "{2A1AD245-FF28-4340-A9BB-E2F9952590B6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Core", "Core\Core.vcxproj", "{1A1B9AC2-6E71-4D4B-881D-98A2CA9CA2F7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E624F35B-05DD-404B-8D29-07BF4D09BCB1} = {E624F35B-05DD-404B-8D29-07BF4D09BCB1}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Collision", "Collision\Collision.vcxproj", "{CB1CE63E-2C7D-4F75-94B8-C44C8B790926}"
 EndProject
@@ -21,9 +24,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Input", "Input\Input.vcxpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SceneManager", "SceneManager\SceneManager.vcxproj", "{DC8D4807-A963-42AA-865C-184FCB0B514F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tests", "Tests\Tests.vcxproj", "{50857EAE-217E-43C3-AD28-630AEF2CC803}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Examples", "Examples\Examples.vcxproj", "{8F71390B-FBDF-4219-8196-591FA51940DE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1A1B9AC2-6E71-4D4B-881D-98A2CA9CA2F7} = {1A1B9AC2-6E71-4D4B-881D-98A2CA9CA2F7}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Vendor", "Vendor\Vendor.vcxproj", "{E624F35B-05DD-404B-8D29-07BF4D09BCB1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,14 +77,14 @@ Global
 		{DC8D4807-A963-42AA-865C-184FCB0B514F}.Debug|Win32.Build.0 = Debug|Win32
 		{DC8D4807-A963-42AA-865C-184FCB0B514F}.Release|Win32.ActiveCfg = Release|Win32
 		{DC8D4807-A963-42AA-865C-184FCB0B514F}.Release|Win32.Build.0 = Release|Win32
-		{50857EAE-217E-43C3-AD28-630AEF2CC803}.Debug|Win32.ActiveCfg = Debug|Win32
-		{50857EAE-217E-43C3-AD28-630AEF2CC803}.Debug|Win32.Build.0 = Debug|Win32
-		{50857EAE-217E-43C3-AD28-630AEF2CC803}.Release|Win32.ActiveCfg = Release|Win32
-		{50857EAE-217E-43C3-AD28-630AEF2CC803}.Release|Win32.Build.0 = Release|Win32
 		{8F71390B-FBDF-4219-8196-591FA51940DE}.Debug|Win32.ActiveCfg = Debug|Win32
 		{8F71390B-FBDF-4219-8196-591FA51940DE}.Debug|Win32.Build.0 = Debug|Win32
 		{8F71390B-FBDF-4219-8196-591FA51940DE}.Release|Win32.ActiveCfg = Release|Win32
 		{8F71390B-FBDF-4219-8196-591FA51940DE}.Release|Win32.Build.0 = Release|Win32
+		{E624F35B-05DD-404B-8D29-07BF4D09BCB1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E624F35B-05DD-404B-8D29-07BF4D09BCB1}.Debug|Win32.Build.0 = Debug|Win32
+		{E624F35B-05DD-404B-8D29-07BF4D09BCB1}.Release|Win32.ActiveCfg = Release|Win32
+		{E624F35B-05DD-404B-8D29-07BF4D09BCB1}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
