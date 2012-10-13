@@ -19,14 +19,41 @@
  * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cassert>
 
-#include "Core.h"
-
-namespace Seventh 
+namespace Seventh
 {
-	Core::Core()
+	template < typename T > 
+	class Singleton
 	{
-	}
+	private:
+		Singleton(const Singleton<T> &);
+		Singleton& operator=(const Singleton<T> &);
+
+	protected:
+		static T* mInstance;
+
+	public:
+		Singleton(void)
+		{
+			assert(!mInstance);
+		}
+
+		~Singleton(void)
+		{
+			assert(mInstance); 
+			mInstance = 0;
+		}
+
+		static T& getSingleton(void)
+		{
+			assert(mInstance); 
+			return (*mInstance); 
+		}
+
+		static T* getSingletonPtr(void)
+		{
+			return mInstance; 
+		}
+	};
 }

@@ -6,9 +6,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ResourceManager", "ResourceManager\ResourceManager.vcxproj", "{2A1AD245-FF28-4340-A9BB-E2F9952590B6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Core", "Core\Core.vcxproj", "{1A1B9AC2-6E71-4D4B-881D-98A2CA9CA2F7}"
-	ProjectSection(ProjectDependencies) = postProject
-		{E624F35B-05DD-404B-8D29-07BF4D09BCB1} = {E624F35B-05DD-404B-8D29-07BF4D09BCB1}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Collision", "Collision\Collision.vcxproj", "{CB1CE63E-2C7D-4F75-94B8-C44C8B790926}"
 EndProject
@@ -27,9 +24,15 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Examples", "Examples\Examples.vcxproj", "{8F71390B-FBDF-4219-8196-591FA51940DE}"
 	ProjectSection(ProjectDependencies) = postProject
 		{1A1B9AC2-6E71-4D4B-881D-98A2CA9CA2F7} = {1A1B9AC2-6E71-4D4B-881D-98A2CA9CA2F7}
+		{65B890EF-073D-4DF7-9A1D-455CD16ED1ED} = {65B890EF-073D-4DF7-9A1D-455CD16ED1ED}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Vendor", "Vendor\Vendor.vcxproj", "{E624F35B-05DD-404B-8D29-07BF4D09BCB1}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External Dependencies", "External Dependencies", "{2DCC0D0A-C94C-48BD-8550-AD358EF64EEB}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Debugging", "Debugging\Debugging.vcxproj", "{65B890EF-073D-4DF7-9A1D-455CD16ED1ED}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1A1B9AC2-6E71-4D4B-881D-98A2CA9CA2F7} = {1A1B9AC2-6E71-4D4B-881D-98A2CA9CA2F7}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,10 +84,10 @@ Global
 		{8F71390B-FBDF-4219-8196-591FA51940DE}.Debug|Win32.Build.0 = Debug|Win32
 		{8F71390B-FBDF-4219-8196-591FA51940DE}.Release|Win32.ActiveCfg = Release|Win32
 		{8F71390B-FBDF-4219-8196-591FA51940DE}.Release|Win32.Build.0 = Release|Win32
-		{E624F35B-05DD-404B-8D29-07BF4D09BCB1}.Debug|Win32.ActiveCfg = Debug|Win32
-		{E624F35B-05DD-404B-8D29-07BF4D09BCB1}.Debug|Win32.Build.0 = Debug|Win32
-		{E624F35B-05DD-404B-8D29-07BF4D09BCB1}.Release|Win32.ActiveCfg = Release|Win32
-		{E624F35B-05DD-404B-8D29-07BF4D09BCB1}.Release|Win32.Build.0 = Release|Win32
+		{65B890EF-073D-4DF7-9A1D-455CD16ED1ED}.Debug|Win32.ActiveCfg = Debug|Win32
+		{65B890EF-073D-4DF7-9A1D-455CD16ED1ED}.Debug|Win32.Build.0 = Debug|Win32
+		{65B890EF-073D-4DF7-9A1D-455CD16ED1ED}.Release|Win32.ActiveCfg = Release|Win32
+		{65B890EF-073D-4DF7-9A1D-455CD16ED1ED}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
