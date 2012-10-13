@@ -45,13 +45,13 @@ namespace Seventh
 			mInstance = 0;
 		}
 
-		static T& getSingleton(void)
+		static T& getInstance(void)
 		{
 			assert(mInstance); 
 			return (*mInstance); 
 		}
 
-		static T* getSingletonPtr(void)
+		static T* getInstancePtr(void)
 		{
 			return mInstance; 
 		}

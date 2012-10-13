@@ -36,6 +36,8 @@ using namespace Seventh;
 {
 	Logger* logger = new Logger;
 
+	logger->Info("Shit!");
+
 	int running = GL_TRUE;
 
 	if (!glfwInit())
@@ -53,6 +55,7 @@ using namespace Seventh;
 		glClearColor(rand() % 255 + 1, rand() % 255 + 1, rand() % 255 + 1, 0);
 
 		glfwSwapBuffers();
+		logger->Info("Switched buffers");
 
 		running = !glfwGetKey(GLFW_KEY_ESC) && glfwGetWindowParam(GLFW_OPENED);
 	}

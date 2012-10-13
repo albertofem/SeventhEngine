@@ -45,6 +45,7 @@
     <IncludePath>$(SolutionDir)\Debugging\include\;$(SolutionDir)\Core\include\;$(SolutionDir)\Vendor\glfw\include\;$(ProjectDir)\include\;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)/Debug/;$(SolutionDir)/Vendor/glfw/lib/;$(LibraryPath)</LibraryPath>
     <ReferencePath>$(VCInstallDir)atlmfc\lib;$(VCInstallDir)lib</ReferencePath>
+    <TargetName>SeventhEngineExamples.exe</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -61,7 +62,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;glfwdll.lib;Debugging.lib;Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Debugging.lib;opengl32.lib;glfwdll.lib;Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
