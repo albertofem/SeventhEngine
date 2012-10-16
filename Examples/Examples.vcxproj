@@ -13,6 +13,14 @@
   <ItemGroup>
     <ClCompile Include="win32\win_main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Debugging\Debugging.vcxproj">
+      <Project>{65b890ef-073d-4df7-9a1d-455cd16ed1ed}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Debug\nedmalloc.dll" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{8F71390B-FBDF-4219-8196-591FA51940DE}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -42,10 +50,10 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)\Debugging\include\;$(SolutionDir)\Core\include\;$(SolutionDir)\Vendor\glfw\include\;$(ProjectDir)\include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\Vendor\nedmalloc\src\;$(SolutionDir)\Debugging\include\;$(AdditionalIncludeDirectories);$(SolutionDir)\Core\include\;$(SolutionDir)\Vendor\glfw\include\;$(ProjectDir)\include\;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)/Debug/;$(SolutionDir)/Vendor/glfw/lib/;$(LibraryPath)</LibraryPath>
     <ReferencePath>$(VCInstallDir)atlmfc\lib;$(VCInstallDir)lib</ReferencePath>
-    <TargetName>SeventhEngineExamples.exe</TargetName>
+    <TargetName>SeventhEngineExamples</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -62,7 +70,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Debugging.lib;opengl32.lib;glfwdll.lib;Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glfwdll.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

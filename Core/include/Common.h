@@ -19,39 +19,44 @@
  * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "Common.h"
-#include "Singleton.h"
+#ifndef _COMMON_H_
+#define _COMMON_H_
+
+#include "Platform.h"
 
 namespace Seventh
 {
-	enum LogType 
-	{
-		LOG_DEBUG = 0x0,
-		LOG_INFO = 0x1,
-		LOG_WARN = 0x2,
-		LOG_ERROR = 0x3,
-		LOG_CRITICAL = 0x4
-	};
-
-	class Logger : public Singleton<Logger>, public AllocatedObject
-	{
-	public:
-		Logger();
-		~Logger();
-
-		// log level methods
-		void Debug(std::string message, ...);
-		void Info(std::string message, ...);
-		void Warn(std::string message, ...);
-		void Error(std::string message, ...);
-		void Critical(std::string message, ...);
-
-	protected:
-		void printMessage(LogType type, std::string message, ...);
-		std::string mapEnumValues(LogType type);
-
-	protected:
-		struct tm* mCurrentTime;
-		time_t mNow;
-	};
+	/*
+	 * Some types
+	 */
+	typedef unsigned char uchar;
+	typedef unsigned short ushort;
+	typedef unsigned int uint;
+	typedef unsigned long ulong;
 }
+
+/*
+ * Include STD headers and containers
+ */
+
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <cstring>
+#include <cstdarg>
+#include <cmath>
+
+#include <vector>
+#include <map>
+#include <string>
+
+#include <iostream>
+
+/*
+ * Project libraries
+ */
+
+#include "AllocatedObject.h"
+
+#endif

@@ -19,14 +19,44 @@
  * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-#include <stdio.h>
-#include <stdlib.h>
+/*
+ * Platform related stuff 
+ */
 
-#include "Core.h"
+#ifndef _PLATFORM_H_
+#define _PLATFORM_H_
 
-namespace Seventh 
+namespace Seventh
 {
-	Core::Core()
-	{
-	}
+	#define SEVENTH_PLATFORM_WIN32 1
+	#define SEVENTH_PLATFORM_LINUX 2
+
+	/*
+	 * Current platform calculation
+	 */
+
+	#if defined( __WIN32__ ) || defined( _WIN32 )
+		#define SEVENTH_PLATFORM SEVENTH_PLATFORM_WIN32
+	#else
+		#define SEVENTH_PLATFORM SEVENTH_PLATFORM_LINUX
+	#endif
+
+	/*
+	 * Platform specific settings
+	 */
+
+	#if SEVENTH_PLATFORM == SEVENTH_PLATFORM_WIN32
+		#define SEVENTH_INLINE __forceinline
+		#define SEVENTH_EXPORT __declspec(dllexport)
+	#else
+		#define SEVENTH_INLINE inline
+		#define SEVENTH_EXPORT
+	#endif
+
+	/*
+	 * Export settings
+	 */
+	
 }
+
+#endif

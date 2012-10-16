@@ -19,14 +19,61 @@
  * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "GL/glfw.h"
+/*
+ * Very simple allocator abstraction, using nedmalloc
+ */
+
+#ifndef _ALLOCATOR_H_
+#define _ALLOCATOR_H_
+
+#include "nedmalloc.h"
 
 namespace Seventh
 {
-	class Core
+	class AllocatedObject
 	{
 	public:
-		Core();
-		~Core();
+		explicit AllocatedObject() {};
+		~AllocatedObject() {}
+
+		// new and deleted operators
+		void* operator new(size_t size)
+		{
+			return allocateBytes(size);
+		}
+
+		void* operator new[] (size_t size)
+		{
+			return allocateBytes(size);
+		}
+
+		void operator delete (void* ptr)
+		{
+			deallocateBytes(ptr);
+		}
+
+		void operator delete[] (void* ptr)
+		{
+			deallocateBytes(ptr);
+		}
+
+	private:
+		static void* AllocatedObject::allocateBytes(size_t size)
+		{
+			void* ptr = nedalloc::nedmalloc(size);
+
+			return ptr;
+		}
+
+		static void AllocatedObject::deallocateBytes(void* ptr)
+		{
+			if(!ptr)
+				return;
+
+			nedalloc::nedfree(ptr);
+		}
 	};
 }
+
+
+#endif

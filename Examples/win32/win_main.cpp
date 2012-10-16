@@ -23,12 +23,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "Core.h"
 #include "Logger.h"
+#include "GL/glfw.h"
 
 using namespace Seventh;
 
-#ifdef _DEBUG
+#ifdef _DEBUG // main for console output in debug mode
 	int main(int argc, char* argv)
 #else
 	int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
