@@ -26,8 +26,6 @@
 #ifndef _ALLOCATOR_H_
 #define _ALLOCATOR_H_
 
-#include "nedmalloc.h"
-
 namespace Seventh
 {
 	class AllocatedObject
@@ -58,20 +56,8 @@ namespace Seventh
 		}
 
 	private:
-		static void* AllocatedObject::allocateBytes(size_t size)
-		{
-			void* ptr = nedalloc::nedmalloc(size);
-
-			return ptr;
-		}
-
-		static void AllocatedObject::deallocateBytes(void* ptr)
-		{
-			if(!ptr)
-				return;
-
-			nedalloc::nedfree(ptr);
-		}
+		static void* AllocatedObject::allocateBytes(size_t size);
+		static void AllocatedObject::deallocateBytes(void* ptr);
 	};
 }
 

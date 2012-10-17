@@ -57,6 +57,7 @@ namespace Seventh
  * Project libraries
  */
 
+#include "Singleton.h"
 #include "AllocatedObject.h"
 
 #endif

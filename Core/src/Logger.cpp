@@ -29,15 +29,7 @@ namespace Seventh
 {
 	template<> Logger* Singleton<Logger>::mInstance = 0;
 
-	Logger::Logger()
-	{
-	}
-
-	Logger::~Logger()
-	{
-	}
-
-	void Logger::Info(std::string message, ...)
+	void Logger::Info(const std::string message, ...)
 	{
 		va_list args;
 		va_start(args, message);
@@ -45,7 +37,7 @@ namespace Seventh
 		printMessage(LOG_INFO, message);
 	}
 
-	void Logger::printMessage(LogType type, std::string message, ...)
+	void Logger::printMessage(const LogLevel type, const std::string message, ...)
 	{
 		va_list args;
 		va_start(args, message);
@@ -59,11 +51,12 @@ namespace Seventh
 		printf(final_message.c_str(), mCurrentTime->tm_hour, mCurrentTime->tm_min, mCurrentTime->tm_sec, args);
 	}
 
-	std::string Logger::mapEnumValues(LogType type)
+	std::string Logger::mapEnumValues(const LogLevel type)
 	{
 		switch(type)
 		{
 		case LOG_DEBUG:
+		default:
 			return "DEBUG";
 			break;
 		case LOG_INFO:

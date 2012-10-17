@@ -19,39 +19,25 @@
  * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "Common.h"
-#include "Singleton.h"
+#include "AllocatedObject.h"
+
+#define ABORT_ON_ASSERT_FAILURE 0
+#include <nedmalloc.c>
 
 namespace Seventh
 {
-	enum LogType 
+	void* AllocatedObject::allocateBytes(size_t size)
 	{
-		LOG_DEBUG = 0x0,
-		LOG_INFO = 0x1,
-		LOG_WARN = 0x2,
-		LOG_ERROR = 0x3,
-		LOG_CRITICAL = 0x4
-	};
+		void* ptr = nedalloc::nedmalloc(size);
 
-	class Logger : public Singleton<Logger>, public AllocatedObject
+		return ptr;
+	}
+
+	void AllocatedObject::deallocateBytes(void* ptr)
 	{
-	public:
-		Logger();
-		~Logger();
+		if(!ptr)
+			return;
 
-		// log level methods
-		void Debug(std::string message, ...);
-		void Info(std::string message, ...);
-		void Warn(std::string message, ...);
-		void Error(std::string message, ...);
-		void Critical(std::string message, ...);
-
-	protected:
-		void printMessage(LogType type, std::string message, ...);
-		std::string mapEnumValues(LogType type);
-
-	protected:
-		struct tm* mCurrentTime;
-		time_t mNow;
-	};
+		nedalloc::nedfree(ptr);
+	}
 }

@@ -23,8 +23,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "Logger.h"
-#include "GL/glfw.h"
+#include "SeventhEngine.h"
 
 using namespace Seventh;
 
@@ -34,9 +33,9 @@ using namespace Seventh;
 	int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 #endif
 {
-	Logger* logger = new Logger;
+	SeventhEngine* engine = new SeventhEngine();
 
-	logger->Info("Shit!");
+	Logger::get().Info("Starting subsystems!");
 
 	int running = GL_TRUE;
 
@@ -55,7 +54,7 @@ using namespace Seventh;
 		glClearColor(rand() % 255 + 1, rand() % 255 + 1, rand() % 255 + 1, 0);
 
 		glfwSwapBuffers();
-		logger->Info("Switched buffers");
+		SeventhEngine::get().getLogger()->Info("Switched buffers!");
 
 		running = !glfwGetKey(GLFW_KEY_ESC) && glfwGetWindowParam(GLFW_OPENED);
 	}

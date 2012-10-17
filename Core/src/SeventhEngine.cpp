@@ -19,45 +19,20 @@
  * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-#ifndef _SINGLETON_H_
-#define _SINGLETON_H_
+#include "SeventhEngine.h"
 
 namespace Seventh
 {
-	template < typename T > 
-	class Singleton
+	template<> SeventhEngine* Singleton<SeventhEngine>::mInstance = 0;
+
+	SeventhEngine::SeventhEngine()
+		: mLogger(0)
 	{
-	private:
-		Singleton(const Singleton<T> &);
-		Singleton& operator=(const Singleton<T> &);
+		mLogger = new Logger();
+	}
 
-	protected:
-		static T* mInstance;
-
-	public:
-		Singleton(void)
-		{
-			assert(!mInstance);
-			mInstance = static_cast<T*>(this);
-		}
-
-		~Singleton(void)
-		{
-			assert(mInstance); 
-			mInstance = 0;
-		}
-
-		static T& get(void)
-		{
-			assert(mInstance); 
-			return (*mInstance); 
-		}
-
-		static T* getPtr(void)
-		{
-			return mInstance; 
-		}
-	};
+	Logger* SeventhEngine::getLogger()
+	{
+		return mLogger;
+	}
 }
-
-#endif

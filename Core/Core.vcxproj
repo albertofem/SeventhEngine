@@ -39,7 +39,6 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)\Vendor\nedmalloc\src\;$(ProjectDir)\include;$(SolutionDir)\Vendor\glfw\include\;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)/Vendor/glfw/lib;$(SolutionDir)/Debug/;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -52,6 +51,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;GLFW_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)/Vendor/nedmalloc/src/;$(SolutionDir)/Core/include/;$(SolutionDir)/Vendor/glfw/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -81,11 +81,15 @@
   <ItemGroup>
     <ClInclude Include="include\allocatedobject.h" />
     <ClInclude Include="include\Common.h" />
+    <ClInclude Include="include\SeventhEngine.h" />
+    <ClInclude Include="include\Logger.h" />
     <ClInclude Include="include\Platform.h" />
     <ClInclude Include="include\Singleton.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Debug\nedmalloc.dll" />
+    <ClCompile Include="src\AllocatedObject.cpp" />
+    <ClCompile Include="src\SeventhEngine.cpp" />
+    <ClCompile Include="src\Logger.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

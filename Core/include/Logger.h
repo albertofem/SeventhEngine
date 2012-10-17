@@ -19,44 +19,42 @@
  * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-#ifndef _SINGLETON_H_
-#define _SINGLETON_H_
+#include "Common.h"
+
+#ifndef _LOGGER_H_
+#define _LOGGER_H_
 
 namespace Seventh
 {
-	template < typename T > 
-	class Singleton
+	enum LogLevel 
 	{
-	private:
-		Singleton(const Singleton<T> &);
-		Singleton& operator=(const Singleton<T> &);
+		LOG_DEBUG = 0x0,
+		LOG_INFO = 0x1,
+		LOG_WARN = 0x2,
+		LOG_ERROR = 0x3,
+		LOG_CRITICAL = 0x4
+	};
+
+	class Logger : public Singleton<Logger>, public AllocatedObject
+	{
+	public:
+		Logger() {};
+		~Logger() {};
+
+		// log level methods
+		void Debug(const std::string message, ...);
+		void Info(const std::string message, ...);
+		void Warn(const std::string message, ...);
+		void Error(const std::string message, ...);
+		void Critical(const std::string message, ...);
 
 	protected:
-		static T* mInstance;
+		void printMessage(const LogLevel type, const std::string message, ...);
+		std::string mapEnumValues(const LogLevel type);
 
-	public:
-		Singleton(void)
-		{
-			assert(!mInstance);
-			mInstance = static_cast<T*>(this);
-		}
-
-		~Singleton(void)
-		{
-			assert(mInstance); 
-			mInstance = 0;
-		}
-
-		static T& get(void)
-		{
-			assert(mInstance); 
-			return (*mInstance); 
-		}
-
-		static T* getPtr(void)
-		{
-			return mInstance; 
-		}
+	protected:
+		struct tm* mCurrentTime;
+		time_t mNow;
 	};
 }
 

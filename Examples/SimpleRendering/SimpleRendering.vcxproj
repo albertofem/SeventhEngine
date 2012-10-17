@@ -10,21 +10,10 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="win32\win_main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Debugging\Debugging.vcxproj">
-      <Project>{65b890ef-073d-4df7-9a1d-455cd16ed1ed}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\Debug\nedmalloc.dll" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{8F71390B-FBDF-4219-8196-591FA51940DE}</ProjectGuid>
+    <ProjectGuid>{BF5F3B85-A969-494C-9A48-52371A7AD0A7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Examples</RootNamespace>
+    <RootNamespace>SimpleRendering</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -50,10 +39,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)\Vendor\nedmalloc\src\;$(SolutionDir)\Debugging\include\;$(AdditionalIncludeDirectories);$(SolutionDir)\Core\include\;$(SolutionDir)\Vendor\glfw\include\;$(ProjectDir)\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)/Debug/;$(SolutionDir)/Vendor/glfw/lib/;$(LibraryPath)</LibraryPath>
-    <ReferencePath>$(VCInstallDir)atlmfc\lib;$(VCInstallDir)lib</ReferencePath>
-    <TargetName>SeventhEngineExamples</TargetName>
+    <LibraryPath>$(SolutionDir)/Debug/;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -65,7 +51,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;GLFW_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Vendor\glfw\include;$(SolutionDir)\Debugging\include;$(SolutionDir)\Core\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -90,6 +76,14 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\win_main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Core.vcxproj">
+      <Project>{1a1b9ac2-6e71-4d4b-881d-98a2ca9ca2f7}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
