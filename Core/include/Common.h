@@ -1,7 +1,7 @@
 /*
  * SeventhEngine
  *
- * Copyright (C) 2012 Alberto Fernández
+ * Copyright (C) 2013 Alberto Fernández
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -59,5 +59,13 @@ namespace Seventh
 
 #include "Singleton.h"
 #include "AllocatedObject.h"
+#include "Logger.h"
+
+/*
+ * Useful macros
+ */
+
+#define LOG_INFO(fmt, ...) Logger::get().Info(fmt, ##__VA_ARGS__);
+#define LOG_ERROR(fmt, ...) Logger::get().Error(fmt, ##__VA_ARGS__);
 
 #endif

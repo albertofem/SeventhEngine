@@ -19,44 +19,19 @@
  * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-#ifndef _SINGLETON_H_
-#define _SINGLETON_H_
+#include "Common.h"
+
+#include "json-parser/json.h"
+
+#ifndef _JSONPARSER_H_
+#define _JSONPARSER_H_
 
 namespace Seventh
 {
-	template < typename T > 
-	class Singleton
+	class JSONParser
 	{
-	private:
-		Singleton(const Singleton<T> &);
-		Singleton& operator=(const Singleton<T> &);
-
-	protected:
-		static T* mInstance;
-
 	public:
-		Singleton(void)
-		{
-			assert(!mInstance);
-			mInstance = static_cast<T*>(this);
-		}
-
-		~Singleton(void)
-		{
-			assert(mInstance); 
-			mInstance = 0;
-		}
-
-		static T& get(void)
-		{
-			assert(mInstance); 
-			return (*mInstance); 
-		}
-
-		static T* getPtr(void)
-		{
-			return mInstance; 
-		}
+		static json_value* parseFile(const std::string filename);
 	};
 }
 

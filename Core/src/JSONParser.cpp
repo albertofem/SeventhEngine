@@ -19,45 +19,28 @@
  * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-#ifndef _SINGLETON_H_
-#define _SINGLETON_H_
+#include <fstream>
+#include <sstream>
+
+#include "JSONParser.h"
 
 namespace Seventh
 {
-	template < typename T > 
-	class Singleton
+	json_value* JSONParser::parseFile(const std::string filename)
 	{
-	private:
-		Singleton(const Singleton<T> &);
-		Singleton& operator=(const Singleton<T> &);
+		std::ifstream file(filename);
 
-	protected:
-		static T* mInstance;
-
-	public:
-		Singleton(void)
+		if(!file)
 		{
-			assert(!mInstance);
-			mInstance = static_cast<T*>(this);
+			LOG_ERROR("[JSONParser] Cannot open filename: %s", filename.c_str());
 		}
 
-		~Singleton(void)
-		{
-			assert(mInstance); 
-			mInstance = 0;
-		}
+		std::string file_contents;
 
-		static T& get(void)
-		{
-			assert(mInstance); 
-			return (*mInstance); 
-		}
+		file_contents = static_cast<std::stringstream const&>(std::stringstream() << file.rdbuf()).str();
 
-		static T* getPtr(void)
-		{
-			return mInstance; 
-		}
-	};
+		LOG_INFO("[JSONParser] File contents: %s", file_contents.c_str());
+
+		return json_parse(file_contents.c_str(), file_contents.size());
+	}
 }
-
-#endif

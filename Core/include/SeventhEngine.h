@@ -1,7 +1,7 @@
 /*
  * SeventhEngine
  *
- * Copyright (C) 2012 Alberto Fernández
+ * Copyright (C) 2013 Alberto Fernández
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 
 #include "Common.h"
 
-#include "Logger.h"
+#include "JSONParser.h"
 #include "GL/glfw.h"
 
 #ifndef _ENGINE_H_

@@ -1,7 +1,7 @@
 /*
  * SeventhEngine
  *
- * Copyright (C) 2012 Alberto Fernández
+ * Copyright (C) 2013 Alberto Fernández
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ using namespace Seventh;
 {
 	SeventhEngine* engine = new SeventhEngine();
 
-	Logger::get().Info("Starting subsystems!");
+	LOG_INFO("Starting subsystems!");
 
 	int running = GL_TRUE;
 
@@ -54,7 +54,6 @@ using namespace Seventh;
 		glClearColor(rand() % 255 + 1, rand() % 255 + 1, rand() % 255 + 1, 0);
 
 		glfwSwapBuffers();
-		SeventhEngine::get().getLogger()->Info("Switched buffers!");
 
 		running = !glfwGetKey(GLFW_KEY_ESC) && glfwGetWindowParam(GLFW_OPENED);
 	}

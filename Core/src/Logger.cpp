@@ -1,7 +1,7 @@
 /*
  * SeventhEngine
  *
- * Copyright (C) 2012 Alberto Fernández
+ * Copyright (C) 2013 Alberto Fernández
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,21 +34,29 @@ namespace Seventh
 		va_list args;
 		va_start(args, message);
 
-		printMessage(LOG_INFO, message);
+		printMessage(LOG_INFO, message, args);
 	}
 
-	void Logger::printMessage(const LogLevel type, const std::string message, ...)
+	void Logger::Error(const std::string message, ...)
 	{
 		va_list args;
 		va_start(args, message);
 
+		printMessage(LOG_ERROR, message, args);
+	}
+
+	void Logger::printMessage(const LogLevel type, const std::string message, va_list custom_args)
+	{
 		time(&mNow);
 		mCurrentTime = localtime(&mNow);
 
 		std::string message_type = mapEnumValues(type);
-		std::string final_message = "[%i:%i:%i] [" + message_type + "] " + message + "\n";
+		std::string final_message = "[" 
+			+ std::to_string(mCurrentTime->tm_hour) + ":" 
+			+ std::to_string(mCurrentTime->tm_min) + ":" 
+			+ std::to_string(mCurrentTime->tm_sec) + "] [" + message_type + "] " + message + "\n";
 
-		printf(final_message.c_str(), mCurrentTime->tm_hour, mCurrentTime->tm_min, mCurrentTime->tm_sec, args);
+		vprintf(final_message.c_str(), custom_args);
 	}
 
 	std::string Logger::mapEnumValues(const LogLevel type)
