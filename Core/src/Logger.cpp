@@ -29,20 +29,69 @@ namespace Seventh
 {
 	template<> Logger* Singleton<Logger>::mInstance = 0;
 
+	Logger::Logger()
+	{
+		LOG_INFO("Initializing logger");
+	}
+
+	Logger::~Logger()
+	{
+		LOG_INFO("Shuting down logger");
+	}
+
 	void Logger::Info(const std::string message, ...)
 	{
+		if(!checkLogLevel(LogLevel::INFO))
+			return;
+
 		va_list args;
 		va_start(args, message);
 
-		printMessage(LOG_INFO, message, args);
+		printMessage(LogLevel::INFO, message, args);
 	}
 
 	void Logger::Error(const std::string message, ...)
 	{
+		if(!checkLogLevel(LogLevel::ERR))
+			return;
+
 		va_list args;
 		va_start(args, message);
 
-		printMessage(LOG_ERROR, message, args);
+		printMessage(LogLevel::ERR, message, args);
+	}
+
+	void Logger::Critical(const std::string message, ...)
+	{
+		if(!checkLogLevel(LogLevel::CRITICAL))
+			return;
+
+		va_list args;
+		va_start(args, message);
+
+		printMessage(LogLevel::CRITICAL, message, args);
+	}
+
+	void Logger::Warn(const std::string message, ...)
+	{
+		if(!checkLogLevel(LogLevel::WARN))
+			return;
+
+		va_list args;
+		va_start(args, message);
+
+		printMessage(LogLevel::WARN, message, args);
+	}
+
+	void Logger::Debug(const std::string message, ...)
+	{
+		if(!checkLogLevel(LogLevel::DEBUG))
+			return;
+
+		va_list args;
+		va_start(args, message);
+
+		printMessage(LogLevel::DEBUG, message, args);
 	}
 
 	void Logger::printMessage(const LogLevel type, const std::string message, va_list custom_args)
@@ -63,22 +112,31 @@ namespace Seventh
 	{
 		switch(type)
 		{
-		case LOG_DEBUG:
+		case LogLevel::DEBUG:
 		default:
 			return "DEBUG";
 			break;
-		case LOG_INFO:
+		case LogLevel::INFO:
 			return "INFO";
 			break;
-		case LOG_WARN:
+		case LogLevel::WARN:
 			return "WARN";
 			break;
-		case LOG_ERROR:
+		case LogLevel::ERR:
 			return "ERROR";
 			break;
-		case LOG_CRITICAL:
+		case LogLevel::CRITICAL:
 			return "CRITICAL";
 			break;
 		}
 	}
+
+	bool Logger::checkLogLevel(const LogLevel level)
+	{
+		if(level > logLevel)
+			return true;
+
+		return false;
+	}
+
 }

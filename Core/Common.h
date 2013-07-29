@@ -19,13 +19,22 @@
  * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
+#include "Platform.h"
+
 #ifndef _COMMON_H_
 #define _COMMON_H_
 
-#include "Platform.h"
-
 namespace Seventh
 {
+	enum LogLevel 
+	{
+		DEBUG = 0,
+		INFO = 1,
+		WARN = 2,
+		ERR = 3,
+		CRITICAL = 4
+	};
+
 	/*
 	 * Some types
 	 */
@@ -33,6 +42,8 @@ namespace Seventh
 	typedef unsigned short ushort;
 	typedef unsigned int uint;
 	typedef unsigned long ulong;
+
+	extern LogLevel logLevel;
 }
 
 /*
@@ -53,10 +64,6 @@ namespace Seventh
 
 #include <iostream>
 
-/*
- * Project libraries
- */
-
 #include "Singleton.h"
 #include "AllocatedObject.h"
 #include "Logger.h"
@@ -67,5 +74,9 @@ namespace Seventh
 
 #define LOG_INFO(fmt, ...) Logger::get().Info(fmt, ##__VA_ARGS__);
 #define LOG_ERROR(fmt, ...) Logger::get().Error(fmt, ##__VA_ARGS__);
+#define LOG_DEBUG(fmt, ...) Logger::get().Debug(fmt, ##__VA_ARGS__);
+#define LOG_WARN(fmt, ...) Logger::get().Warn(fmt, ##__VA_ARGS__);
+#define LOG_CRIT(fmt, ...) Logger::get().Critical(fmt, ##__VA_ARGS__);
+#define SET_LOG_LEVEL(fmt) Seventh::logLevel = fmt;
 
 #endif

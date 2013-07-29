@@ -19,44 +19,38 @@
  * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-/*
- * Platform related stuff 
- */
+#include "Common.h"
 
-#ifndef _PLATFORM_H_
-#define _PLATFORM_H_
+#ifndef _LOGGER_H_
+#define _LOGGER_H_
 
 namespace Seventh
 {
-	#define SEVENTH_PLATFORM_WIN32 1
-	#define SEVENTH_PLATFORM_LINUX 2
+	class Logger : public Singleton<Logger>, public AllocatedObject
+	{
+	public:
+		Logger();
+		~Logger();
 
-	/*
-	 * Current platform calculation
-	 */
+		// log level methods
+		void Debug(const std::string message, ...);
+		void Info(const std::string message, ...);
+		void Warn(const std::string message, ...);
+		void Error(const std::string message, ...);
+		void Critical(const std::string message, ...);
 
-	#if defined( __WIN32__ ) || defined( _WIN32 )
-		#define SEVENTH_PLATFORM SEVENTH_PLATFORM_WIN32
-	#else
-		#define SEVENTH_PLATFORM SEVENTH_PLATFORM_LINUX
-	#endif
+		void setLogLevel(const LogLevel log_level);
 
-	/*
-	 * Platform specific settings
-	 */
+	protected:
+		void printMessage(const LogLevel type, const std::string message, va_list custom_args);
+		std::string mapEnumValues(const LogLevel type);
 
-	#if SEVENTH_PLATFORM == SEVENTH_PLATFORM_WIN32
-		#define SEVENTH_INLINE __forceinline
-		#define SEVENTH_EXPORT __declspec(dllexport)
-	#else
-		#define SEVENTH_INLINE inline
-		#define SEVENTH_EXPORT
-	#endif
+		bool checkLogLevel(const LogLevel level);
 
-	/*
-	 * Export settings
-	 */
-	
+	protected:
+		struct tm* mCurrentTime;
+		time_t mNow;
+	};
 }
 
 #endif

@@ -22,7 +22,7 @@
 #include "AllocatedObject.h"
 
 #define ABORT_ON_ASSERT_FAILURE 0
-#include <nedmalloc.c>
+#include <nedmalloc/src/nedmalloc.c>
 
 namespace Seventh
 {

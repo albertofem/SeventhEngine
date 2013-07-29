@@ -19,45 +19,39 @@
  * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-#ifndef _SINGLETON_H_
-#define _SINGLETON_H_
+/*
+ * Platform related stuff 
+ */
+
+#ifndef _PLATFORM_H_
+#define _PLATFORM_H_
 
 namespace Seventh
 {
-	template < typename T > 
-	class Singleton
-	{
-	private:
-		Singleton(const Singleton<T> &);
-		Singleton& operator=(const Singleton<T> &);
+	#define SEVENTH_PLATFORM_WIN32 1
+	#define SEVENTH_PLATFORM_LINUX 2
 
-	protected:
-		static T* mInstance;
+	/*
+	 * Current platform calculation
+	 */
 
-	public:
-		Singleton(void)
-		{
-			assert(!mInstance);
-			mInstance = static_cast<T*>(this);
-		}
+	#if defined(__WIN32__) || defined(_WIN32)
+		#define SEVENTH_PLATFORM SEVENTH_PLATFORM_WIN32
+	#else
+		#define SEVENTH_PLATFORM SEVENTH_PLATFORM_LINUX
+	#endif
 
-		~Singleton(void)
-		{
-			assert(mInstance); 
-			mInstance = 0;
-		}
+	/*
+	 * Platform specific settings
+	 */
 
-		static T& get(void)
-		{
-			assert(mInstance); 
-			return (*mInstance); 
-		}
-
-		static T* getPtr(void)
-		{
-			return mInstance; 
-		}
-	};
+	#if SEVENTH_PLATFORM == SEVENTH_PLATFORM_WIN32
+		#define SEVENTH_INLINE __forceinline
+		#define SEVENTH_EXPORT __declspec(dllexport)
+	#else
+		#define SEVENTH_INLINE inline
+		#define SEVENTH_EXPORT
+	#endif
 }
 
 #endif

@@ -104,7 +104,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;GLFW_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)/Vendor/;$(SolutionDir)/Vendor/nedmalloc/src/;$(SolutionDir)/Core/include/;$(SolutionDir)/Vendor/glfw/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/Vendor/;$(SolutionDir)/;$(SolutionDir)/Core/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -149,21 +149,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\Vendor\json-parser\json.h" />
-    <ClInclude Include="include\allocatedobject.h" />
-    <ClInclude Include="include\Common.h" />
-    <ClInclude Include="include\JSONParser.h" />
-    <ClInclude Include="include\SeventhEngine.h" />
-    <ClInclude Include="include\Logger.h" />
-    <ClInclude Include="include\Platform.h" />
-    <ClInclude Include="include\Singleton.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\Vendor\json-parser\json.c" />
+    <ClCompile Include="..\Vendor\inih\src\ini.c" />
+    <ClCompile Include="..\Vendor\inih\src\INIReader.cpp" />
     <ClCompile Include="src\AllocatedObject.cpp" />
-    <ClCompile Include="src\JSONParser.cpp" />
+    <ClCompile Include="src\EngineConfig.cpp" />
     <ClCompile Include="src\SeventhEngine.cpp" />
     <ClCompile Include="src\Logger.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AllocatedObject.h" />
+    <ClInclude Include="Common.h" />
+    <ClInclude Include="EngineConfig.h" />
+    <ClInclude Include="Logger.h" />
+    <ClInclude Include="Platform.h" />
+    <ClInclude Include="SeventhEngine.h" />
+    <ClInclude Include="Singleton.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

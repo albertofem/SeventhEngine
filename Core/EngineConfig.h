@@ -21,17 +21,33 @@
 
 #include "Common.h"
 
-#include "json-parser/json.h"
+#include "INIReader.h"
 
-#ifndef _JSONPARSER_H_
-#define _JSONPARSER_H_
+#ifndef _ENGINECONFIG_H_
+#define _ENGINECONFIG_H_
 
 namespace Seventh
 {
-	class JSONParser
+	class EngineConfig : public Singleton<EngineConfig>, public AllocatedObject
 	{
 	public:
-		static json_value* parseFile(const std::string filename);
+		EngineConfig(std::string configuration_file);
+		~EngineConfig();
+
+		long getIntFromSection(std::string section, std::string key, long default_value);
+		bool getBoolFromSection(std::string section, std::string key, bool default_value);
+		std::string getStringFromSection(std::string section, std::string key, std::string default_value);
+
+		uint getScreenWidth();
+		uint getScreenHeight();
+
+		bool getFullScreen();
+
+	private:
+		INIReader* mIniReader;
+		uint mScreenWidth;
+		uint mScreenHeight;
+		bool mFullScreen;
 	};
 }
 

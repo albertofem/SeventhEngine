@@ -21,24 +21,74 @@
 
 #include "SeventhEngine.h"
 
+#include "EngineConfig.h"
+
+#include "GL/glfw.h"
+
 namespace Seventh
 {
+	LogLevel logLevel = LogLevel::ERR;
+
 	template<> SeventhEngine* Singleton<SeventhEngine>::mInstance = 0;
 
 	SeventhEngine::SeventhEngine()
-		: mLogger(0)
+		: mLogger(0), mEngineConfig(0)
 	{
 		mLogger = new Logger();
-
-		// load engine configuration
-		json_value* engine_config = JSONParser::parseFile("engine.json");
-
-		printf("%i x %i", engine_config->u.object.values[0].value->u.object.values[0].value->u.integer, 
-			engine_config->u.object.values[0].value->u.object.values[1].value->u.integer);
+		mEngineConfig = new EngineConfig("./engine.ini");
 	}
 
 	Logger* SeventhEngine::getLogger()
 	{
 		return mLogger;
 	}
+
+	SeventhEngine::~SeventhEngine()
+	{
+		delete mLogger;
+		delete mEngineConfig;
+	}
+
+	Seventh::uint SeventhEngine::run()
+	{
+		int running = GL_TRUE;
+
+		uint width = mEngineConfig->getScreenWidth();
+		uint height = mEngineConfig->getScreenHeight();
+
+		bool fullScreen = mEngineConfig->getFullScreen();
+
+		LOG_DEBUG("Fullscreen: %d", fullScreen);
+
+		if (!glfwInit())
+			return 0x255;
+
+		if (!glfwOpenWindow(width, height, 0, 0, 0, 0, 0, 0, fullScreen ? GLFW_FULLSCREEN : GLFW_WINDOW))
+		{
+			glfwTerminate();
+			return 0x255;
+		}
+
+		LOG_INFO("Ready to run main game loop")
+
+		while (running)
+		{
+			glClear(GL_COLOR_BUFFER_BIT);
+			glClearColor(rand() % 255 + 1, rand() % 255 + 1, rand() % 255 + 1, 0);
+
+			glfwSwapBuffers();
+
+			running = !glfwGetKey(GLFW_KEY_ESC) && glfwGetWindowParam(GLFW_OPENED);
+		}
+
+		glfwTerminate();
+
+		return 0x1;
+	}
+
+	EngineConfig* SeventhEngine::getEngineConfig()
+	{
+		return mEngineConfig;
+	}
+
 }

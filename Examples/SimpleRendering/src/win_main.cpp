@@ -23,7 +23,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "SeventhEngine.h"
+#include "Core/SeventhEngine.h"
 
 using namespace Seventh;
 
@@ -33,32 +33,9 @@ using namespace Seventh;
 	int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 #endif
 {
-	SeventhEngine* engine = new SeventhEngine();
+	SET_LOG_LEVEL(LogLevel::DEBUG);
 
-	LOG_INFO("Starting subsystems!");
+	SeventhEngine* engine = new SeventhEngine;
 
-	int running = GL_TRUE;
-
-	if (!glfwInit())
-		exit(EXIT_FAILURE);
-
-	if (!glfwOpenWindow(300, 300, 0, 0, 0, 0, 0, 0, GLFW_WINDOW))
-	{
-		glfwTerminate();
-		exit(EXIT_FAILURE);
-	}
-
-	while (running)
-	{
-		glClear(GL_COLOR_BUFFER_BIT);
-		glClearColor(rand() % 255 + 1, rand() % 255 + 1, rand() % 255 + 1, 0);
-
-		glfwSwapBuffers();
-
-		running = !glfwGetKey(GLFW_KEY_ESC) && glfwGetWindowParam(GLFW_OPENED);
-	}
-
-	glfwTerminate();
-
-	exit(EXIT_SUCCESS);
+	return engine->run();
 }

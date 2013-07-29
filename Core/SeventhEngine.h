@@ -21,40 +21,29 @@
 
 #include "Common.h"
 
-#ifndef _LOGGER_H_
-#define _LOGGER_H_
+#ifndef _ENGINE_H_
+#define _ENGINE_H_
 
 namespace Seventh
 {
-	enum LogLevel 
-	{
-		LOG_DEBUG = 0x0,
-		LOG_INFO = 0x1,
-		LOG_WARN = 0x2,
-		LOG_ERROR = 0x3,
-		LOG_CRITICAL = 0x4
-	};
+	class EngineConfig;
+	class Logger;
 
-	class Logger : public Singleton<Logger>, public AllocatedObject
+	class SeventhEngine : public Singleton<SeventhEngine>, public AllocatedObject
 	{
 	public:
-		Logger() {};
-		~Logger() {};
+		SeventhEngine();
+		~SeventhEngine();
 
-		// log level methods
-		void Debug(const std::string message, ...);
-		void Info(const std::string message, ...);
-		void Warn(const std::string message, ...);
-		void Error(const std::string message, ...);
-		void Critical(const std::string message, ...);
+		uint run();
 
-	protected:
-		void printMessage(const LogLevel type, const std::string message, va_list custom_args);
-		std::string mapEnumValues(const LogLevel type);
+	public:
+		Logger* getLogger();
+		EngineConfig* getEngineConfig();
 
 	protected:
-		struct tm* mCurrentTime;
-		time_t mNow;
+		Logger* mLogger;
+		EngineConfig* mEngineConfig;
 	};
 }
 
