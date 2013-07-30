@@ -19,35 +19,27 @@
  * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "Common.h"
+#include "ResourcePack.h"
 
-#ifndef _ENGINE_H_
-#define _ENGINE_H_
+#include "Vendor/rapidxml_utils.hpp"
+
+using std::runtime_error;
 
 namespace Seventh
 {
-	class EngineConfig;
-	class Logger;
-	class ResourceManager;
-
-	class SeventhEngine : public Singleton<SeventhEngine>, public AllocatedObject
+	bool ResourcePack::load()
 	{
-	public:
-		SeventhEngine();
-		~SeventhEngine();
+		try
+		{
+			rapidxml::file<> xmlFile(getFilename().c_str());
+			mXmlDocument.parse<0>(xmlFile.data());	
+		} catch(runtime_error)
+		{
+			LOG_ERROR("Could not load resource pack file: '%s'", getFilename().c_str())
 
-		uint run();
+			return false;
+		}
 
-	public:
-		Logger* getLogger();
-		EngineConfig* getEngineConfig();
-		ResourceManager* getResourceMananger();
-
-	protected:
-		Logger* mLogger;
-		EngineConfig* mEngineConfig;
-		ResourceManager* mResourceManager;
-	};
+		return true;
+	}
 }
-
-#endif

@@ -72,7 +72,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>$(SolutionDir)Vendor\lib\;$(SolutionDir)Debug\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)Vendor\lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -164,6 +164,11 @@
     <ClInclude Include="Platform.h" />
     <ClInclude Include="SeventhEngine.h" />
     <ClInclude Include="Singleton.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ResourceManager\ResourceManager.vcxproj">
+      <Project>{2a1ad245-ff28-4340-a9bb-e2f9952590b6}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

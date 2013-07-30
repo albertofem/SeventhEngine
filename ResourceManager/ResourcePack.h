@@ -19,34 +19,31 @@
  * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "Common.h"
+#include "Core/Common.h"
 
-#ifndef _ENGINE_H_
-#define _ENGINE_H_
+#include "ResourceObject.h"
+
+#include "Vendor/rapidxml_utils.hpp"
+
+#ifndef _RESOURCE_PACK_H_
+#define _RESOURCE_PACK_H_
 
 namespace Seventh
 {
-	class EngineConfig;
-	class Logger;
-	class ResourceManager;
+	class Resource;
 
-	class SeventhEngine : public Singleton<SeventhEngine>, public AllocatedObject
+	class ResourcePack : public ResourceObject
 	{
 	public:
-		SeventhEngine();
-		~SeventhEngine();
+		ResourcePack(std::string filename) {};
+		bool load();
+		void unload() { };
 
-		uint run();
+		Resource* getResource(std::string name);
 
-	public:
-		Logger* getLogger();
-		EngineConfig* getEngineConfig();
-		ResourceManager* getResourceMananger();
-
-	protected:
-		Logger* mLogger;
-		EngineConfig* mEngineConfig;
-		ResourceManager* mResourceManager;
+	private:
+		std::map<std::string, Resource*> mResources;
+		rapidxml::xml_document<> mXmlDocument;
 	};
 }
 

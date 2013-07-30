@@ -30,6 +30,9 @@ namespace Seventh
 		LOG_INFO("Initializing engine config subsystem")
 
 		mIniReader = new INIReader(configuration_file);
+
+		if(mIniReader->ParseError() < 0)
+			LOG_WARN("Cannot parse engine configuration file: '%s'", configuration_file.c_str())
 	}
 
 	EngineConfig::~EngineConfig()

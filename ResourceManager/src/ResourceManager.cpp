@@ -19,35 +19,24 @@
  * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "Common.h"
-
-#ifndef _ENGINE_H_
-#define _ENGINE_H_
+#include "ResourceManager.h"
+#include "ResourcePack.h"
 
 namespace Seventh
 {
-	class EngineConfig;
-	class Logger;
-	class ResourceManager;
+	template<> ResourceManager* Singleton<ResourceManager>::mInstance = 0;
 
-	class SeventhEngine : public Singleton<SeventhEngine>, public AllocatedObject
+	ResourceManager::ResourceManager()
 	{
-	public:
-		SeventhEngine();
-		~SeventhEngine();
+		LOG_INFO("Initialized resource manager subsystem")
 
-		uint run();
+		ResourcePack* testResourcePack = new ResourcePack("resources/pack_test.xml");
 
-	public:
-		Logger* getLogger();
-		EngineConfig* getEngineConfig();
-		ResourceManager* getResourceMananger();
+		testResourcePack->load();
+	}
 
-	protected:
-		Logger* mLogger;
-		EngineConfig* mEngineConfig;
-		ResourceManager* mResourceManager;
-	};
+	ResourceManager::~ResourceManager()
+	{
+		LOG_INFO("Finished resource manager subsystem")
+	}
 }
-
-#endif

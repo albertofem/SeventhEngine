@@ -19,34 +19,27 @@
  * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "Common.h"
+#include "Core/Common.h"
 
-#ifndef _ENGINE_H_
-#define _ENGINE_H_
+#include "ResourceObject.h"
+
+#ifndef _RESOURCE_H_
+#define _RESOURCE_H_
 
 namespace Seventh
 {
-	class EngineConfig;
-	class Logger;
-	class ResourceManager;
+	enum ResourceType;
 
-	class SeventhEngine : public Singleton<SeventhEngine>, public AllocatedObject
+	class Resource : public ResourceObject
 	{
 	public:
-		SeventhEngine();
-		~SeventhEngine();
+		Resource();
+		~Resource();
 
-		uint run();
+		ResourceType getType();
 
-	public:
-		Logger* getLogger();
-		EngineConfig* getEngineConfig();
-		ResourceManager* getResourceMananger();
-
-	protected:
-		Logger* mLogger;
-		EngineConfig* mEngineConfig;
-		ResourceManager* mResourceManager;
+	private:
+		ResourceType mType;
 	};
 }
 

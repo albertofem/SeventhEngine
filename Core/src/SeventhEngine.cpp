@@ -19,11 +19,11 @@
  * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "SeventhEngine.h"
-
-#include "EngineConfig.h"
-
 #include "GL/glfw.h"
+
+#include "SeventhEngine.h"
+#include "EngineConfig.h"
+#include "ResourceManager/ResourceManager.h"
 
 namespace Seventh
 {
@@ -35,7 +35,8 @@ namespace Seventh
 		: mLogger(0), mEngineConfig(0)
 	{
 		mLogger = new Logger();
-		mEngineConfig = new EngineConfig("./engine.ini");
+		mEngineConfig = new EngineConfig("./engine.cfg");
+		mResourceManager = new ResourceManager;
 	}
 
 	Logger* SeventhEngine::getLogger()

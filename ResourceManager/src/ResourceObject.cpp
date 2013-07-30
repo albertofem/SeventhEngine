@@ -19,35 +19,33 @@
  * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "Common.h"
-
-#ifndef _ENGINE_H_
-#define _ENGINE_H_
+#include "ResourceObject.h"
 
 namespace Seventh
 {
-	class EngineConfig;
-	class Logger;
-	class ResourceManager;
-
-	class SeventhEngine : public Singleton<SeventhEngine>, public AllocatedObject
+	ResourceObject::ResourceObject(std::string filename = NULL)
+		: mLoaded(false), mID(NULL), mName(NULL)
 	{
-	public:
-		SeventhEngine();
-		~SeventhEngine();
+		mFilename = filename;
+	}
 
-		uint run();
+	bool ResourceObject::isLoaded()
+	{
+		return mLoaded;
+	}
 
-	public:
-		Logger* getLogger();
-		EngineConfig* getEngineConfig();
-		ResourceManager* getResourceMananger();
+	std::string ResourceObject::getFilename()
+	{
+		return mFilename;
+	}
 
-	protected:
-		Logger* mLogger;
-		EngineConfig* mEngineConfig;
-		ResourceManager* mResourceManager;
-	};
+	std::string ResourceObject::getName()
+	{
+		return mName;
+	}
+
+	Seventh::uint ResourceObject::getId()
+	{
+		return mID;
+	}
 }
-
-#endif

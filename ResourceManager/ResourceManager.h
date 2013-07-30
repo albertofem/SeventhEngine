@@ -19,34 +19,35 @@
  * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "Common.h"
+#include "Core/Common.h"
 
-#ifndef _ENGINE_H_
-#define _ENGINE_H_
+#ifndef _RESOURCE_MANAGER_H_
+#define _RESOURCE_MANAGER_H_
 
 namespace Seventh
 {
-	class EngineConfig;
-	class Logger;
-	class ResourceManager;
+	typedef enum ResourceType
+	{
+		RESOURCE_NULL = 0,
+		RESOURCE_GRAPHIC = 1,
+		RESOURCE_ANIMATION = 2,
+		RESOURCE_AUDIO = 3,
+		RESOURCE_FONT = 4,
+	};
 
-	class SeventhEngine : public Singleton<SeventhEngine>, public AllocatedObject
+	class ResourcePack;
+
+	class ResourceManager : public Singleton<ResourceManager>, public AllocatedObject
 	{
 	public:
-		SeventhEngine();
-		~SeventhEngine();
+		ResourceManager();
+		~ResourceManager();
 
-		uint run();
+		ResourcePack* getPack(std::string name);
+		bool loadPackFromFile(std::string filename);
 
-	public:
-		Logger* getLogger();
-		EngineConfig* getEngineConfig();
-		ResourceManager* getResourceMananger();
-
-	protected:
-		Logger* mLogger;
-		EngineConfig* mEngineConfig;
-		ResourceManager* mResourceManager;
+	private:
+		std::map<std::string, ResourcePack*> mResourcePacks;
 	};
 }
 
