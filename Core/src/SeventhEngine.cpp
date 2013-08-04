@@ -27,16 +27,15 @@
 
 namespace Seventh
 {
-	LogLevel logLevel = LogLevel::ERR;
+	LogLevel logLevel = LogLevel::DEBUG;
 
 	template<> SeventhEngine* Singleton<SeventhEngine>::mInstance = 0;
 
 	SeventhEngine::SeventhEngine()
-		: mLogger(0), mEngineConfig(0)
 	{
-		mLogger = new Logger();
-		mEngineConfig = new EngineConfig("./engine.cfg");
-		mResourceManager = new ResourceManager;
+		mLogger = new Logger(this);
+		mEngineConfig = new EngineConfig(this, "./engine.cfg");
+		mResourceManager = new ResourceManager(this);
 	}
 
 	Logger* SeventhEngine::getLogger()
@@ -46,8 +45,9 @@ namespace Seventh
 
 	SeventhEngine::~SeventhEngine()
 	{
-		delete mLogger;
+		delete mResourceManager;
 		delete mEngineConfig;
+		delete mLogger;
 	}
 
 	Seventh::uint SeventhEngine::run()
@@ -91,5 +91,4 @@ namespace Seventh
 	{
 		return mEngineConfig;
 	}
-
 }

@@ -149,16 +149,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Vendor\inih\src\ini.c" />
-    <ClCompile Include="..\Vendor\inih\src\INIReader.cpp" />
     <ClCompile Include="src\AllocatedObject.cpp" />
     <ClCompile Include="src\EngineConfig.cpp" />
     <ClCompile Include="src\SeventhEngine.cpp" />
     <ClCompile Include="src\Logger.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Vendor\SimpleIni.h" />
     <ClInclude Include="AllocatedObject.h" />
     <ClInclude Include="Common.h" />
+    <ClInclude Include="EngineComponent.h" />
     <ClInclude Include="EngineConfig.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Platform.h" />

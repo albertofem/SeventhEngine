@@ -25,13 +25,14 @@ namespace Seventh
 {
 	template<> EngineConfig* Singleton<EngineConfig>::mInstance = 0;
 
-	EngineConfig::EngineConfig(std::string configuration_file)
+	EngineConfig::EngineConfig(SeventhEngine* engine, std::string configuration_file)
+		: EngineComponent<EngineConfig>(engine)
 	{
 		LOG_INFO("Initializing engine config subsystem")
 
-		mIniReader = new INIReader(configuration_file);
+		mIniReader = new CSimpleIniA;
 
-		if(mIniReader->ParseError() < 0)
+		if(mIniReader->LoadFile(configuration_file.c_str()) < 0)
 			LOG_WARN("Cannot parse engine configuration file: '%s'", configuration_file.c_str())
 	}
 
@@ -42,17 +43,17 @@ namespace Seventh
 
 	long EngineConfig::getIntFromSection(std::string section, std::string key, long default_value)
 	{
-		return mIniReader->GetInteger(section, key, default_value);
+		return mIniReader->GetLongValue(section.c_str(), key.c_str(), default_value);
 	}
 
 	bool EngineConfig::getBoolFromSection(std::string section, std::string key, bool default_value)
 	{
-		return mIniReader->GetBoolean(section, key, default_value);
+		return mIniReader->GetBoolValue(section.c_str(), key.c_str(), default_value);
 	}
 
-	std::string EngineConfig::getStringFromSection( std::string section, std::string key, std::string default_value )
+	std::string EngineConfig::getStringFromSection(std::string section, std::string key, std::string default_value)
 	{
-		return mIniReader->Get(section, key, default_value);
+		return std::string(mIniReader->GetValue(section.c_str(), key.c_str(), default_value.c_str()));
 	}
 
 	uint EngineConfig::getScreenWidth()
@@ -83,6 +84,11 @@ namespace Seventh
 		}
 
 		return mFullScreen;
+	}
+
+	CSimpleIniA* EngineConfig::getIniReader()
+	{
+		return mIniReader;
 	}
 
 }

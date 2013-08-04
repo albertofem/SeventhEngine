@@ -23,8 +23,8 @@
 
 namespace Seventh
 {
-	ResourceObject::ResourceObject(std::string filename = NULL)
-		: mLoaded(false), mID(NULL), mName(NULL)
+	ResourceObject::ResourceObject(std::string filename)
+		: mLoaded(false)
 	{
 		mFilename = filename;
 	}

@@ -28,7 +28,16 @@
 
 namespace Seventh
 {
-	enum ResourceType;
+	typedef enum ResourceType
+	{
+		RESOURCE_NULL = 0,
+		RESOURCE_TEXTURE = 1,
+		RESOURCE_TILESET = 2,
+		RESOURCE_ANIMATION = 3,
+		RESOURCE_AUDIO = 4,
+		RESOURCE_FONT = 5,
+		RESOURCE_MAP = 6,
+	};
 
 	class Resource : public ResourceObject
 	{
@@ -36,6 +45,7 @@ namespace Seventh
 		Resource();
 		~Resource();
 
+		void setType(ResourceType type);
 		ResourceType getType();
 
 	private:

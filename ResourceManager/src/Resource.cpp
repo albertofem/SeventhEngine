@@ -20,12 +20,16 @@
  */
 
 #include "Resource.h"
-#include "ResourceManager.h"
 
 namespace Seventh
 {
-	Resource::Resource()
-		: mType(RESOURCE_NULL)
+	void Resource::setType(ResourceType type)
 	{
+		mType = type;
+	}
+
+	ResourceType Resource::getType()
+	{
+		return mType;
 	}
 }

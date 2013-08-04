@@ -20,18 +20,19 @@
  */
 
 #include "Common.h"
-
-#include "INIReader.h"
+#include "EngineComponent.h"
+#include "Vendor/SimpleIni.h"
 
 #ifndef _ENGINECONFIG_H_
 #define _ENGINECONFIG_H_
 
 namespace Seventh
 {
-	class EngineConfig : public Singleton<EngineConfig>, public AllocatedObject
+	class SeventhEngine;
+	class EngineConfig : public EngineComponent<EngineConfig>
 	{
 	public:
-		EngineConfig(std::string configuration_file);
+		EngineConfig(SeventhEngine* engine, std::string configuration_file);
 		~EngineConfig();
 
 		long getIntFromSection(std::string section, std::string key, long default_value);
@@ -43,8 +44,10 @@ namespace Seventh
 
 		bool getFullScreen();
 
+		CSimpleIniA* getIniReader();
+
 	private:
-		INIReader* mIniReader;
+		CSimpleIniA* mIniReader;
 		uint mScreenWidth;
 		uint mScreenHeight;
 		bool mFullScreen;

@@ -35,9 +35,9 @@ namespace Seventh
 	class ResourcePack : public ResourceObject
 	{
 	public:
-		ResourcePack(std::string filename) {};
+		explicit ResourcePack(std::string filename) : ResourceObject(filename) {};
 		bool load();
-		void unload() { };
+		void unload() {};
 
 		Resource* getResource(std::string name);
 

@@ -19,33 +19,28 @@
  * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "Core/Common.h"
-
-#ifndef _RESOURCE_OBJECT_H_
-#define _RESOURCE_OBJECT_H_
+#ifndef _ENGINE_COMPONENT_H_
+#define _ENGINE_COMPONENT_H_
 
 namespace Seventh
 {
-	class ResourceObject : public AllocatedObject
+	class SeventhEngine;
+
+	template <typename T>
+	class Singleton;
+
+	class AllocatedObject;
+
+	template <typename T>
+	class EngineComponent : public AllocatedObject, public Singleton<T>
 	{
 	public:
-		ResourceObject() {}
-		explicit ResourceObject(std::string filename);
-		~ResourceObject() {};
+		EngineComponent() {}
+		EngineComponent(SeventhEngine* engine) { mEngine = engine; }
+		~EngineComponent() {};
 
-		virtual bool load() = 0;
-		virtual void unload() = 0;
-
-		bool isLoaded();
-		std::string getFilename();
-		std::string getName();
-		uint getId();
-		
 	protected:
-		bool mLoaded;
-		std::string mFilename;
-		std::string mName;
-		uint mID;
+		SeventhEngine* mEngine;
 	};
 }
 

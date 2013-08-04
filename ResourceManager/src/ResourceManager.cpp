@@ -22,21 +22,55 @@
 #include "ResourceManager.h"
 #include "ResourcePack.h"
 
+#include "Vendor/SimpleIni.h"
+#include "Core/SeventhEngine.h"
+#include "Core/EngineConfig.h"
+
 namespace Seventh
 {
 	template<> ResourceManager* Singleton<ResourceManager>::mInstance = 0;
 
-	ResourceManager::ResourceManager()
+	ResourceManager::ResourceManager(SeventhEngine* engine)
+		: EngineComponent(engine)
 	{
 		LOG_INFO("Initialized resource manager subsystem")
 
-		ResourcePack* testResourcePack = new ResourcePack("resources/pack_test.xml");
+		const CSimpleIniA::TKeyVal* resourcePacks = mEngine->getEngineConfig()->getIniReader()->GetSection("resources");
+		CSimpleIniA::TKeyVal::const_iterator i; 
 
-		testResourcePack->load();
+		for (i = resourcePacks->begin(); i != resourcePacks->end(); ++i)
+		{ 
+			createPackFromFile(i->first.pItem, i->second, true);
+		}
+
+		mResourcePacks["sample"]->getResource("hola");
 	}
 
 	ResourceManager::~ResourceManager()
 	{
 		LOG_INFO("Finished resource manager subsystem")
+	}
+
+	ResourcePack* ResourceManager::getPack(std::string name)
+	{
+		std::map<std::string, ResourcePack*>::iterator iterator = mResourcePacks.find(name);
+
+		if(iterator == mResourcePacks.end())
+			throw new std::exception("Invalid resource pack");
+
+		return iterator->second;
+	}
+
+	bool ResourceManager::createPackFromFile(std::string name, std::string filename, bool loadOnCreation = false)
+	{
+		LOG_DEBUG("Loading resource pack '%s'", name.c_str())
+
+		ResourcePack* newResourcePack = new ResourcePack(filename);
+		mResourcePacks[name] = newResourcePack;
+
+		if(loadOnCreation)
+			newResourcePack->load();
+
+		return true;
 	}
 }

@@ -20,31 +20,24 @@
  */
 
 #include "Core/Common.h"
+#include "Core/EngineComponent.h"
 
 #ifndef _RESOURCE_MANAGER_H_
 #define _RESOURCE_MANAGER_H_
 
 namespace Seventh
 {
-	typedef enum ResourceType
-	{
-		RESOURCE_NULL = 0,
-		RESOURCE_GRAPHIC = 1,
-		RESOURCE_ANIMATION = 2,
-		RESOURCE_AUDIO = 3,
-		RESOURCE_FONT = 4,
-	};
-
 	class ResourcePack;
 
-	class ResourceManager : public Singleton<ResourceManager>, public AllocatedObject
+	class ResourceManager : public EngineComponent<ResourceManager>
 	{
 	public:
+		ResourceManager(SeventhEngine* engine);
 		ResourceManager();
 		~ResourceManager();
 
 		ResourcePack* getPack(std::string name);
-		bool loadPackFromFile(std::string filename);
+		bool createPackFromFile(std::string name, std::string filename, bool loadOnCreation);
 
 	private:
 		std::map<std::string, ResourcePack*> mResourcePacks;

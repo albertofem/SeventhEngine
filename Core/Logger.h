@@ -21,14 +21,17 @@
 
 #include "Common.h"
 
+#include "EngineComponent.h"
+
 #ifndef _LOGGER_H_
 #define _LOGGER_H_
 
 namespace Seventh
 {
-	class Logger : public Singleton<Logger>, public AllocatedObject
+	class Logger : public EngineComponent<Logger>
 	{
 	public:
+		Logger(SeventhEngine* engine) : EngineComponent<Logger>(engine) {}
 		Logger();
 		~Logger();
 

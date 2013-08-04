@@ -133,7 +133,7 @@ namespace Seventh
 
 	bool Logger::checkLogLevel(const LogLevel level)
 	{
-		if(level > logLevel)
+		if(level >= logLevel)
 			return true;
 
 		return false;

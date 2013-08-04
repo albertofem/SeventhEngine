@@ -19,34 +19,14 @@
  * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "Core/Common.h"
+#include <exception.h>
 
-#ifndef _RESOURCE_OBJECT_H_
-#define _RESOURCE_OBJECT_H_
+#ifndef _PACK_NOT_FOUND_EXCEPTION_H_
+#define _PACK_NOT_FOUND_EXCEPTION_H_
 
-namespace Seventh
+namespace SeventhEngine
 {
-	class ResourceObject : public AllocatedObject
-	{
-	public:
-		ResourceObject() {}
-		explicit ResourceObject(std::string filename);
-		~ResourceObject() {};
-
-		virtual bool load() = 0;
-		virtual void unload() = 0;
-
-		bool isLoaded();
-		std::string getFilename();
-		std::string getName();
-		uint getId();
-		
-	protected:
-		bool mLoaded;
-		std::string mFilename;
-		std::string mName;
-		uint mID;
-	};
+	class PackNotFoundException : public std::exception
 }
 
 #endif

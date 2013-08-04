@@ -23,8 +23,6 @@
 
 #include "Vendor/rapidxml_utils.hpp"
 
-using std::runtime_error;
-
 namespace Seventh
 {
 	bool ResourcePack::load()
@@ -33,13 +31,38 @@ namespace Seventh
 		{
 			rapidxml::file<> xmlFile(getFilename().c_str());
 			mXmlDocument.parse<0>(xmlFile.data());	
-		} catch(runtime_error)
+		} catch(std::runtime_error)
 		{
 			LOG_ERROR("Could not load resource pack file: '%s'", getFilename().c_str())
-
 			return false;
 		}
 
+		LOG_DEBUG("Loaded successfully resource pack file: '%s'", getFilename().c_str())
+		mLoaded = true;
+
 		return true;
+	}
+
+	Resource* ResourcePack::getResource(std::string name)
+	{
+		if(!isLoaded())
+		{
+			if(!load())
+			{
+				LOG_ERROR("Cannot load resource '%s' in pack '%s'", name, mName)
+				return false;
+			}
+		}
+
+		rapidxml::xml_node<>* resources;
+		
+		resources = mXmlDocument.first_node("resources");
+
+		std::cout << resources->name() << std::endl;
+
+		for(resources->first_node(); resources; resources->next_sibling())
+		{
+			LOG_INFO("Parsing node: '%s'", resources->name())
+		}
 	}
 }

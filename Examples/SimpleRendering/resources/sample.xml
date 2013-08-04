@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <textures>
+    <texture name="ryu" src="./resources/textures/ryu.png" />
+    <texture name="ken" src="./resources/textures/ken.png" />
+    <texture name="tile" src="./resources/textures/tiletest.png" />
+  </textures>
+  <tilesets>
+    <tileset name="maintile" src="./resources/textures/tile.png">
+      <tile name="main_player_frame01" x="100" y="100" width="100" height="100" />
+    </tileset>    
+    <tileset name="enemy_knight_01" src="./resources/tilesets/enemy_knight_01.png" />
+    <tileset name="ui" src="./resources/tilesets/mainui.png" format="png" />
+  </tilesets>
+  <animations>
+    <animation type="texture" name="clouds_level1" framerate="500">
+      <frame texture="zelda_overall_01" />
+      <frame texture="zelda_overall_02" />
+    </animation>
+    <animation type="tile" name="main_player_walk_right" framerate="500">
+      <frame tileset="main_player" tile="main_player_frame01" />
+      <frame tileset="main_player" tile="main_player_frame02" />
+      <frame tileset="main_player" tile="main_player_frame03" />
+      <frame tileset="main_player" tile="main_player_frame04" />
+      <frame tileset="main_player" tile="main_player_frame05" />
+    </animation>
+  </animations>
+  <maps>
+    <map name="map_level1_intro" src="./resources/maps/level1/intro.xml" />
+    <map name="map_level1_dungeon" src="./resources/maps/level1/dungeon.xml" />
+  </maps>
+  </resources>
