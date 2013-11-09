@@ -70,6 +70,8 @@ namespace Seventh
 			return 0x255;
 		}
 
+		glfwSetWindowTitle(mEngineConfig->getGameTitle().c_str());
+
 		LOG_INFO("Ready to run main game loop")
 
 		while (running)

@@ -86,6 +86,16 @@ namespace Seventh
 		return mFullScreen;
 	}
 
+	std::string EngineConfig::getGameTitle()
+	{
+		if(mGameTitle == "")
+		{
+			mGameTitle = getStringFromSection("game", "title", "SeventhEngine game");
+		}
+
+		return mGameTitle;
+	}
+
 	CSimpleIniA* EngineConfig::getIniReader()
 	{
 		return mIniReader;

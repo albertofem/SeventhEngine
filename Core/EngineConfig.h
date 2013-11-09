@@ -43,6 +43,7 @@ namespace Seventh
 		uint getScreenHeight();
 
 		bool getFullScreen();
+		std::string getGameTitle();
 
 		CSimpleIniA* getIniReader();
 
@@ -51,6 +52,7 @@ namespace Seventh
 		uint mScreenWidth;
 		uint mScreenHeight;
 		bool mFullScreen;
+		std::string mGameTitle;
 	};
 }
 
