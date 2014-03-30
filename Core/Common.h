@@ -1,7 +1,7 @@
 /*
  * SeventhEngine
  *
- * Copyright (C) 2013 Alberto Fernández
+ * Copyright (c) Alberto Fernández
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,9 +35,6 @@ namespace Seventh
 		CRITICAL = 4
 	};
 
-	/*
-	 * Some types
-	 */
 	typedef unsigned char uchar;
 	typedef unsigned short ushort;
 	typedef unsigned int uint;

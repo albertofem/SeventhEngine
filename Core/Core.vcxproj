@@ -149,6 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="src\AllocatedObject.cpp" />
     <ClCompile Include="src\EngineConfig.cpp" />
     <ClCompile Include="src\SeventhEngine.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="Common.h" />
     <ClInclude Include="EngineComponent.h" />
     <ClInclude Include="EngineConfig.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="SeventhEngine.h" />

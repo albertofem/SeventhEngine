@@ -16,50 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author	Alberto Fernández <albertofem@gmail.com>
+ * @author Alberto Fernández <albertofem@gmail.com>
  */
 
 /*
- * Very simple allocator abstraction, using nedmalloc
+ * This is an example of game that only render some demo stuff
  */
 
-#ifndef _ALLOCATOR_H_
-#define _ALLOCATOR_H_
+#include "Core/SeventhEngine.h"
+#include "Core/Game.h"
 
-namespace Seventh
+class SimpleRendering : public Seventh::Game
 {
-	class AllocatedObject
-	{
-	public:
-		explicit AllocatedObject() {};
-		~AllocatedObject() {}
+public:
+	~SimpleRendering();
 
-		// new and deleted operators
-		void* operator new(size_t size)
-		{
-			return allocateBytes(size);
-		}
-
-		void* operator new[] (size_t size)
-		{
-			return allocateBytes(size);
-		}
-
-		void operator delete (void* ptr)
-		{
-			deallocateBytes(ptr);
-		}
-
-		void operator delete[] (void* ptr)
-		{
-			deallocateBytes(ptr);
-		}
-
-	private:
-		static void* AllocatedObject::allocateBytes(size_t size);
-		static void AllocatedObject::deallocateBytes(void* ptr);
-	};
-}
-
-
-#endif
+	std::string getName();
+};

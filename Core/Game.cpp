@@ -16,50 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author	Alberto Fernández <albertofem@gmail.com>
+ * @author Alberto Fernández <albertofem@gmail.com>
  */
 
-/*
- * Very simple allocator abstraction, using nedmalloc
- */
-
-#ifndef _ALLOCATOR_H_
-#define _ALLOCATOR_H_
+#include "Game.h"
 
 namespace Seventh
 {
-	class AllocatedObject
+	SeventhEngine* Game::getEngine()
 	{
-	public:
-		explicit AllocatedObject() {};
-		~AllocatedObject() {}
+		return mEngine;
+	}
 
-		// new and deleted operators
-		void* operator new(size_t size)
-		{
-			return allocateBytes(size);
-		}
+	Game::Game(SeventhEngine* engine)
+	{
+		mEngine = engine;
+	}
 
-		void* operator new[] (size_t size)
-		{
-			return allocateBytes(size);
-		}
-
-		void operator delete (void* ptr)
-		{
-			deallocateBytes(ptr);
-		}
-
-		void operator delete[] (void* ptr)
-		{
-			deallocateBytes(ptr);
-		}
-
-	private:
-		static void* AllocatedObject::allocateBytes(size_t size);
-		static void AllocatedObject::deallocateBytes(void* ptr);
-	};
+	void Game::setEngine(SeventhEngine* engine)
+	{
+		mEngine = engine;
+	}
 }
-
-
-#endif

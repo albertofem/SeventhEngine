@@ -1,7 +1,7 @@
 /*
  * SeventhEngine
  *
- * Copyright (C) 2013 Alberto Fernández
+ * Copyright (c) Alberto Fernández
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,13 +23,21 @@
 
 namespace Seventh
 {
-	void Resource::setType(ResourceType type)
+	template<typename R>
+	void Resource<R>::setType(ResourceType type)
 	{
 		mType = type;
 	}
 
-	ResourceType Resource::getType()
+	template<typename R>
+	ResourceType Resource<R>::getType()
 	{
 		return mType;
+	}
+
+	template<typename R>
+	R& Resource<R>::getResource()
+	{
+		return mResource;
 	}
 }

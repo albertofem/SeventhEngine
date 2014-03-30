@@ -1,7 +1,7 @@
 /*
  * SeventhEngine
  *
- * Copyright (C) 2013 Alberto Fernández
+ * Copyright (c) Alberto Fernández
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@
 namespace Seventh
 {
 	class ResourcePack;
+	class Resource;
 
 	class ResourceManager : public EngineComponent<ResourceManager>
 	{
@@ -37,6 +38,7 @@ namespace Seventh
 		~ResourceManager();
 
 		ResourcePack* getPack(std::string name);
+		Resource* getResourceFromPack(std::string packName, std::string resourceName);
 		bool createPackFromFile(std::string name, std::string filename, bool loadOnCreation);
 
 	private:

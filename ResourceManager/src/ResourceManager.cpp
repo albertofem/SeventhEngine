@@ -1,7 +1,7 @@
 /*
  * SeventhEngine
  *
- * Copyright (C) 2013 Alberto Fernández
+ * Copyright (c) Alberto Fernández
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -72,5 +72,12 @@ namespace Seventh
 			newResourcePack->load();
 
 		return true;
+	}
+
+	Resource* ResourceManager::getResourceFromPack(std::string packName, std::string resourceName)
+	{
+		ResourcePack* pack = getPack(packName);
+
+		return pack->getResource(resourceName);
 	}
 }

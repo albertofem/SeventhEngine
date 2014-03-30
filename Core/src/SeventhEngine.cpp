@@ -1,7 +1,7 @@
 /*
  * SeventhEngine
  *
- * Copyright (C) 2013 Alberto Fernández
+ * Copyright (c) Alberto Fernández
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@
 #include "SeventhEngine.h"
 #include "EngineConfig.h"
 #include "ResourceManager/ResourceManager.h"
+#include "Game.h"
 
 namespace Seventh
 {
@@ -61,10 +62,10 @@ namespace Seventh
 
 		LOG_DEBUG("Fullscreen: %d", fullScreen);
 
-		if (!glfwInit())
+		if(!glfwInit())
 			return 0x255;
 
-		if (!glfwOpenWindow(width, height, 0, 0, 0, 0, 0, 0, fullScreen ? GLFW_FULLSCREEN : GLFW_WINDOW))
+		if(!glfwOpenWindow(width, height, 0, 0, 0, 0, 0, 0, fullScreen ? GLFW_FULLSCREEN : GLFW_WINDOW))
 		{
 			glfwTerminate();
 			return 0x255;
@@ -74,7 +75,7 @@ namespace Seventh
 
 		LOG_INFO("Ready to run main game loop")
 
-		while (running)
+		while(running)
 		{
 			glClear(GL_COLOR_BUFFER_BIT);
 			glClearColor(rand() % 255 + 1, rand() % 255 + 1, rand() % 255 + 1, 0);
@@ -92,5 +93,14 @@ namespace Seventh
 	EngineConfig* SeventhEngine::getEngineConfig()
 	{
 		return mEngineConfig;
+	}
+
+	bool SeventhEngine::loadGame(Game* game)
+	{
+		LOG_INFO("Loaded game '%s'", game->getName().c_str());
+
+		game->setEngine(this);
+
+		return true;
 	}
 }

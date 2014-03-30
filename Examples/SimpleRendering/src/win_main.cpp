@@ -1,7 +1,7 @@
 /*
  * SeventhEngine
  *
- * Copyright (C) 2013 Alberto Fernández
+ * Copyright (c) Alberto Fernández
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,6 +25,8 @@
 
 #include "Core/SeventhEngine.h"
 
+#include "Examples/SimpleRendering/SimpleRendering.h"
+
 using namespace Seventh;
 
 #ifdef _DEBUG // main for console output in debug mode
@@ -36,6 +38,12 @@ using namespace Seventh;
 	SET_LOG_LEVEL(LogLevel::DEBUG);
 
 	SeventhEngine* engine = new SeventhEngine;
+	SimpleRendering* simpleRendering = new SimpleRendering;
 
-	return engine->run();
+	if(engine->loadGame(simpleRendering))
+	{
+		return engine->run();
+	}
+
+	return 0x255;
 }
