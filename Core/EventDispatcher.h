@@ -20,28 +20,22 @@
  */
 
 #include "SeventhEngine.h"
+#include "Event.h"
+#include "EventListener.h"
 
-#ifndef _GAME_H_
-#define _GAME_H_
+#ifndef _EVENT_DISPATCHER_H_
+#define _EVENT_DISPATCHER_H_
 
 namespace Seventh
 {
-	class Scene;
-
-	class Game : public AllocatedObject
+	class EventDispatcher : public EngineComponent<EventDispatcher>
 	{
 	public:
-		Game() {};
-		Game(SeventhEngine* engine);
-		virtual ~Game() {};
-		virtual std::string getName() = 0;
-		virtual Scene* getFirstScene() = 0;
+		EventDispatcher() {};
+		EventDispatcher(SeventhEngine* engine);
 
-		SeventhEngine* getEngine();
-		void setEngine(SeventhEngine* engine);
-
-	private:
-		SeventhEngine* mEngine;
+		Event* dispatch(std::string event_name, Event* event);
+		void addListener(std::string event_name, EventListener* event_listener);
 	};
 }
 

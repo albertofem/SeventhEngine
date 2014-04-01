@@ -29,8 +29,16 @@
 namespace Seventh
 {
 	class SeventhEngine;
+
 	class EngineConfig : public EngineComponent<EngineConfig>
 	{
+	public:
+		enum Events
+		{
+			CONFIG_GET = "config_get",
+			CONFIG_SET = "config_set"
+		};
+
 	public:
 		EngineConfig(SeventhEngine* engine, std::string configuration_file);
 		~EngineConfig();

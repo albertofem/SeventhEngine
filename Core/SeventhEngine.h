@@ -30,9 +30,17 @@ namespace Seventh
 	class Logger;
 	class ResourceManager;
 	class Game;
+	class SceneManager;
 
 	class SeventhEngine : public Singleton<SeventhEngine>, public AllocatedObject
 	{
+	public:
+		enum Events
+		{
+			ENGINE_INIT = "engine_init",
+			ENGINE_SHUTDOWN = "engine_shutdown"
+		};
+
 	public:
 		SeventhEngine();
 		~SeventhEngine();
@@ -43,11 +51,15 @@ namespace Seventh
 		Logger* getLogger();
 		EngineConfig* getEngineConfig();
 		ResourceManager* getResourceMananger();
+		SceneManager* getSceneManager();
+
 		bool loadGame(Game* game);
+
 	protected:
 		Logger* mLogger;
 		EngineConfig* mEngineConfig;
 		ResourceManager* mResourceManager;
+		SceneManager* mSceneManager;
 	};
 }
 

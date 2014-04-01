@@ -16,33 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author Alberto Fernández <albertofem@gmail.com>
+ * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "SeventhEngine.h"
-
-#ifndef _GAME_H_
-#define _GAME_H_
+#include "SceneManager.h"
 
 namespace Seventh
 {
-	class Scene;
-
-	class Game : public AllocatedObject
+	SceneManager::SceneManager(SeventhEngine* engine)
+		: EngineComponent(engine)
 	{
-	public:
-		Game() {};
-		Game(SeventhEngine* engine);
-		virtual ~Game() {};
-		virtual std::string getName() = 0;
-		virtual Scene* getFirstScene() = 0;
+	}
 
-		SeventhEngine* getEngine();
-		void setEngine(SeventhEngine* engine);
+	SceneManager::~SceneManager()
+	{
+	}
 
-	private:
-		SeventhEngine* mEngine;
-	};
+	bool SceneManager::addScene(Scene* scene)
+	{
+		std::map<std::string, Scene*>::iterator iterator = mScenes.find(scene->getName());
+
+		if(iterator != mScenes.end())
+			throw new std::exception("Trying to add duplicated scene.");
+
+		mScenes[scene->getName()] = scene;
+	}
 }
-
-#endif

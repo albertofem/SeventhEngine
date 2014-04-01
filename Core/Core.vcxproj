@@ -149,6 +149,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Event.cpp" />
+    <ClCompile Include="EventDispatcher.cpp" />
+    <ClCompile Include="EventListener.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="src\AllocatedObject.cpp" />
     <ClCompile Include="src\EngineConfig.cpp" />
@@ -161,6 +164,9 @@
     <ClInclude Include="Common.h" />
     <ClInclude Include="EngineComponent.h" />
     <ClInclude Include="EngineConfig.h" />
+    <ClInclude Include="Event.h" />
+    <ClInclude Include="EventDispatcher.h" />
+    <ClInclude Include="EventListener.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Platform.h" />

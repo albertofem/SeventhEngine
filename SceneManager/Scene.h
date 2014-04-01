@@ -16,32 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author Alberto Fernández <albertofem@gmail.com>
+ * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "SeventhEngine.h"
+#include "Core/SeventhEngine.h"
 
-#ifndef _GAME_H_
-#define _GAME_H_
+#ifndef _SCENE_H_
+#define _SCENE_H_
 
 namespace Seventh
 {
-	class Scene;
-
-	class Game : public AllocatedObject
+	class Scene : public AllocatedObject
 	{
 	public:
-		Game() {};
-		Game(SeventhEngine* engine);
-		virtual ~Game() {};
-		virtual std::string getName() = 0;
-		virtual Scene* getFirstScene() = 0;
+		Scene();
+		virtual ~Scene();
 
-		SeventhEngine* getEngine();
-		void setEngine(SeventhEngine* engine);
-
-	private:
-		SeventhEngine* mEngine;
+		virtual std::string getName();
 	};
 }
 

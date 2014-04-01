@@ -19,30 +19,12 @@
  * @author Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "SeventhEngine.h"
-
-#ifndef _GAME_H_
-#define _GAME_H_
+#include "EventDispatcher.h"
 
 namespace Seventh
 {
-	class Scene;
-
-	class Game : public AllocatedObject
+	EventDispatcher::EventDispatcher(SeventhEngine* engine)
+		: EngineComponent(engine)
 	{
-	public:
-		Game() {};
-		Game(SeventhEngine* engine);
-		virtual ~Game() {};
-		virtual std::string getName() = 0;
-		virtual Scene* getFirstScene() = 0;
-
-		SeventhEngine* getEngine();
-		void setEngine(SeventhEngine* engine);
-
-	private:
-		SeventhEngine* mEngine;
-	};
+	}
 }
-
-#endif

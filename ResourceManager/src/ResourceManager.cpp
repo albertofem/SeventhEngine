@@ -42,8 +42,6 @@ namespace Seventh
 		{ 
 			createPackFromFile(i->first.pItem, i->second, true);
 		}
-
-		// mResourcePacks["sample"]->getResource("hola");
 	}
 
 	ResourceManager::~ResourceManager()

@@ -25,6 +25,7 @@
 #include "EngineConfig.h"
 #include "ResourceManager/ResourceManager.h"
 #include "Game.h"
+#include "SceneManager/SceneManager.h"
 
 namespace Seventh
 {
@@ -103,4 +104,9 @@ namespace Seventh
 
 		return true;
 	}
-}
+
+	SceneManager* SeventhEngine::getSceneManager()
+	{
+		return mSceneManager;
+	}
+ }
