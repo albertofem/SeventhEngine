@@ -26,6 +26,7 @@
 #include "ResourceManager/ResourceManager.h"
 #include "Game.h"
 #include "SceneManager/SceneManager.h"
+#include "EventDispatcher.h"
 
 namespace Seventh
 {
@@ -38,6 +39,10 @@ namespace Seventh
 		mLogger = new Logger(this);
 		mEngineConfig = new EngineConfig(this, "./engine.cfg");
 		mResourceManager = new ResourceManager(this);
+		mEventDispatcher = new EventDispatcher(this);
+
+		// dispatch engine initialized
+		mEventDispatcher->dispatch("engine_init");
 	}
 
 	Logger* SeventhEngine::getLogger()
@@ -50,6 +55,7 @@ namespace Seventh
 		delete mResourceManager;
 		delete mEngineConfig;
 		delete mLogger;
+		delete mEventDispatcher;
 	}
 
 	Seventh::uint SeventhEngine::run()

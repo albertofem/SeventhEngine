@@ -23,12 +23,4 @@
 
 namespace Seventh
 {
-	Scene::Scene()
-	{
-	}
-
-
-	Scene::~Scene()
-	{
-	}
 }

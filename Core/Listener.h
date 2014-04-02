@@ -16,45 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author	Alberto Fernández <albertofem@gmail.com>
+ * @author Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "Common.h"
-
-#ifndef _ENGINE_H_
-#define _ENGINE_H_
+#ifndef _LISTENER_H_
+#define _LISTENER_H_
 
 namespace Seventh
 {
-	class EngineConfig;
-	class Logger;
-	class ResourceManager;
-	class Game;
-	class SceneManager;
-	class EventDispatcher;
-
-	class SeventhEngine : public Singleton<SeventhEngine>, public AllocatedObject
+	class Listener
 	{
 	public:
-		SeventhEngine();
-		~SeventhEngine();
-
-		uint run();
-
-	public:
-		Logger* getLogger();
-		EngineConfig* getEngineConfig();
-		ResourceManager* getResourceMananger();
-		SceneManager* getSceneManager();
-
-		bool loadGame(Game* game);
-
-	protected:
-		Logger* mLogger;
-		EngineConfig* mEngineConfig;
-		ResourceManager* mResourceManager;
-		SceneManager* mSceneManager;
-		EventDispatcher* mEventDispatcher;
+		Listener() {};
+		virtual ~Listener();
 	};
 }
 

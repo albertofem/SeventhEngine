@@ -29,8 +29,15 @@ namespace Seventh
 	class Event : public AllocatedObject
 	{
 	public:
-		Event();
-		virtual ~Event() {};
+		Event(std::string name);
+		~Event() {};
+
+		void setName(std::string name);
+		std::string getName();
+		bool isPropagationStopped() { return false; };
+
+	private:
+		std::string mName;
 	};
 }
 

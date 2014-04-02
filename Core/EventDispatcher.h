@@ -34,8 +34,11 @@ namespace Seventh
 		EventDispatcher() {};
 		EventDispatcher(SeventhEngine* engine);
 
-		Event* dispatch(std::string event_name, Event* event);
+		Event* dispatch(std::string event_name, Event* event = NULL);
 		void addListener(std::string event_name, EventListener* event_listener);
+
+	private:
+		std::map<std::string, EventListener*> mListeners;
 	};
 }
 

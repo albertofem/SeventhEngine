@@ -31,6 +31,8 @@ namespace Seventh
 	{
 	public:
 		EventListener();
+
+		virtual void onEvent(Event* event);
 	};
 }
 

@@ -23,8 +23,42 @@
 
 namespace Seventh
 {
+	template<> EventDispatcher* Singleton<EventDispatcher>::mInstance = 0;
+
 	EventDispatcher::EventDispatcher(SeventhEngine* engine)
 		: EngineComponent(engine)
 	{
+	}
+
+	Event* EventDispatcher::dispatch(std::string event_name, Event* event)
+	{
+		LOG_INFO("Dispatching event '%s'", event_name.c_str());
+
+		if(event == NULL)
+		{
+			Event* event = new Event(event_name);
+		}
+
+		if(mListeners.find(event_name) == mListeners.end())
+		{
+			LOG_WARN("No listeners found for event '%s'", event_name.c_str());
+			return event;
+		}
+
+		// iterate listeners to notify
+		std::map<std::string, EventListener*>::const_iterator listeners;
+
+		for(listeners = mListeners.begin(); listeners != mListeners.end(); listeners++)
+		{
+			if(listeners->first == event_name)
+				listeners->second->onEvent(event);
+		}
+
+		return event;
+	}
+
+	void EventDispatcher::addListener(std::string event_name, EventListener* event_listener)
+	{
+		mListeners[event_name] = event_listener;
 	}
 }

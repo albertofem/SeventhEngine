@@ -29,10 +29,9 @@ namespace Seventh
 	class Scene : public AllocatedObject
 	{
 	public:
-		Scene();
-		virtual ~Scene();
+		Scene() {};
 
-		virtual std::string getName();
+		std::string getName() { return "default"; };
 	};
 }
 

@@ -23,12 +23,18 @@
 
 namespace Seventh
 {
-	Event::Event(void)
+	Event::Event(std::string name)
+		: mName(name)
 	{
 	}
 
-
-	Event::~Event(void)
+	void Event::setName(std::string name)
 	{
+		mName = name;
+	}
+
+	std::string Event::getName()
+	{
+		return mName;
 	}
 }

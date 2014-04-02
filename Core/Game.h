@@ -20,14 +20,13 @@
  */
 
 #include "SeventhEngine.h"
+#include "SceneManager/Scene.h"
 
 #ifndef _GAME_H_
 #define _GAME_H_
 
 namespace Seventh
 {
-	class Scene;
-
 	class Game : public AllocatedObject
 	{
 	public:

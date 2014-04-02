@@ -35,7 +35,10 @@ namespace Seventh
 	{
 		LOG_INFO("Initialized resource manager subsystem")
 
-		const CSimpleIniA::TKeyVal* resourcePacks = mEngine->getEngineConfig()->getIniReader()->GetSection("resources");
+		const CSimpleIniA::TKeyVal* resourcePacks = mEngine->getEngineConfig()
+			->getIniReader()
+			->GetSection("resources");
+
 		CSimpleIniA::TKeyVal::const_iterator i; 
 
 		for (i = resourcePacks->begin(); i != resourcePacks->end(); ++i)
