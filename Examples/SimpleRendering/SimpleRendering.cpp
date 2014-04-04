@@ -20,6 +20,7 @@
  */
 
 #include "SimpleRendering.h"
+#include "SimpleScene.h"
 
 SimpleRendering::~SimpleRendering()
 {
@@ -28,4 +29,14 @@ SimpleRendering::~SimpleRendering()
 std::string SimpleRendering::getName()
 {
 	return "SimpleRendering";
+}
+
+void SimpleRendering::onLoad()
+{
+	LOG_WARN("Starting game!")
+}
+
+Seventh::Scene* SimpleRendering::getFirstScene()
+{
+	return new SimpleScene;
 }

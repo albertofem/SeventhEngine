@@ -72,6 +72,14 @@ namespace Seventh
 		printMessage(LogLevel::CRITICAL, message, args);
 	}
 
+	void Logger::Exception(const std::string message, ...)
+	{
+		va_list args;
+		va_start(args, message);
+
+		printMessage(LogLevel::CRITICAL, "[EXCEPTION] " + message, args);
+	}
+
 	void Logger::Warn(const std::string message, ...)
 	{
 		if(!checkLogLevel(LogLevel::WARN))

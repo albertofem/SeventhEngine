@@ -19,7 +19,7 @@
  * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "Core/SeventhEngine.h"
+#include "Core/Common.h"
 
 #ifndef _SCENE_H_
 #define _SCENE_H_
@@ -31,7 +31,10 @@ namespace Seventh
 	public:
 		Scene() {};
 
-		std::string getName() { return "default"; };
+		std::string getName() { return ""; };
+		virtual void onLoop() = 0;
+
+		void onLoad();
 	};
 }
 

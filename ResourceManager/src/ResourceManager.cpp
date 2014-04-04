@@ -21,9 +21,7 @@
 
 #include "ResourceManager.h"
 #include "ResourcePack.h"
-
 #include "Vendor/SimpleIni.h"
-#include "Core/SeventhEngine.h"
 #include "Core/EngineConfig.h"
 
 namespace Seventh

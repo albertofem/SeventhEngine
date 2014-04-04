@@ -16,42 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author	Alberto Fernández <albertofem@gmail.com>
+ * @author Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "ResourceObject.h"
+#include "SceneManager/Scene.h"
 
-#ifndef _RESOURCE_H_
-#define _RESOURCE_H_
-
-namespace Seventh
+class SimpleScene : public Seventh::Scene
 {
-	typedef enum ResourceType
-	{
-		RESOURCE_NULL = 0,
-		RESOURCE_TEXTURE = 1,
-		RESOURCE_TILESET = 2,
-		RESOURCE_ANIMATION = 3,
-		RESOURCE_AUDIO = 4,
-		RESOURCE_FONT = 5,
-		RESOURCE_MAP = 6,
-	};
+public:
+	SimpleScene();
+	~SimpleScene();
 
-	template<typename R>
-	class Resource : public ResourceObject
-	{
-	public:
-		Resource();
-		~Resource();
+	void onLoad();
+	void onLoop();
+	std::string getName();
+};
 
-		void setType(ResourceType type);
-		ResourceType getType();
-		R& getResource();
-
-	private:
-		ResourceType mType;
-		R* mResource;
-	};
-}
-
-#endif

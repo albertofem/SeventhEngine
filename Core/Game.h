@@ -19,14 +19,15 @@
  * @author Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "SeventhEngine.h"
-#include "SceneManager/Scene.h"
+#include "Core/Common.h"
 
 #ifndef _GAME_H_
 #define _GAME_H_
 
 namespace Seventh
 {
+	class Scene;
+
 	class Game : public AllocatedObject
 	{
 	public:
@@ -35,11 +36,12 @@ namespace Seventh
 		virtual ~Game() {};
 		virtual std::string getName() = 0;
 		virtual Scene* getFirstScene() = 0;
+		virtual void onLoad() = 0;
 
 		SeventhEngine* getEngine();
 		void setEngine(SeventhEngine* engine);
 
-	private:
+	protected:
 		SeventhEngine* mEngine;
 	};
 }

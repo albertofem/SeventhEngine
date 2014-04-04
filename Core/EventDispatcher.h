@@ -19,15 +19,17 @@
  * @author Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "SeventhEngine.h"
-#include "Event.h"
-#include "EventListener.h"
+#include "Common.h"
+#include "EngineComponent.h"
 
 #ifndef _EVENT_DISPATCHER_H_
 #define _EVENT_DISPATCHER_H_
 
 namespace Seventh
 {
+	class Event;
+	class EventListener;
+
 	class EventDispatcher : public EngineComponent<EventDispatcher>
 	{
 	public:

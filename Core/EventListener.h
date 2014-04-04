@@ -19,14 +19,15 @@
  * @author Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "SeventhEngine.h"
-#include "Event.h"
+#include "Common.h"
 
 #ifndef _EVENT_LISTENER_H_
 #define _EVENT_LISTENER_H_
 
 namespace Seventh
 {
+	class Event;
+
 	class EventListener : public AllocatedObject
 	{
 	public:

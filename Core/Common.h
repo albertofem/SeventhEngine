@@ -74,6 +74,9 @@ namespace Seventh
 #define LOG_DEBUG(fmt, ...) Logger::get().Debug(fmt, ##__VA_ARGS__);
 #define LOG_WARN(fmt, ...) Logger::get().Warn(fmt, ##__VA_ARGS__);
 #define LOG_CRIT(fmt, ...) Logger::get().Critical(fmt, ##__VA_ARGS__);
+#define LOG_EXCEPTION(fmt, ...) Logger::get().Exception(fmt, ##__VA_ARGS__);
 #define SET_LOG_LEVEL(fmt) Seventh::logLevel = fmt;
+
+using Seventh::Logger;
 
 #endif

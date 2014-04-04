@@ -20,6 +20,7 @@
  */
 
 #include "Core/Common.h"
+#include "Core/SeventhEngine.h"
 #include "Core/EngineComponent.h"
 
 #ifndef _RESOURCE_MANAGER_H_

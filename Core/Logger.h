@@ -20,7 +20,6 @@
  */
 
 #include "Common.h"
-
 #include "EngineComponent.h"
 
 #ifndef _LOGGER_H_
@@ -41,6 +40,7 @@ namespace Seventh
 		void Warn(const std::string message, ...);
 		void Error(const std::string message, ...);
 		void Critical(const std::string message, ...);
+		void Exception(const std::string message, ...);
 
 		void setLogLevel(const LogLevel log_level);
 

@@ -19,7 +19,9 @@
  * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "Core/SeventhEngine.h"
+#include "Core/Common.h"
+#include "Core/EngineComponent.h"
+
 #include "Scene.h"
 
 #ifndef _SCENE_MANAGER_H_
@@ -27,6 +29,8 @@
 
 namespace Seventh
 {
+	class SeventhEngine;
+
 	class SceneManager : public EngineComponent<SceneManager>
 	{
 	public:
@@ -35,9 +39,13 @@ namespace Seventh
 		~SceneManager();
 
 		bool addScene(Scene* scene);
+		void setCurrentScene(std::string scene_name);
+		void setCurrentScene(Scene* scene);
+		Scene* getCurrentScene();
 
-	public:
+	private:
 		std::map<std::string, Scene*> mScenes;
+		Scene* mCurrentScene;
 	};
 }
 

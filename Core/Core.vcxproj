@@ -72,7 +72,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>$(SolutionDir)Vendor\lib\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)$(Platform)\$(Configuration)\;$(SolutionDir)Vendor\lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -176,6 +176,9 @@
   <ItemGroup>
     <ProjectReference Include="..\ResourceManager\ResourceManager.vcxproj">
       <Project>{2a1ad245-ff28-4340-a9bb-e2f9952590b6}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\SceneManager\SceneManager.vcxproj">
+      <Project>{dc8d4807-a963-42aa-865c-184fcb0b514f}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -23,8 +23,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "Core/SeventhEngine.h"
-
 #include "Examples/SimpleRendering/SimpleRendering.h"
 
 using namespace Seventh;

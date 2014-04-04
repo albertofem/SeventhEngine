@@ -20,6 +20,8 @@
  */
 
 #include "EventDispatcher.h"
+#include "Event.h"
+#include "EventListener.h"
 
 namespace Seventh
 {

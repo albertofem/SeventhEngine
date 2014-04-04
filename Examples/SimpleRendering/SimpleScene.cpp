@@ -16,42 +16,31 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author	Alberto Fernández <albertofem@gmail.com>
+ * @author Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "ResourceObject.h"
+#include "SimpleScene.h"
 
-#ifndef _RESOURCE_H_
-#define _RESOURCE_H_
-
-namespace Seventh
+SimpleScene::SimpleScene(void)
 {
-	typedef enum ResourceType
-	{
-		RESOURCE_NULL = 0,
-		RESOURCE_TEXTURE = 1,
-		RESOURCE_TILESET = 2,
-		RESOURCE_ANIMATION = 3,
-		RESOURCE_AUDIO = 4,
-		RESOURCE_FONT = 5,
-		RESOURCE_MAP = 6,
-	};
-
-	template<typename R>
-	class Resource : public ResourceObject
-	{
-	public:
-		Resource();
-		~Resource();
-
-		void setType(ResourceType type);
-		ResourceType getType();
-		R& getResource();
-
-	private:
-		ResourceType mType;
-		R* mResource;
-	};
 }
 
-#endif
+
+SimpleScene::~SimpleScene(void)
+{
+}
+
+void SimpleScene::onLoad()
+{
+	LOG_INFO("I'm loaded!")
+}
+
+void SimpleScene::onLoop()
+{
+	LOG_INFO("LOOOOOOPING");
+}
+
+std::string getName()
+{
+	return "titanic";
+}

@@ -26,12 +26,12 @@
 
 namespace Seventh
 {
-	class EngineConfig;
 	class Logger;
-	class ResourceManager;
-	class Game;
-	class SceneManager;
+	class EngineConfig;
 	class EventDispatcher;
+	class SceneManager;
+	class Game;
+	class ResourceManager;
 
 	class SeventhEngine : public Singleton<SeventhEngine>, public AllocatedObject
 	{
@@ -46,6 +46,7 @@ namespace Seventh
 		EngineConfig* getEngineConfig();
 		ResourceManager* getResourceMananger();
 		SceneManager* getSceneManager();
+		EventDispatcher* getEventDispatcher();
 
 		bool loadGame(Game* game);
 

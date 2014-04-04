@@ -20,16 +20,21 @@
  */
 
 #include "SceneManager.h"
+#include "Scene.h"
 
 namespace Seventh
 {
+	template<> SceneManager* Singleton<SceneManager>::mInstance = 0;
+
 	SceneManager::SceneManager(SeventhEngine* engine)
 		: EngineComponent(engine)
 	{
+		LOG_INFO("Initializing scene manager")
 	}
 
 	SceneManager::~SceneManager()
 	{
+		LOG_INFO("Shutting down scene manager")
 	}
 
 	bool SceneManager::addScene(Scene* scene)
@@ -37,8 +42,37 @@ namespace Seventh
 		std::map<std::string, Scene*>::iterator iterator = mScenes.find(scene->getName());
 
 		if(iterator != mScenes.end())
-			throw new std::exception("Trying to add duplicated scene.");
+		{
+			LOG_WARN("Trying to add a duplicate scene with name: '%s'", scene->getName().c_str());
+			return false;
+		}
 
 		mScenes[scene->getName()] = scene;
+
+		return true;
+	}
+
+	void SceneManager::setCurrentScene(std::string scene_name)
+	{
+		std::map<std::string, Scene*>::iterator iterator = mScenes.find(scene_name);
+
+		if(iterator == mScenes.end())
+		{
+			LOG_EXCEPTION("Trying to load a scene that does not exists '%s'", scene_name.c_str())
+			throw new std::exception();
+		}
+
+		mCurrentScene = iterator->second;
+	}
+
+	void SceneManager::setCurrentScene(Scene* scene)
+	{
+		addScene(scene);
+		setCurrentScene(scene->getName());
+	}
+
+	Scene* SceneManager::getCurrentScene()
+	{
+		return mCurrentScene;
 	}
 }

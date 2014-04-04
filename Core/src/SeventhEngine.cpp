@@ -22,11 +22,13 @@
 #include "GL/glfw.h"
 
 #include "SeventhEngine.h"
+
 #include "EngineConfig.h"
-#include "ResourceManager/ResourceManager.h"
-#include "Game.h"
-#include "SceneManager/SceneManager.h"
 #include "EventDispatcher.h"
+#include "Game.h"
+
+#include "ResourceManager/ResourceManager.h"
+#include "SceneManager/SceneManager.h"
 
 namespace Seventh
 {
@@ -40,9 +42,7 @@ namespace Seventh
 		mEngineConfig = new EngineConfig(this, "./engine.cfg");
 		mResourceManager = new ResourceManager(this);
 		mEventDispatcher = new EventDispatcher(this);
-
-		// dispatch engine initialized
-		mEventDispatcher->dispatch("engine_init");
+		mSceneManager = new SceneManager(this);
 	}
 
 	Logger* SeventhEngine::getLogger()
@@ -56,6 +56,7 @@ namespace Seventh
 		delete mEngineConfig;
 		delete mLogger;
 		delete mEventDispatcher;
+		delete mSceneManager;
 	}
 
 	Seventh::uint SeventhEngine::run()
@@ -84,6 +85,8 @@ namespace Seventh
 
 		while(running)
 		{
+			mSceneManager->getCurrentScene()->onLoop();
+
 			glClear(GL_COLOR_BUFFER_BIT);
 			glClearColor(rand() % 255 + 1, rand() % 255 + 1, rand() % 255 + 1, 0);
 
@@ -107,6 +110,17 @@ namespace Seventh
 		LOG_INFO("Loaded game '%s'", game->getName().c_str());
 
 		game->setEngine(this);
+		game->onLoad();
+
+		try
+		{
+			mSceneManager->setCurrentScene(game->getFirstScene());
+		}
+		catch(...)
+		{
+			LOG_CRIT("Cannot load game, shutting down...");
+			return false;
+		}
 
 		return true;
 	}
@@ -114,5 +128,10 @@ namespace Seventh
 	SceneManager* SeventhEngine::getSceneManager()
 	{
 		return mSceneManager;
+	}
+
+	EventDispatcher* SeventhEngine::getEventDispatcher()
+	{
+		return mEventDispatcher;
 	}
  }

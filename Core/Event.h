@@ -19,7 +19,7 @@
  * @author Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "SeventhEngine.h"
+#include "Common.h"
 
 #ifndef _EVENT_H_
 #define _EVENT_H_

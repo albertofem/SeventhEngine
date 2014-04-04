@@ -7,6 +7,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ResourceManager", "Resource
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Core", "Core\Core.vcxproj", "{1A1B9AC2-6E71-4D4B-881D-98A2CA9CA2F7}"
 	ProjectSection(ProjectDependencies) = postProject
+		{DC8D4807-A963-42AA-865C-184FCB0B514F} = {DC8D4807-A963-42AA-865C-184FCB0B514F}
 		{2A1AD245-FF28-4340-A9BB-E2F9952590B6} = {2A1AD245-FF28-4340-A9BB-E2F9952590B6}
 	EndProjectSection
 EndProject
@@ -21,9 +22,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{CA6F7F96-C747-49BF-A235-0B1FF55B55FF}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimpleRendering", "Examples\SimpleRendering\SimpleRendering.vcxproj", "{BF5F3B85-A969-494C-9A48-52371A7AD0A7}"
-	ProjectSection(ProjectDependencies) = postProject
-		{DC8D4807-A963-42AA-865C-184FCB0B514F} = {DC8D4807-A963-42AA-865C-184FCB0B514F}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -19,7 +19,7 @@
  * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "Core/SeventhEngine.h"
+#include "Core/Common.h"
 
 #ifndef _ENTITY_H_
 #define _ENTITY_H_

@@ -25,13 +25,16 @@
 
 #include "Core/SeventhEngine.h"
 #include "Core/Game.h"
-#include "SceneManager/Scene.h"
 
 class SimpleRendering : public Seventh::Game
 {
+	class Scene;
+
 public:
 	~SimpleRendering();
 
 	std::string getName();
-	Seventh::Scene* getFirstScene() { return new Seventh::Scene; };
+	Seventh::Scene* getFirstScene();
+
+	void onLoad();
 };
