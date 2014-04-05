@@ -16,26 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author	Alberto Fernández <albertofem@gmail.com>
+ * @author Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "Core/Common.h"
-
-#ifndef _SCENE_H_
-#define _SCENE_H_
+#include "Clock.h"
 
 namespace Seventh
 {
-	class Scene : public AllocatedObject
+	template<> Clock* Singleton<Clock>::mInstance = 0;
+
+	Clock::Clock()
+		: mTicksPerSecond(50),
+		mSkipTics(1000/mTicksPerSecond),
+		mMaxFrameSkip(10),
+		mLoops(0)
 	{
-	public:
-		Scene() {};
+	}
 
-		std::string getName() { return ""; };
-		virtual void update() = 0;
-
-		void load();
-	};
+	Clock::~Clock()
+	{
+	}
 }
-
-#endif

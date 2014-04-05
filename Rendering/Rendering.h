@@ -20,22 +20,22 @@
  */
 
 #include "Core/Common.h"
-
-#ifndef _SCENE_H_
-#define _SCENE_H_
+#include "Vendor/glfw/glfw3.h"
 
 namespace Seventh
 {
-	class Scene : public AllocatedObject
+	class Rendering : public EngineComponent<Rendering>
 	{
 	public:
-		Scene() {};
+		Rendering();
+		~Rendering();
 
-		std::string getName() { return ""; };
-		virtual void update() = 0;
+		bool initialize(uint width, uint height, bool fullscreen, std::string window_title = "Rendering window");
+		void shutdown();
 
-		void load();
+		bool render();
+
+	private:
+		GLFWwindow* mWindow;
 	};
 }
-
-#endif

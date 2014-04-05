@@ -34,7 +34,7 @@ namespace Seventh
 
 	Event* EventDispatcher::dispatch(std::string event_name, Event* event)
 	{
-		LOG_INFO("Dispatching event '%s'", event_name.c_str());
+		LOG_INFO("EventDispatcher: Dispatching event '%s'", event_name.c_str());
 
 		if(event == NULL)
 		{
@@ -43,7 +43,7 @@ namespace Seventh
 
 		if(mListeners.find(event_name) == mListeners.end())
 		{
-			LOG_WARN("No listeners found for event '%s'", event_name.c_str());
+			LOG_WARN("EventDispatcher: No listeners found for event '%s'", event_name.c_str());
 			return event;
 		}
 

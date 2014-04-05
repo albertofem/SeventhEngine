@@ -39,6 +39,8 @@ namespace Seventh
 		EngineComponent(SeventhEngine* engine) { mEngine = engine; }
 		~EngineComponent() {};
 
+		virtual void update() {};
+
 	protected:
 		SeventhEngine* mEngine;
 	};

@@ -27,8 +27,8 @@ public:
 	SimpleScene();
 	~SimpleScene();
 
-	void onLoad();
-	void onLoop();
+	void load();
+	void update();
 	std::string getName();
 };
 

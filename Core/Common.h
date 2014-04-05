@@ -39,6 +39,7 @@ namespace Seventh
 	typedef unsigned short ushort;
 	typedef unsigned int uint;
 	typedef unsigned long ulong;
+	typedef unsigned float ufloat;
 
 	extern LogLevel logLevel;
 }

@@ -33,11 +33,11 @@ namespace Seventh
 			mXmlDocument.parse<0>(xmlFile.data());	
 		} catch(std::runtime_error)
 		{
-			LOG_ERROR("Could not load resource pack file: '%s'", getFilename().c_str())
+			LOG_ERROR("ResourceManager: Could not load resource pack file: '%s'", getFilename().c_str())
 			return false;
 		}
 
-		LOG_DEBUG("Loaded successfully resource pack file: '%s'", getFilename().c_str())
+		LOG_DEBUG("ResourceManager: Loaded successfully resource pack file: '%s'", getFilename().c_str())
 		mLoaded = true;
 
 		return true;
@@ -49,7 +49,7 @@ namespace Seventh
 		{
 			if(!load())
 			{
-				LOG_ERROR("Cannot load resource '%s' in pack '%s'", name, mName)
+				LOG_ERROR("ResourceManager: Cannot load resource '%s' in pack '%s'", name, mName)
 				return false;
 			}
 		}
@@ -62,7 +62,7 @@ namespace Seventh
 
 		for(resources->first_node(); resources; resources->next_sibling())
 		{
-			LOG_INFO("Parsing node: '%s'", resources->name())
+			LOG_DEBUG("Parsing node: '%s'", resources->name())
 		}
 	}
 }

@@ -70,10 +70,10 @@ namespace Seventh
 	{
 		if(mScreenHeight == NULL)
 		{
-			mScreenWidth = getIntFromSection("graphics", "height", 768);
+			mScreenHeight = getIntFromSection("graphics", "height", 768);
 		}
 
-		return mScreenWidth;
+		return mScreenHeight;
 	}
 
 	bool EngineConfig::getFullScreen()

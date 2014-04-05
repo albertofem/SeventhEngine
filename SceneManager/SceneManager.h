@@ -43,6 +43,8 @@ namespace Seventh
 		void setCurrentScene(Scene* scene);
 		Scene* getCurrentScene();
 
+		void update();
+
 	private:
 		std::map<std::string, Scene*> mScenes;
 		Scene* mCurrentScene;

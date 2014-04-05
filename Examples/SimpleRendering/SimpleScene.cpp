@@ -30,14 +30,13 @@ SimpleScene::~SimpleScene(void)
 {
 }
 
-void SimpleScene::onLoad()
+void SimpleScene::load()
 {
 	LOG_INFO("I'm loaded!")
 }
 
-void SimpleScene::onLoop()
+void SimpleScene::update()
 {
-	LOG_INFO("LOOOOOOPING");
 }
 
 std::string getName()

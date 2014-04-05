@@ -32,6 +32,7 @@ namespace Seventh
 	class SceneManager;
 	class Game;
 	class ResourceManager;
+	class Rendering;
 
 	class SeventhEngine : public Singleton<SeventhEngine>, public AllocatedObject
 	{
@@ -39,7 +40,7 @@ namespace Seventh
 		SeventhEngine();
 		~SeventhEngine();
 
-		uint run();
+		bool run();
 
 	public:
 		Logger* getLogger();
@@ -56,6 +57,7 @@ namespace Seventh
 		ResourceManager* mResourceManager;
 		SceneManager* mSceneManager;
 		EventDispatcher* mEventDispatcher;
+		Rendering* mRendering;
 	};
 }
 

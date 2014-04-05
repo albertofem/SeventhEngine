@@ -23,7 +23,7 @@
 
 namespace Seventh
 {
-	void Scene::onLoad()
+	void Scene::load()
 	{
 		LOG_INFO("Loading scene: '%s'", getName().c_str());
 	}

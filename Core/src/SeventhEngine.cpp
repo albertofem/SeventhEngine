@@ -19,8 +19,6 @@
  * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "GL/glfw.h"
-
 #include "SeventhEngine.h"
 
 #include "EngineConfig.h"
@@ -29,6 +27,7 @@
 
 #include "ResourceManager/ResourceManager.h"
 #include "SceneManager/SceneManager.h"
+#include "Rendering/Rendering.h"
 
 namespace Seventh
 {
@@ -43,6 +42,7 @@ namespace Seventh
 		mResourceManager = new ResourceManager(this);
 		mEventDispatcher = new EventDispatcher(this);
 		mSceneManager = new SceneManager(this);
+		mRendering = new Rendering();
 	}
 
 	Logger* SeventhEngine::getLogger()
@@ -57,47 +57,38 @@ namespace Seventh
 		delete mLogger;
 		delete mEventDispatcher;
 		delete mSceneManager;
+		delete mRendering;
 	}
 
-	Seventh::uint SeventhEngine::run()
+	bool SeventhEngine::run()
 	{
-		int running = GL_TRUE;
+		int running = true;
 
-		uint width = mEngineConfig->getScreenWidth();
-		uint height = mEngineConfig->getScreenHeight();
+		LOG_INFO("%d", mEngineConfig->getScreenWidth());
 
-		bool fullScreen = mEngineConfig->getFullScreen();
-
-		LOG_DEBUG("Fullscreen: %d", fullScreen);
-
-		if(!glfwInit())
-			return 0x255;
-
-		if(!glfwOpenWindow(width, height, 0, 0, 0, 0, 0, 0, fullScreen ? GLFW_FULLSCREEN : GLFW_WINDOW))
+		if(!mRendering->initialize(
+			mEngineConfig->getScreenWidth(), 
+			mEngineConfig->getScreenHeight(), 
+			mEngineConfig->getFullScreen(), 
+			mEngineConfig->getGameTitle()
+		))
 		{
-			glfwTerminate();
-			return 0x255;
+			return false;
 		}
 
-		glfwSetWindowTitle(mEngineConfig->getGameTitle().c_str());
-
-		LOG_INFO("Ready to run main game loop")
+		LOG_DEBUG("SventhEngine: Ready to run main game loop")
 
 		while(running)
 		{
-			mSceneManager->getCurrentScene()->onLoop();
+			mSceneManager->update();
 
-			glClear(GL_COLOR_BUFFER_BIT);
-			glClearColor(rand() % 255 + 1, rand() % 255 + 1, rand() % 255 + 1, 0);
-
-			glfwSwapBuffers();
-
-			running = !glfwGetKey(GLFW_KEY_ESC) && glfwGetWindowParam(GLFW_OPENED);
+			if(!mRendering->render())
+				running = false;
 		}
 
-		glfwTerminate();
+		mRendering->shutdown();
 
-		return 0x1;
+		return true;
 	}
 
 	EngineConfig* SeventhEngine::getEngineConfig()
@@ -107,7 +98,7 @@ namespace Seventh
 
 	bool SeventhEngine::loadGame(Game* game)
 	{
-		LOG_INFO("Loaded game '%s'", game->getName().c_str());
+		LOG_INFO("SeventhEgine: Loading game '%s'", game->getName().c_str());
 
 		game->setEngine(this);
 		game->onLoad();
@@ -118,7 +109,7 @@ namespace Seventh
 		}
 		catch(...)
 		{
-			LOG_CRIT("Cannot load game, shutting down...");
+			LOG_CRIT("SventhEngine: Cannot load game, shutting down...");
 			return false;
 		}
 

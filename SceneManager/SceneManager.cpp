@@ -29,12 +29,12 @@ namespace Seventh
 	SceneManager::SceneManager(SeventhEngine* engine)
 		: EngineComponent(engine)
 	{
-		LOG_INFO("Initializing scene manager")
+		LOG_INFO("SceneManager: initialized")
 	}
 
 	SceneManager::~SceneManager()
 	{
-		LOG_INFO("Shutting down scene manager")
+		LOG_INFO("SceneManager: shutdown")
 	}
 
 	bool SceneManager::addScene(Scene* scene)
@@ -43,7 +43,7 @@ namespace Seventh
 
 		if(iterator != mScenes.end())
 		{
-			LOG_WARN("Trying to add a duplicate scene with name: '%s'", scene->getName().c_str());
+			LOG_WARN("SceneManager: Trying to add a duplicate scene with name: '%s'", scene->getName().c_str());
 			return false;
 		}
 
@@ -58,7 +58,7 @@ namespace Seventh
 
 		if(iterator == mScenes.end())
 		{
-			LOG_EXCEPTION("Trying to load a scene that does not exists '%s'", scene_name.c_str())
+			LOG_EXCEPTION("SceneManager: Trying to load a scene that does not exists '%s'", scene_name.c_str())
 			throw new std::exception();
 		}
 
@@ -75,4 +75,10 @@ namespace Seventh
 	{
 		return mCurrentScene;
 	}
+
+	void SceneManager::update()
+	{
+		getCurrentScene()->update();
+	}
+
 }

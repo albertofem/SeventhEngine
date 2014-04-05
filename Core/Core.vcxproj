@@ -72,7 +72,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>$(SolutionDir)$(Platform)\$(Configuration)\;$(SolutionDir)Vendor\lib\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)$(Platform)\$(Configuration)\;$(SolutionDir)Vendor\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -111,7 +111,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;glfw.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glfw\glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -149,6 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Clock.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="EventDispatcher.cpp" />
     <ClCompile Include="EventListener.cpp" />
@@ -161,6 +162,7 @@
   <ItemGroup>
     <ClInclude Include="..\Vendor\SimpleIni.h" />
     <ClInclude Include="AllocatedObject.h" />
+    <ClInclude Include="Clock.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="EngineComponent.h" />
     <ClInclude Include="EngineConfig.h" />
@@ -174,6 +176,9 @@
     <ClInclude Include="Singleton.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Rendering\Rendering.vcxproj">
+      <Project>{616e8602-ea17-4dfe-b676-740a3f3f1bec}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\ResourceManager\ResourceManager.vcxproj">
       <Project>{2a1ad245-ff28-4340-a9bb-e2f9952590b6}</Project>
     </ProjectReference>

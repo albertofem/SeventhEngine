@@ -31,7 +31,7 @@ namespace Seventh
 	ResourceManager::ResourceManager(SeventhEngine* engine)
 		: EngineComponent(engine)
 	{
-		LOG_INFO("Initialized resource manager subsystem")
+		LOG_INFO("ResourceManager: Initialized")
 
 		const CSimpleIniA::TKeyVal* resourcePacks = mEngine->getEngineConfig()
 			->getIniReader()
@@ -47,7 +47,7 @@ namespace Seventh
 
 	ResourceManager::~ResourceManager()
 	{
-		LOG_INFO("Finished resource manager subsystem")
+		LOG_INFO("ResourceManager: shutdown")
 	}
 
 	ResourcePack* ResourceManager::getPack(std::string name)
@@ -55,14 +55,17 @@ namespace Seventh
 		std::map<std::string, ResourcePack*>::iterator iterator = mResourcePacks.find(name);
 
 		if(iterator == mResourcePacks.end())
-			throw new std::exception("Invalid resource pack");
+		{
+			LOG_WARN("ResourceManager: Trying to load an inexistent resource pack");
+			return NULL;
+		}
 
 		return iterator->second;
 	}
 
 	bool ResourceManager::createPackFromFile(std::string name, std::string filename, bool loadOnCreation = false)
 	{
-		LOG_DEBUG("Loading resource pack '%s'", name.c_str())
+		LOG_DEBUG("ResourceManager: Loading resource pack '%s'", name.c_str())
 
 		ResourcePack* newResourcePack = new ResourcePack(filename);
 		mResourcePacks[name] = newResourcePack;
