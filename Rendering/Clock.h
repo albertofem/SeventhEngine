@@ -19,21 +19,26 @@
  * @author Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "Clock.h"
+#include "Core/Common.h"
 
 namespace Seventh
 {
-	template<> Clock* Singleton<Clock>::mInstance = 0;
-
-	Clock::Clock()
-		: mTicksPerSecond(50),
-		mSkipTics(1000/mTicksPerSecond),
-		mMaxFrameSkip(10),
-		mLoops(0)
+	class Clock : public EngineComponent<Clock>
 	{
-	}
+	public:
+		Clock();
+		~Clock();
 
-	Clock::~Clock()
-	{
-	}
+		void update();
+		bool step();
+		void reset();
+		clock_t tick();
+
+	private:
+		uint mTicksPerSecond;
+		ufloat mSkipTics;
+		uint mMaxFrameSkip;
+		uint mLoops;
+		uint mLastTick;
+	};
 }

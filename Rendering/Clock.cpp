@@ -19,20 +19,49 @@
  * @author Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "Common.h"
+#include <Vendor/glfw/glfw3.h>
+#include <time.h>
+
+#include "Clock.h"
 
 namespace Seventh
 {
-	class Clock : public EngineComponent<Clock>
-	{
-	public:
-		Clock();
-		~Clock();
+	template<> Clock* Singleton<Clock>::mInstance = 0;
 
-	private:
-		uint mTicksPerSecond;
-		ufloat mSkipTics;
-		uint mMaxFrameSkip;
-		uint mLoops;
-	};
+	Clock::Clock()
+		: mTicksPerSecond(50),
+		mSkipTics(1000/mTicksPerSecond),
+		mMaxFrameSkip(10),
+		mLoops(0)
+	{
+		mLastTick = tick();
+	}
+
+	Clock::~Clock()
+	{
+	}
+
+	bool Clock::step()
+	{
+		if(tick() > mLastTick && mLoops < mMaxFrameSkip)
+			return true;
+
+		return false;
+	}
+
+	void Clock::reset()
+	{
+		mLoops = 0;
+	}
+
+	void Clock::update()
+	{
+		mLastTick += mSkipTics;
+		mLoops++;
+	}
+
+	clock_t Clock::tick()
+	{
+		return clock();
+	}
 }

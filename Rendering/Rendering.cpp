@@ -20,6 +20,7 @@
  */
 
 #include "Rendering.h"
+#include "Clock.h"
 
 namespace Seventh
 {
@@ -27,7 +28,8 @@ namespace Seventh
 
 	Rendering::Rendering()
 	{
-		LOG_INFO("Rendering: initialized")
+		LOG_INFO("Rendering: initialized");
+		mClock = new Clock;
 	}
 
 	Rendering::~Rendering()
@@ -63,11 +65,38 @@ namespace Seventh
 		if(glfwWindowShouldClose(mWindow))
 			return false;
 
-		glClear(GL_COLOR_BUFFER_BIT);
-		glClearColor(rand() % 255 + 1, rand() % 255 + 1, rand() % 255 + 1, 0);
+		mClock->reset();
 
-		glfwSwapBuffers(mWindow);
 		glfwPollEvents();
+
+		if(mClock->step())
+		{
+			float ratio;
+			int width, height;
+			glfwGetFramebufferSize(mWindow, &width, &height);
+			ratio = width / (float) height;
+			glViewport(0, 0, width, height);
+			glClear(GL_COLOR_BUFFER_BIT);
+			glMatrixMode(GL_PROJECTION);
+			glLoadIdentity();
+			glOrtho(-ratio, ratio, -1.f, 1.f, 1.f, -1.f);
+			glMatrixMode(GL_MODELVIEW);
+			glLoadIdentity();
+			glRotatef((float) glfwGetTime() * 50.f, 0.f, 0.f, 1.f);
+			glBegin(GL_TRIANGLES);
+			glColor3f(1.f, 0.f, 0.f);
+			glVertex3f(-0.6f, -0.4f, 0.f);
+			glColor3f(0.f, 1.f, 0.f);
+			glVertex3f(0.6f, -0.4f, 0.f);
+			glColor3f(0.f, 0.f, 1.f);
+			glVertex3f(0.f, 0.6f, 0.f);
+			glEnd();
+
+			LOG_DEBUG("Swapping buffers");
+			glfwSwapBuffers(mWindow);
+
+			mClock->update();
+		}
 
 		return true;
 	}

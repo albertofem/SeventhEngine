@@ -24,6 +24,8 @@
 
 namespace Seventh
 {
+	class Clock;
+
 	class Rendering : public EngineComponent<Rendering>
 	{
 	public:
@@ -37,5 +39,6 @@ namespace Seventh
 
 	private:
 		GLFWwindow* mWindow;
+		Clock* mClock;
 	};
 }

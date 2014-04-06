@@ -26,7 +26,7 @@
 
 namespace Seventh
 {
-	enum LogLevel 
+	enum LogLevel
 	{
 		DEBUG = 0,
 		INFO = 1,
@@ -39,7 +39,7 @@ namespace Seventh
 	typedef unsigned short ushort;
 	typedef unsigned int uint;
 	typedef unsigned long ulong;
-	typedef unsigned float ufloat;
+	typedef float ufloat;
 
 	extern LogLevel logLevel;
 }
