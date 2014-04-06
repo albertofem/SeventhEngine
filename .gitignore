@@ -36,3 +36,5 @@ obj/
 [Dd]ebug/
 [Rr]elease*/
 x64/
+Vendor/zlib-*
+Vendor/libpng-*

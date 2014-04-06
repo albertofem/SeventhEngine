@@ -19,25 +19,15 @@
  * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "AllocatedObject.h"
-
-#define ABORT_ON_ASSERT_FAILURE 0
-#include <nedmalloc.c>
+#include "Texture.h"
 
 namespace Seventh
 {
-	void* AllocatedObject::allocateBytes(size_t size)
+	Texture::Texture()
 	{
-		void* ptr = nedalloc::nedmalloc(size);
-
-		return ptr;
 	}
 
-	void AllocatedObject::deallocateBytes(void* ptr)
+	Texture::~Texture()
 	{
-		if(!ptr)
-			return;
-
-		nedalloc::nedfree(ptr);
 	}
 }

@@ -68,7 +68,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>$(SolutionDir)Vendor\lib\;$(SolutionDir)Debug\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)Vendor;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -86,15 +86,15 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;GLFW_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)/Vendor/nedmalloc/src/;$(SolutionDir)/Core/include/;$(SolutionDir)/Vendor/glfw/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;glfw.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw\glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -149,14 +149,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AllocatedObject.cpp" />
+    <ClCompile Include="EngineConfig.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="EventDispatcher.cpp" />
     <ClCompile Include="EventListener.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="src\AllocatedObject.cpp" />
-    <ClCompile Include="src\EngineConfig.cpp" />
-    <ClCompile Include="src\SeventhEngine.cpp" />
-    <ClCompile Include="src\Logger.cpp" />
+    <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="SeventhEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Vendor\SimpleIni.h" />
