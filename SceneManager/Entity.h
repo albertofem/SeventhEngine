@@ -29,8 +29,8 @@ namespace Seventh
 	class Entity : public AllocatedObject
 	{
 	public:
-		Entity(void);
-		~Entity(void);
+		Entity();
+		~Entity();
 	};
 
 }

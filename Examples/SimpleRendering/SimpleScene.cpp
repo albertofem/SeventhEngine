@@ -20,6 +20,7 @@
  */
 
 #include "SimpleScene.h"
+#include "Input/InputManager.h"
 
 SimpleScene::SimpleScene(void)
 {
@@ -37,6 +38,10 @@ void SimpleScene::load()
 
 void SimpleScene::update()
 {
+	if (GameInput.isKeyPressed(32))
+	{
+		LOG_INFO("Key pressed in scene!");
+	}
 }
 
 std::string getName()

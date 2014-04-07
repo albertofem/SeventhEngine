@@ -16,31 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author	Alberto Fernández <albertofem@gmail.com>
+ * @author Alberto Fernández <albertofem@gmail.com>
  */
 
 #include "Core/Common.h"
 #include "Vendor/glfw/glfw3.h"
 
-namespace Seventh
+void glfwInputCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	class Clock;
-
-	class Rendering : public EngineComponent<Rendering>
+	if (action == GLFW_PRESS)
 	{
-	public:
-		Rendering();
-		~Rendering();
-
-		bool initialize(uint width, uint height, bool fullscreen, std::string window_title = "Rendering window");
-		void shutdown();
-
-		bool render();
-
-		GLFWwindow* getCurrentWindow();
-
-	private:
-		GLFWwindow* mWindow;
-		Clock* mClock;
-	};
+		GameInput.onKeyDown(key);
+	}
+	else if (action == GLFW_RELEASE)
+	{
+		GameInput.onKeyUp(key);
+	}
 }

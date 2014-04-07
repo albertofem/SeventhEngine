@@ -33,6 +33,7 @@ namespace Seventh
 	class Game;
 	class ResourceManager;
 	class Rendering;
+	class InputManager;
 
 	class SeventhEngine : public Singleton<SeventhEngine>, public AllocatedObject
 	{
@@ -48,6 +49,8 @@ namespace Seventh
 		ResourceManager* getResourceMananger();
 		SceneManager* getSceneManager();
 		EventDispatcher* getEventDispatcher();
+		Rendering* getRendering();
+		InputManager* getInputManager();
 
 		bool loadGame(Game* game);
 
@@ -58,6 +61,7 @@ namespace Seventh
 		SceneManager* mSceneManager;
 		EventDispatcher* mEventDispatcher;
 		Rendering* mRendering;
+		InputManager* mInputManager;
 	};
 }
 

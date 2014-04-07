@@ -31,5 +31,8 @@ namespace Seventh
 
 		bool load();
 		void unload();
+
+	private:
+		bool mLoaded;
 	};
 }

@@ -16,31 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author	Alberto Fernández <albertofem@gmail.com>
+ * @author Alberto Fernández <albertofem@gmail.com>
  */
 
 #include "Core/Common.h"
+#include "Core/SeventhEngine.h"
 #include "Vendor/glfw/glfw3.h"
 
 namespace Seventh
 {
-	class Clock;
-
-	class Rendering : public EngineComponent<Rendering>
+	class InputManager : public EngineComponent<InputManager>
 	{
 	public:
-		Rendering();
-		~Rendering();
+		InputManager(SeventhEngine* engine);
+		InputManager();
+		~InputManager();
 
-		bool initialize(uint width, uint height, bool fullscreen, std::string window_title = "Rendering window");
-		void shutdown();
+		bool onKeyDown(uint keyVal);
+		bool onKeyUp(uint keyVal);
 
-		bool render();
+		bool isKeyPressed(uint keyVal);
 
-		GLFWwindow* getCurrentWindow();
+		void update();
+
+		bool initialize(GLFWwindow* targetWindow);
 
 	private:
-		GLFWwindow* mWindow;
-		Clock* mClock;
+		std::map<uint, bool> mKeyStates;
 	};
 }

@@ -28,6 +28,7 @@
 #include "ResourceManager/ResourceManager.h"
 #include "SceneManager/SceneManager.h"
 #include "Rendering/Rendering.h"
+#include "Input/InputManager.h"
 
 namespace Seventh
 {
@@ -43,6 +44,7 @@ namespace Seventh
 		mEventDispatcher = new EventDispatcher(this);
 		mSceneManager = new SceneManager(this);
 		mRendering = new Rendering();
+		mInputManager = new InputManager(this);
 	}
 
 	Logger* SeventhEngine::getLogger()
@@ -58,6 +60,7 @@ namespace Seventh
 		delete mEventDispatcher;
 		delete mSceneManager;
 		delete mRendering;
+		delete mInputManager;
 	}
 
 	bool SeventhEngine::run()
@@ -66,6 +69,7 @@ namespace Seventh
 
 		LOG_INFO("%d", mEngineConfig->getScreenWidth());
 
+		// initialize rendering
 		if(!mRendering->initialize(
 			mEngineConfig->getScreenWidth(), 
 			mEngineConfig->getScreenHeight(), 
@@ -76,7 +80,10 @@ namespace Seventh
 			return false;
 		}
 
-		LOG_DEBUG("SventhEngine: Ready to run main game loop")
+		// initialize input
+		mInputManager->initialize(mRendering->getCurrentWindow());
+
+		LOG_DEBUG("SeventhEngine: Ready to run main game loop")
 
 		while(running)
 		{
@@ -125,4 +132,14 @@ namespace Seventh
 	{
 		return mEventDispatcher;
 	}
- }
+
+	Rendering* SeventhEngine::getRendering()
+	{
+		return mRendering;
+	}
+
+	InputManager* SeventhEngine::getInputManager()
+	{
+		return mInputManager;
+	}
+}
