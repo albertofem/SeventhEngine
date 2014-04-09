@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AnotherScene.cpp" />
     <ClCompile Include="SimpleRendering.cpp" />
     <ClCompile Include="SimpleScene.cpp" />
     <ClCompile Include="src\win_main.cpp" />
@@ -157,6 +158,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnotherScene.h" />
     <ClInclude Include="SimpleRendering.h" />
     <ClInclude Include="SimpleScene.h" />
   </ItemGroup>

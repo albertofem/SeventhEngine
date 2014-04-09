@@ -26,15 +26,22 @@
 
 namespace Seventh
 {
+	class SceneManager;
 	class Scene : public AllocatedObject
 	{
 	public:
-		Scene() {};
-
-		std::string getName() { return ""; };
+		virtual std::string getName() = 0;
 		virtual void update() = 0;
 
 		void load();
+		void setSceneManager(SceneManager* scene_manager);
+
+	protected:
+		bool changeScene(std::string name);
+		bool changeScene(Scene* scene);
+
+	private:
+		SceneManager* mSceneManager;
 	};
 }
 

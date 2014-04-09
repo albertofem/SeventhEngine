@@ -19,12 +19,27 @@
  * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "Scene.h"
+#include "SceneManager.h"
 
 namespace Seventh
 {
 	void Scene::load()
 	{
 		LOG_INFO("Loading scene: '%s'", getName().c_str());
+	}
+
+	bool Scene::changeScene(std::string name)
+	{
+		return mSceneManager->setCurrentScene(name);
+	}
+
+	bool Scene::changeScene(Scene* scene)
+	{
+		return mSceneManager->setCurrentScene(scene);
+	}
+
+	void Scene::setSceneManager(SceneManager* scene_manager)
+	{
+		mSceneManager = scene_manager;
 	}
 }

@@ -39,9 +39,7 @@ namespace Seventh
 
 	bool SceneManager::addScene(Scene* scene)
 	{
-		std::map<std::string, Scene*>::iterator iterator = mScenes.find(scene->getName());
-
-		if(iterator != mScenes.end())
+		if(mScenes[scene->getName()] != NULL)
 		{
 			LOG_WARN("SceneManager: Trying to add a duplicate scene with name: '%s'", scene->getName().c_str());
 			return false;
@@ -49,26 +47,31 @@ namespace Seventh
 
 		mScenes[scene->getName()] = scene;
 
+		scene->setSceneManager(this);
+
 		return true;
 	}
 
-	void SceneManager::setCurrentScene(std::string scene_name)
+	bool SceneManager::setCurrentScene(std::string scene_name)
 	{
-		std::map<std::string, Scene*>::iterator iterator = mScenes.find(scene_name);
-
-		if(iterator == mScenes.end())
+		if(mScenes[scene_name] == NULL)
 		{
-			LOG_EXCEPTION("SceneManager: Trying to load a scene that does not exists '%s'", scene_name.c_str())
-			throw new std::exception();
+			LOG_ERROR("SceneManager: Trying to load a scene that does not exists '%s'", scene_name.c_str());
+			return false;
 		}
 
-		mCurrentScene = iterator->second;
+		LOG_INFO("SceneManager: Setting current scene: '%s'", scene_name.c_str());
+
+		mCurrentScene = mScenes[scene_name];
+
+		return true;
 	}
 
-	void SceneManager::setCurrentScene(Scene* scene)
+	bool SceneManager::setCurrentScene(Scene* scene)
 	{
 		addScene(scene);
-		setCurrentScene(scene->getName());
+
+		return setCurrentScene(scene->getName());
 	}
 
 	Scene* SceneManager::getCurrentScene()

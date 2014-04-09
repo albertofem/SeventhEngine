@@ -39,8 +39,9 @@ namespace Seventh
 		~SceneManager();
 
 		bool addScene(Scene* scene);
-		void setCurrentScene(std::string scene_name);
-		void setCurrentScene(Scene* scene);
+		bool setCurrentScene(std::string scene_name);
+		bool setCurrentScene(Scene* scene);
+
 		Scene* getCurrentScene();
 
 		void update();

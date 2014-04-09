@@ -19,17 +19,28 @@
  * @author Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "SceneManager/Scene.h"
+#include "AnotherScene.h"
+#include "Input/InputManager.h"
 
-class SimpleScene : public Seventh::Scene
-{	
+AnotherScene::~AnotherScene()
+{
 
-public:
-	~SimpleScene();
+}
 
-	void load();
-	void update();
+void AnotherScene::load()
+{
 
-	std::string getName();
-};
+}
 
+void AnotherScene::update()
+{
+	if (GameInput.isKeyPressed(32))
+	{
+		LOG_INFO("Key pressed in scene 2!!!");
+	}
+}
+
+std::string AnotherScene::getName()
+{
+	return "scene2";
+}

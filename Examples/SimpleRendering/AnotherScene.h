@@ -21,11 +21,10 @@
 
 #include "SceneManager/Scene.h"
 
-class SimpleScene : public Seventh::Scene
-{	
-
+class AnotherScene : public Seventh::Scene
+{
 public:
-	~SimpleScene();
+	~AnotherScene();
 
 	void load();
 	void update();

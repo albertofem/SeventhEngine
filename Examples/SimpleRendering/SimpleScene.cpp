@@ -21,11 +21,7 @@
 
 #include "SimpleScene.h"
 #include "Input/InputManager.h"
-
-SimpleScene::SimpleScene(void)
-{
-}
-
+#include "AnotherScene.h"
 
 SimpleScene::~SimpleScene(void)
 {
@@ -38,13 +34,13 @@ void SimpleScene::load()
 
 void SimpleScene::update()
 {
-	if (GameInput.isKeyPressed(32))
+	if (GameInput.isKeyReleased(32))
 	{
-		LOG_INFO("Key pressed in scene!");
+		changeScene(new AnotherScene);
 	}
 }
 
-std::string getName()
+std::string SimpleScene::getName()
 {
 	return "titanic";
 }
