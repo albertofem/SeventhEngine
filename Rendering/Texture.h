@@ -21,18 +21,32 @@
 
 #include "RenderingResource.h"
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
+#include <GL/GL.h>
+#include <GL/GLU.h>
+#include <IL/il.h>
+#include <IL/ilu.h>
+#include <IL/ilut.h>
+
 namespace Seventh
 {
 	class Texture : public RenderingResource
 	{
 	public:
-		Texture();
+		Texture(std::string filename);
 		~Texture();
 
 		bool load();
 		void unload();
 
+		GLuint getResource();
+
 	private:
 		bool mLoaded;
+		std::string mFilename;
+		GLuint mTexture;
 	};
 }

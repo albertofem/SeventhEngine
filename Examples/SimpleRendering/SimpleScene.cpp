@@ -34,10 +34,6 @@ void SimpleScene::load()
 
 void SimpleScene::update()
 {
-	if (GameInput.isKeyReleased(32))
-	{
-		changeScene(new AnotherScene);
-	}
 }
 
 std::string SimpleScene::getName()

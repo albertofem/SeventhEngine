@@ -23,11 +23,88 @@
 
 namespace Seventh
 {
-	Texture::Texture()
+	Texture::Texture(std::string filename)
 	{
+		mFilename = filename;
 	}
 
 	Texture::~Texture()
 	{
+	}
+
+	bool Texture::load()
+	{
+		if (mLoaded)
+			return true;
+
+		ILuint imageID;
+		ILboolean success;
+		ILenum error;
+
+		ilGenImages(1, &imageID); 
+		ilBindImage(imageID); 
+
+		success = ilLoadImage(mFilename.c_str());
+
+		if (success)
+		{
+			ILinfo ImageInfo;
+
+			iluGetImageInfo(&ImageInfo);
+
+			if (ImageInfo.Origin == IL_ORIGIN_UPPER_LEFT)
+			{
+				iluFlipImage();
+			}
+
+			success = ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE);
+
+			if (!success)
+			{
+				error = ilGetError();
+				LOG_ERROR("Rendering: Image conversion failed: '%s'", iluErrorString(error));
+			}
+
+			glGenTextures(1, &mTexture);
+
+			glBindTexture(GL_TEXTURE_2D, mTexture);
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+			glTexImage2D(
+				GL_TEXTURE_2D,
+				0,
+				ilGetInteger(IL_IMAGE_FORMAT),
+				ilGetInteger(IL_IMAGE_WIDTH),
+				ilGetInteger(IL_IMAGE_HEIGHT),
+				0,
+				ilGetInteger(IL_IMAGE_FORMAT),
+				GL_UNSIGNED_BYTE,
+				ilGetData()
+			);
+		}
+		else 
+		{
+			error = ilGetError();
+			LOG_ERROR("Rendering: Image loading failed: '%s'", iluErrorString(error));
+		}
+
+		ilDeleteImages(1, &imageID);
+
+		mLoaded = true;
+	}
+
+	GLuint Texture::getResource()
+	{
+		return mTexture;
+	}
+
+	void Texture::unload()
+	{
+		mLoaded = false;
 	}
 }
