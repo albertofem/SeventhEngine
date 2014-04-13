@@ -20,6 +20,7 @@
  */
 
 #include "ResourcePack.h"
+#include "ResourceTexture.h"
 
 #include "Vendor/rapidxml_utils.hpp"
 
@@ -29,40 +30,77 @@ namespace Seventh
 	{
 		try
 		{
-			rapidxml::file<> xmlFile(getFilename().c_str());
+			rapidxml::file<> xmlFile(mFilename.c_str());
 			mXmlDocument.parse<0>(xmlFile.data());	
 		} catch(std::runtime_error)
 		{
-			LOG_ERROR("ResourceManager: Could not load resource pack file: '%s'", getFilename().c_str())
+			LOG_ERROR("ResourceManager: Could not load resource pack file: '%s'", mFilename.c_str());
 			return false;
 		}
 
-		LOG_DEBUG("ResourceManager: Loaded successfully resource pack file: '%s'", getFilename().c_str())
+		LOG_DEBUG("ResourceManager: Loaded successfully resource pack file: '%s'", mFilename.c_str());
+
 		mLoaded = true;
 
 		return true;
 	}
 
-	Resource* ResourcePack::getResource(std::string name)
+	ResourceObject* ResourcePack::getResource(std::string type, std::string name)
 	{
-		if(!isLoaded())
+		LOG_DEBUG("ResourceManager: Attempt to load resource '%s' in pack '%s'", name, mName);
+
+		if(!mLoaded)
 		{
 			if(!load())
 			{
-				LOG_ERROR("ResourceManager: Cannot load resource '%s' in pack '%s'", name, mName)
+				LOG_ERROR("ResourceManager: Cannot load resource '%s' in pack '%s'", name, mName);
+
 				return false;
 			}
 		}
 
+		if (mResources[type][name] != NULL)
+		{
+			return mResources[type][name];
+		}
+
 		rapidxml::xml_node<>* resources;
 		
-		resources = mXmlDocument.first_node("resources");
+		resources = mXmlDocument.first_node("resources")->first_node(type.c_str());
 
-		std::cout << resources->name() << std::endl;
-
-		for(resources->first_node(); resources; resources->next_sibling())
+		for (resources->first_node(); resources; resources->last_node())
 		{
-			LOG_DEBUG("Parsing node: '%s'", resources->name())
+			if (resources->first_attribute("name")->value() == name.c_str())
+			{
+				LOG_DEBUG("ResourceManager: creating resource: '%s', name: '%s'", type.c_str(), name.c_str());
+
+				mResources[type][name] = createResource(type, resources->first_attribute("src")->value());
+				return mResources[type][name];
+			}
 		}
+
+		LOG_WARN("ResourceManager: Cannot find resource with type: '%s', name: '%s'", type.c_str(), name.c_str());
+
+		return NULL;
+	}
+
+	ResourceObject* ResourcePack::createResource(std::string type, std::string filename)
+	{
+		if (type == "texture")
+		{
+			return new ResourceTexture(filename);
+		}
+
+		return NULL;
+	}
+
+	ResourcePack::ResourcePack(std::string filename)
+	{
+		mFilename = filename;
+	}
+
+	void ResourcePack::setName(std::string name)
+	{
+		mName = name;
 	}
 }

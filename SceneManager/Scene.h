@@ -33,7 +33,7 @@ namespace Seventh
 		virtual std::string getName() = 0;
 		virtual void update() = 0;
 
-		void load();
+		virtual void load() = 0;
 		void setSceneManager(SceneManager* scene_manager);
 
 	protected:

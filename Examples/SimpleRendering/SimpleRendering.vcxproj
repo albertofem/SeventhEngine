@@ -74,7 +74,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <LibraryPath>$(SolutionDir)Vendor;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir);$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Vendor\;$(SolutionDir);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -148,6 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AnotherScene.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="SimpleRendering.cpp" />
     <ClCompile Include="SimpleScene.cpp" />
     <ClCompile Include="src\win_main.cpp" />
@@ -159,6 +160,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnotherScene.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="SimpleRendering.h" />
     <ClInclude Include="SimpleScene.h" />
   </ItemGroup>

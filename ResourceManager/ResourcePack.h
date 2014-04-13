@@ -20,7 +20,6 @@
  */
 
 #include "Core/Common.h"
-
 #include "ResourceObject.h"
 
 #include "Vendor/rapidxml_utils.hpp"
@@ -30,20 +29,25 @@
 
 namespace Seventh
 {
-	class Resource;
-
-	class ResourcePack : public ResourceObject
+	class ResourcePack : public AllocatedObject
 	{
 	public:
-		explicit ResourcePack(std::string filename) : ResourceObject(filename) {};
-		bool load();
-		void unload() {};
+		explicit ResourcePack(std::string filename);
 
-		Resource* getResource(std::string name);
+		bool load();
+
+		ResourceObject* getResource(std::string type, std::string name);
+		void setName(std::string name);
+
+	protected:
+		ResourceObject* createResource(std::string type, std::string filename);
 
 	private:
-		std::map<std::string, Resource*> mResources;
+		std::map<std::string, std::map<std::string, ResourceObject*> > mResources;
 		rapidxml::xml_document<> mXmlDocument;
+		bool mLoaded;
+		std::string mFilename;
+		std::string mName;
 	};
 }
 

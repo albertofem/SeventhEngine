@@ -65,6 +65,7 @@ namespace Seventh
 #include "Singleton.h"
 #include "AllocatedObject.h"
 #include "Logger.h"
+#include "ResourceManager/ResourceManager.h"
 
 /*
  * Useful macros
@@ -81,6 +82,7 @@ namespace Seventh
 using Seventh::Logger;
 
 #define GameInput Seventh::InputManager::get()
-#define EngineRender Seventh::Rendering::get()
+#define GEngineRender Seventh::Rendering::get()
+#define GResourceManager Seventh::ResourceManager::get()
 
 #endif

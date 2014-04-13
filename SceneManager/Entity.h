@@ -20,6 +20,7 @@
  */
 
 #include "Core/Common.h"
+#include "Rendering/RenderingResource.h"
 
 #ifndef _ENTITY_H_
 #define _ENTITY_H_
@@ -31,8 +32,12 @@ namespace Seventh
 	public:
 		Entity();
 		~Entity();
-	};
 
+		void setRenderingResource(RenderingResource* resource);
+
+	protected:
+		RenderingResource* mRenderingResource;
+	};
 }
 
 #endif

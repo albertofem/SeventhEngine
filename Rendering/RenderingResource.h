@@ -21,6 +21,9 @@
 
 #include "Core/Common.h"
 
+#ifndef _RENDERING_RESOURCE_H_
+#define _RENDERING_RESOURCE_H_
+
 namespace Seventh
 {
 	class RenderingResource : public AllocatedObject
@@ -31,8 +34,8 @@ namespace Seventh
 
 		virtual bool load() = 0;
 		virtual void unload() = 0;
-
-	protected:
-		
+		virtual void render() = 0;
 	};
 }
+
+#endif

@@ -29,11 +29,6 @@ namespace Seventh
 		mFilename = filename;
 	}
 
-	bool ResourceObject::isLoaded()
-	{
-		return mLoaded;
-	}
-
 	std::string ResourceObject::getFilename()
 	{
 		return mFilename;
@@ -42,10 +37,5 @@ namespace Seventh
 	std::string ResourceObject::getName()
 	{
 		return mName;
-	}
-
-	Seventh::uint ResourceObject::getId()
-	{
-		return mID;
 	}
 }

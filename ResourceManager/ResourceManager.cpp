@@ -52,15 +52,13 @@ namespace Seventh
 
 	ResourcePack* ResourceManager::getPack(std::string name)
 	{
-		std::map<std::string, ResourcePack*>::iterator iterator = mResourcePacks.find(name);
-
-		if(iterator == mResourcePacks.end())
+		if(mResourcePacks[name] == NULL)
 		{
 			LOG_WARN("ResourceManager: Trying to load an inexistent resource pack");
 			return NULL;
 		}
 
-		return iterator->second;
+		return mResourcePacks[name];
 	}
 
 	bool ResourceManager::createPackFromFile(std::string name, std::string filename, bool loadOnCreation = false)
@@ -68,6 +66,8 @@ namespace Seventh
 		LOG_DEBUG("ResourceManager: Loading resource pack '%s'", name.c_str())
 
 		ResourcePack* newResourcePack = new ResourcePack(filename);
+		newResourcePack->setName(name);
+
 		mResourcePacks[name] = newResourcePack;
 
 		if(loadOnCreation)
@@ -76,10 +76,8 @@ namespace Seventh
 		return true;
 	}
 
-	Resource* ResourceManager::getResourceFromPack(std::string packName, std::string resourceName)
+	ResourceObject* ResourceManager::getResourceFromPack(std::string packName, std::string type, std::string resourceName)
 	{
-		ResourcePack* pack = getPack(packName);
-
-		return pack->getResource(resourceName);
+		return getPack(packName)->getResource(type, resourceName);
 	}
 }

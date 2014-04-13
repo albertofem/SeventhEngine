@@ -19,32 +19,16 @@
  * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "Core/Common.h"
-#include "Core/SeventhEngine.h"
-#include "Core/EngineComponent.h"
-
-#ifndef _RESOURCE_MANAGER_H_
-#define _RESOURCE_MANAGER_H_
+#include "ResourceTexture.h"
 
 namespace Seventh
 {
-	class ResourcePack;
-	class ResourceObject;
-
-	class ResourceManager : public EngineComponent<ResourceManager>
+	ResourceTexture::ResourceTexture(std::string filename)
+		: ResourceObject(filename)
 	{
-	public:
-		ResourceManager(SeventhEngine* engine);
-		ResourceManager();
-		~ResourceManager();
+	}
 
-		ResourcePack* getPack(std::string name);
-		ResourceObject* getResourceFromPack(std::string packName, std::string type, std::string resourceName);
-		bool createPackFromFile(std::string name, std::string filename, bool loadOnCreation);
-
-	private:
-		std::map<std::string, ResourcePack*> mResourcePacks;
-	};
+	ResourceTexture::~ResourceTexture()
+	{
+	}
 }
-
-#endif

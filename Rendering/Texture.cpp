@@ -20,12 +20,18 @@
  */
 
 #include "Texture.h"
+#include "ResourceManager/ResourceManager.h"
 
 namespace Seventh
 {
 	Texture::Texture(std::string filename)
 	{
 		mFilename = filename;
+	}
+
+	Texture::Texture(std::string packName, std::string textureName)
+	{
+		mResource = (ResourceTexture*) GResourceManager.getResourceFromPack(packName, "texture", textureName);
 	}
 
 	Texture::~Texture()
@@ -98,7 +104,7 @@ namespace Seventh
 		mLoaded = true;
 	}
 
-	GLuint Texture::getResource()
+	GLuint Texture::getTextureData()
 	{
 		return mTexture;
 	}
@@ -106,5 +112,27 @@ namespace Seventh
 	void Texture::unload()
 	{
 		mLoaded = false;
+	}
+
+	void Texture::render()
+	{
+		if (!mLoaded)
+			load();
+
+		glBindTexture(GL_TEXTURE_2D, mTexture);
+
+		float hsize = 1.0f;
+		float vsize = 1.0f;
+
+		glBegin(GL_QUADS);
+		glTexCoord2f(0.0, 0.0);
+		glVertex3f(-hsize, -vsize, 0.0f);
+		glTexCoord2f(0.0, 1.0);
+		glVertex3f(-hsize, vsize, 0.0f);
+		glTexCoord2f(1.0, 1.0);
+		glVertex3f(hsize, vsize, 0.0f);
+		glTexCoord2f(1.0, 0.0);
+		glVertex3f(hsize, -vsize, 0.0f);
+		glEnd();
 	}
 }

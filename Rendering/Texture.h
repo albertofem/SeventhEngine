@@ -20,6 +20,7 @@
  */
 
 #include "RenderingResource.h"
+#include "ResourceManager/ResourceTexture.h"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -31,22 +32,30 @@
 #include <IL/ilu.h>
 #include <IL/ilut.h>
 
+#ifndef _TEXTURE_H_
+#define _TEXTURE_H_
+
 namespace Seventh
 {
 	class Texture : public RenderingResource
 	{
 	public:
+		Texture(std::string packName, std::string textureName);
 		Texture(std::string filename);
 		~Texture();
 
 		bool load();
 		void unload();
+		void render();
 
-		GLuint getResource();
+		GLuint getTextureData();
 
 	private:
 		bool mLoaded;
 		std::string mFilename;
 		GLuint mTexture;
+		ResourceTexture* mResource;
 	};
 }
+
+#endif

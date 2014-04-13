@@ -141,16 +141,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="ResourceObject.h" />
     <ClInclude Include="ResourcePack.h" />
+    <ClInclude Include="ResourceTexture.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Resource.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="ResourceObject.cpp" />
     <ClCompile Include="ResourcePack.cpp" />
+    <ClCompile Include="ResourceTexture.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

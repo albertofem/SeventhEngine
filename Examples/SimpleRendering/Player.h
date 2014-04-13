@@ -19,25 +19,12 @@
  * @author Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "SimpleRendering.h"
-#include "SimpleScene.h"
-#include "Player.h"
+#include "SceneManager/Entity.h"
 
-SimpleRendering::~SimpleRendering()
+class Player : public Seventh::Entity
 {
-}
+public:
+	Player();
+	~Player();
+};
 
-std::string SimpleRendering::getName()
-{
-	return "SimpleRendering";
-}
-
-void SimpleRendering::onLoad()
-{
-	LOG_WARN("Starting game!")
-}
-
-Seventh::Scene* SimpleRendering::getFirstScene()
-{
-	return new SimpleScene;
-}

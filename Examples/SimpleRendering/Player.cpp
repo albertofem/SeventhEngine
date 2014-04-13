@@ -12,32 +12,26 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "SimpleRendering.h"
-#include "SimpleScene.h"
 #include "Player.h"
+#include "Rendering/Texture.h"
 
-SimpleRendering::~SimpleRendering()
+using Seventh::Texture;
+
+Player::Player()
 {
+	LOG_DEBUG("Creating player");
+
+	Texture* texture = new Texture("sample", "ryu");
+	setRenderingResource(texture);
 }
 
-std::string SimpleRendering::getName()
+Player::~Player()
 {
-	return "SimpleRendering";
-}
-
-void SimpleRendering::onLoad()
-{
-	LOG_WARN("Starting game!")
-}
-
-Seventh::Scene* SimpleRendering::getFirstScene()
-{
-	return new SimpleScene;
 }

@@ -23,11 +23,6 @@
 
 namespace Seventh
 {
-	void Scene::load()
-	{
-		LOG_INFO("Loading scene: '%s'", getName().c_str());
-	}
-
 	bool Scene::changeScene(std::string name)
 	{
 		return mSceneManager->setCurrentScene(name);

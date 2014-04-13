@@ -22,14 +22,16 @@
 #include "SimpleScene.h"
 #include "Input/InputManager.h"
 #include "AnotherScene.h"
+#include "Player.h"
 
-SimpleScene::~SimpleScene(void)
+SimpleScene::~SimpleScene()
 {
 }
 
 void SimpleScene::load()
 {
-	LOG_INFO("I'm loaded!")
+	LOG_INFO("I'm loaded!");
+	Player* player = new Player;
 }
 
 void SimpleScene::update()

@@ -23,12 +23,17 @@
 
 namespace Seventh
 {
-	Entity::Entity(void)
+	Entity::Entity()
 	{
 	}
 
 
-	Entity::~Entity(void)
+	Entity::~Entity()
 	{
+	}
+
+	void Entity::setRenderingResource(RenderingResource* resource)
+	{
+		mRenderingResource = resource;
 	}
 }

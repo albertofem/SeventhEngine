@@ -48,6 +48,7 @@ namespace Seventh
 		mScenes[scene->getName()] = scene;
 
 		scene->setSceneManager(this);
+		scene->load();
 
 		return true;
 	}

@@ -68,16 +68,19 @@ namespace Seventh
 		LOG_DEBUG("Rendering: window resolution, %dx%d, fullscreen: %d", width, height, fullscreen);
 
 		glViewport(0, 0, (GLsizei)width, (GLsizei)height);
+		glOrtho(0, (GLsizei)width, (GLsizei)height, 0, 1, -1);
 
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 
-		glfwSwapInterval(1); 		// Lock to vertical sync of monitor (normally 60Hz, so 60fps)
-		glEnable(GL_SMOOTH);		// Enable (gouraud) shading
-		glEnable(GL_DEPTH_TEST);	// Enable the depth testing
-		glDepthFunc(GL_LEQUAL);		// Set our depth function to overwrite if new value less than or equal to current value
-		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST); // Ask for nicest perspective correction
+		glfwSwapInterval(1);
+		glEnable(GL_SMOOTH);
+		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_BLEND);
+		glDepthFunc(GL_LEQUAL);
+		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 		glEnable(GL_TEXTURE_2D);
+		glLoadIdentity();
 	}
 
 	bool Rendering::render()
@@ -89,46 +92,8 @@ namespace Seventh
 
 		if(mClock->step())
 		{
-			Texture* texture = new Texture("link.png");
-
-			texture->load();
-
+			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-			// Reset the matrix
-			glMatrixMode(GL_MODELVIEW);
-			glLoadIdentity();
-
-			// Move things back into the screen
-			glTranslatef(0.0f, 0.0f, -40.0f);
-
-			// Rotate around the y-axis
-			// Select the texture to use
-			glBindTexture(GL_TEXTURE_2D, texture->getResource());
-
-			float hsize = 15.0f; // Vertical size of the quad
-			float vsize = 10.0f; // Vertical size of the quad
-
-			// Draw our texture
-			glEnable(GL_TEXTURE_2D);
-			glBegin(GL_QUADS);
-			// Top left
-			glTexCoord2f(0.0, 0.0);
-			glVertex3f(-hsize, -vsize, 0.0f);
-
-			// Bottom left
-			glTexCoord2f(0.0, 1.0);
-			glVertex3f(-hsize, vsize, 0.0f);
-
-			// Bottom right
-			glTexCoord2f(1.0, 1.0);
-			glVertex3f(hsize, vsize, 0.0f);
-
-			// Top right
-			glTexCoord2f(1.0, 0.0);
-			glVertex3f(hsize, -vsize, 0.0f);
-			glEnd();
-			glDisable(GL_TEXTURE_2D);
 
 			mClock->update();
 

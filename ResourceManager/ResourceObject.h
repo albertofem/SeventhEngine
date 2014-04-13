@@ -33,19 +33,13 @@ namespace Seventh
 		explicit ResourceObject(std::string filename);
 		~ResourceObject() {};
 
-		virtual bool load() = 0;
-		virtual void unload() = 0;
-
-		bool isLoaded();
 		std::string getFilename();
 		std::string getName();
-		uint getId();
 		
 	protected:
 		bool mLoaded;
 		std::string mFilename;
 		std::string mName;
-		uint mID;
 	};
 }
 
