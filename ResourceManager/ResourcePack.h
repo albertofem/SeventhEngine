@@ -45,7 +45,8 @@ namespace Seventh
 	private:
 		std::map<std::string, std::map<std::string, ResourceObject*> > mResources;
 		rapidxml::xml_document<> mXmlDocument;
-		bool mLoaded;
+		rapidxml::file<> mXmlData;
+		bool mLoaded = false;
 		std::string mFilename;
 		std::string mName;
 	};

@@ -30,8 +30,7 @@ namespace Seventh
 	{
 		try
 		{
-			rapidxml::file<> xmlFile(mFilename.c_str());
-			mXmlDocument.parse<0>(xmlFile.data());	
+			mXmlDocument.parse<0>(mXmlData.data());
 		} catch(std::runtime_error)
 		{
 			LOG_ERROR("ResourceManager: Could not load resource pack file: '%s'", mFilename.c_str());
@@ -47,13 +46,13 @@ namespace Seventh
 
 	ResourceObject* ResourcePack::getResource(std::string type, std::string name)
 	{
-		LOG_DEBUG("ResourceManager: Attempt to load resource '%s' in pack '%s'", name, mName);
+		LOG_DEBUG("ResourceManager: Attempt to load resource '%s' in pack '%s'", name.c_str(), mName.c_str());
 
 		if(!mLoaded)
 		{
 			if(!load())
 			{
-				LOG_ERROR("ResourceManager: Cannot load resource '%s' in pack '%s'", name, mName);
+				LOG_ERROR("ResourceManager: Cannot load resource '%s' in pack '%s'", name.c_str(), mName.c_str());
 
 				return false;
 			}
@@ -65,18 +64,22 @@ namespace Seventh
 		}
 
 		rapidxml::xml_node<>* resources;
-		
-		resources = mXmlDocument.first_node("resources")->first_node(type.c_str());
 
-		for (resources->first_node(); resources; resources->last_node())
+		resources = mXmlDocument.first_node("resources")
+			->first_node(type.c_str())->first_node();
+
+		while (resources != 0)
 		{
-			if (resources->first_attribute("name")->value() == name.c_str())
+			if (strcmp(resources->first_attribute("name")->value(), name.c_str()))
 			{
 				LOG_DEBUG("ResourceManager: creating resource: '%s', name: '%s'", type.c_str(), name.c_str());
 
 				mResources[type][name] = createResource(type, resources->first_attribute("src")->value());
+
 				return mResources[type][name];
 			}
+
+			resources = resources->next_sibling();
 		}
 
 		LOG_WARN("ResourceManager: Cannot find resource with type: '%s', name: '%s'", type.c_str(), name.c_str());
@@ -95,6 +98,7 @@ namespace Seventh
 	}
 
 	ResourcePack::ResourcePack(std::string filename)
+		: mXmlData(filename.c_str())
 	{
 		mFilename = filename;
 	}

@@ -110,15 +110,7 @@ namespace Seventh
 		game->setEngine(this);
 		game->onLoad();
 
-		try
-		{
-			mSceneManager->setCurrentScene(game->getFirstScene());
-		}
-		catch(...)
-		{
-			LOG_CRIT("SventhEngine: Cannot load game, shutting down...");
-			return false;
-		}
+		mSceneManager->setCurrentScene(game->getFirstScene());
 
 		return true;
 	}

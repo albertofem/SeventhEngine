@@ -41,7 +41,7 @@ namespace Seventh
 
 		for (i = resourcePacks->begin(); i != resourcePacks->end(); ++i)
 		{ 
-			createPackFromFile(i->first.pItem, i->second, true);
+			createPackFromFile(i->first.pItem, i->second, false);
 		}
 	}
 

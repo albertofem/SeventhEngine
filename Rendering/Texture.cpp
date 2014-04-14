@@ -31,7 +31,7 @@ namespace Seventh
 
 	Texture::Texture(std::string packName, std::string textureName)
 	{
-		mResource = (ResourceTexture*) GResourceManager.getResourceFromPack(packName, "texture", textureName);
+		mResource = (ResourceTexture*) GResourceManager.getResourceFromPack(packName, "textures", textureName);
 	}
 
 	Texture::~Texture()
