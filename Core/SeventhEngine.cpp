@@ -83,7 +83,7 @@ namespace Seventh
 		// initialize input
 		mInputManager->initialize(mRendering->getCurrentWindow());
 
-		LOG_DEBUG("SeventhEngine: Ready to run main game loop")
+		LOG_DEBUG("SeventhEngine: Running game...")
 
 		while(running)
 		{

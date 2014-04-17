@@ -24,6 +24,13 @@
 
 namespace Seventh
 {
+	const float Texture::squareVertices[] = {
+		-0.5f, 0.5f,
+		-0.5f, -0.5f,
+		0.5f, 0.5f,
+		0.5f, -0.5f,
+	};
+
 	Texture::Texture(std::string filename)
 	{
 		mFilename = filename;
@@ -32,10 +39,15 @@ namespace Seventh
 	Texture::Texture(std::string packName, std::string textureName)
 	{
 		mResource = (ResourceTexture*) GResourceManager.getResourceFromPack(packName, "textures", textureName);
+
+		LOG_DEBUG("Creating texture with filename: '%s'", mResource->getFilename().c_str());
+
+		mFilename = mResource->getFilename();
 	}
 
 	Texture::~Texture()
 	{
+		unload();
 	}
 
 	bool Texture::load()
@@ -49,6 +61,8 @@ namespace Seventh
 
 		ilGenImages(1, &imageID); 
 		ilBindImage(imageID); 
+
+		LOG_DEBUG("Trying to load texture: '%s'", mFilename.c_str());
 
 		success = ilLoadImage(mFilename.c_str());
 
@@ -71,6 +85,9 @@ namespace Seventh
 				LOG_ERROR("Rendering: Image conversion failed: '%s'", iluErrorString(error));
 			}
 
+			mWidth = ilGetInteger(IL_IMAGE_WIDTH);
+			mHeight = ilGetInteger(IL_IMAGE_HEIGHT);
+
 			glGenTextures(1, &mTexture);
 
 			glBindTexture(GL_TEXTURE_2D, mTexture);
@@ -85,8 +102,8 @@ namespace Seventh
 				GL_TEXTURE_2D,
 				0,
 				ilGetInteger(IL_IMAGE_FORMAT),
-				ilGetInteger(IL_IMAGE_WIDTH),
-				ilGetInteger(IL_IMAGE_HEIGHT),
+				mWidth,
+				mHeight,
 				0,
 				ilGetInteger(IL_IMAGE_FORMAT),
 				GL_UNSIGNED_BYTE,
@@ -111,6 +128,8 @@ namespace Seventh
 
 	void Texture::unload()
 	{
+		// TODO: destroy texture!
+
 		mLoaded = false;
 	}
 
@@ -121,18 +140,15 @@ namespace Seventh
 
 		glBindTexture(GL_TEXTURE_2D, mTexture);
 
-		float hsize = 1.0f;
-		float vsize = 1.0f;
+		glEnable(GL_TEXTURE_2D);
 
 		glBegin(GL_QUADS);
-		glTexCoord2f(0.0, 0.0);
-		glVertex3f(-hsize, -vsize, 0.0f);
-		glTexCoord2f(0.0, 1.0);
-		glVertex3f(-hsize, vsize, 0.0f);
-		glTexCoord2f(1.0, 1.0);
-		glVertex3f(hsize, vsize, 0.0f);
-		glTexCoord2f(1.0, 0.0);
-		glVertex3f(hsize, -vsize, 0.0f);
+		glTexCoord2f(0.0f, 0.0f); glVertex2f(0.0f, 0.0f);
+		glTexCoord2f(0.0f, 1.0f); glVertex2f(mWidth, 0.0f);
+		glTexCoord2f(1.0f, 1.0f); glVertex2f(mWidth, mHeight);
+		glTexCoord2f(1.0f, 0.0f); glVertex2f(0.f, mHeight);
 		glEnd();
+
+		glDisable(GL_TEXTURE_2D);
 	}
 }

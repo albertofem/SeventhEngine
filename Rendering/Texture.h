@@ -19,9 +19,6 @@
  * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "RenderingResource.h"
-#include "ResourceManager/ResourceTexture.h"
-
 #ifdef _WIN32
 #include <windows.h>
 #endif
@@ -31,6 +28,10 @@
 #include <IL/il.h>
 #include <IL/ilu.h>
 #include <IL/ilut.h>
+
+#include "RenderingResource.h"
+#include "ResourceManager/ResourceTexture.h"
+#include "Vector2.h"
 
 #ifndef _TEXTURE_H_
 #define _TEXTURE_H_
@@ -50,11 +51,18 @@ namespace Seventh
 
 		GLuint getTextureData();
 
+		static const float squareVertices[];
+
 	private:
 		bool mLoaded;
 		std::string mFilename;
 		GLuint mTexture;
 		ResourceTexture* mResource;
+
+		uint mWidth;
+		uint mHeight;
+
+		Vector2 mPosition;
 	};
 }
 

@@ -25,6 +25,7 @@
 namespace Seventh
 {
 	class Clock;
+	class RenderingResource;
 
 	class Rendering : public EngineComponent<Rendering>
 	{
@@ -38,9 +39,14 @@ namespace Seventh
 		bool render();
 
 		GLFWwindow* getCurrentWindow();
+		void addRenderingResource(RenderingResource* resource);
+
+	private:
+		void renderRenderingResources();
 
 	private:
 		GLFWwindow* mWindow;
 		Clock* mClock;
+		std::vector<RenderingResource*> mRenderingResources;
 	};
 }

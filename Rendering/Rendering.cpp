@@ -22,6 +22,7 @@
 #include "Rendering.h"
 #include "Clock.h"
 #include "Texture.h"
+#include "RenderingResource.h"
 
 namespace Seventh
 {
@@ -31,7 +32,6 @@ namespace Seventh
 	{
 		LOG_INFO("Rendering: initialized");
 
-		ilutRenderer(ILUT_OPENGL);
 		ilInit();
 		iluInit();
 		ilutInit();
@@ -90,17 +90,18 @@ namespace Seventh
 
 		mClock->reset();
 
+		glfwPollEvents();
+
 		if(mClock->step())
 		{
-			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			mClock->update();
+			renderRenderingResources();
 
 			glfwSwapBuffers(mWindow);
-		}
 
-		glfwPollEvents();
+			mClock->update();
+		}
 
 		return true;
 	}
@@ -116,5 +117,22 @@ namespace Seventh
 	GLFWwindow* Rendering::getCurrentWindow()
 	{
 		return mWindow;
+	}
+
+	void Rendering::renderRenderingResources()
+	{
+		std::vector<RenderingResource*>::iterator renderingResource;
+
+		for (renderingResource = mRenderingResources.begin(); 
+			renderingResource != mRenderingResources.end(); 
+			++renderingResource)
+		{
+			(*renderingResource)->render();
+		}
+	}
+
+	void Rendering::addRenderingResource(RenderingResource* resource)
+	{
+		mRenderingResources.push_back(resource);
 	}
 }

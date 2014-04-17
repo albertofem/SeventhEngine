@@ -156,12 +156,13 @@
     <ClInclude Include="Rendering.h" />
     <ClInclude Include="RenderingResource.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="Vector2.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Clock.cpp" />
     <ClCompile Include="Rendering.cpp" />
-    <ClCompile Include="RenderingResource.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Vector2.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

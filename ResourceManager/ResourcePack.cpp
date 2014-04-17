@@ -70,11 +70,14 @@ namespace Seventh
 
 		while (resources != 0)
 		{
+			// TODO: this is returning the incorrect node, or the attribute is reading from the next one
 			if (strcmp(resources->first_attribute("name")->value(), name.c_str()))
 			{
-				LOG_DEBUG("ResourceManager: creating resource: '%s', name: '%s'", type.c_str(), name.c_str());
+				std::string filename = resources->first_attribute("src")->value();
 
-				mResources[type][name] = createResource(type, resources->first_attribute("src")->value());
+				LOG_DEBUG("ResourceManager: creating resource: '%s', name: '%s', source: '%s'", type.c_str(), name.c_str(), filename.c_str());
+
+				mResources[type][name] = createResource(type, filename);
 
 				return mResources[type][name];
 			}
@@ -89,7 +92,7 @@ namespace Seventh
 
 	ResourceObject* ResourcePack::createResource(std::string type, std::string filename)
 	{
-		if (type == "texture")
+		if (type == "textures")
 		{
 			return new ResourceTexture(filename);
 		}

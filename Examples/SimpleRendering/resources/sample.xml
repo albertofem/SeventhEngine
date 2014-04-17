@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <textures>
-    <texture name="ryu" src="./resources/textures/ryu.png" />
-    <texture name="ken" src="./resources/textures/ken.png" />
+    <texture name="ryu" src="./resources/textures/ken.png" />
+    <texture name="ken" src="./resources/textures/ryu.png" />
     <texture name="tile" src="./resources/textures/tiletest.png" />
   </textures>
   <tilesets>

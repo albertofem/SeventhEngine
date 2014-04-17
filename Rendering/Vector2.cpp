@@ -19,23 +19,11 @@
  * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "Core/Common.h"
-
-#ifndef _RENDERING_RESOURCE_H_
-#define _RENDERING_RESOURCE_H_
+#include "Vector2.h"
 
 namespace Seventh
 {
-	class RenderingResource : public AllocatedObject
+	Vector2::~Vector2()
 	{
-	public:
-		RenderingResource() {};
-		virtual ~RenderingResource() {};
-
-		virtual bool load() = 0;
-		virtual void unload() = 0;
-		virtual void render() = 0;
-	};
+	}
 }
-
-#endif

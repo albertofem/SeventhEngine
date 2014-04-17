@@ -82,7 +82,7 @@ namespace Seventh
 using Seventh::Logger;
 
 #define GameInput Seventh::InputManager::get()
-#define GEngineRender Seventh::Rendering::get()
+#define GRenderingEngine Seventh::Rendering::get()
 #define GResourceManager Seventh::ResourceManager::get()
 
 #endif

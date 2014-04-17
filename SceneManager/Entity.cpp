@@ -20,6 +20,7 @@
  */
 
 #include "Entity.h"
+#include "Rendering/Rendering.h"
 
 namespace Seventh
 {
@@ -34,6 +35,7 @@ namespace Seventh
 
 	void Entity::setRenderingResource(RenderingResource* resource)
 	{
+		GRenderingEngine.addRenderingResource(resource);
 		mRenderingResource = resource;
 	}
 }

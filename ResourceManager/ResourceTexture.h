@@ -26,7 +26,7 @@ namespace Seventh
 	class ResourceTexture : public ResourceObject
 	{
 	public:
-		ResourceTexture(std::string filename);
+		ResourceTexture(std::string filename) : ResourceObject(filename) {};
 		~ResourceTexture();
 	};
 }

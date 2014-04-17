@@ -41,19 +41,25 @@ namespace Seventh
 		delete mIniReader;
 	}
 
-	long EngineConfig::getIntFromSection(std::string section, std::string key, long default_value)
+	long EngineConfig::getIntFromSection(std::string section, std::string key, 
+		long default_value)
 	{
-		return mIniReader->GetLongValue(section.c_str(), key.c_str(), default_value);
+		return mIniReader
+			->GetLongValue(section.c_str(), key.c_str(), default_value);
 	}
 
-	bool EngineConfig::getBoolFromSection(std::string section, std::string key, bool default_value)
+	bool EngineConfig::getBoolFromSection(std::string section, std::string key, 
+		bool default_value)
 	{
-		return mIniReader->GetBoolValue(section.c_str(), key.c_str(), default_value);
+		return mIniReader
+			->GetBoolValue(section.c_str(), key.c_str(), default_value);
 	}
 
-	std::string EngineConfig::getStringFromSection(std::string section, std::string key, std::string default_value)
+	std::string EngineConfig::getStringFromSection(std::string section, std::string key, 
+		std::string default_value)
 	{
-		return std::string(mIniReader->GetValue(section.c_str(), key.c_str(), default_value.c_str()));
+		return std::string(mIniReader
+			->GetValue(section.c_str(), key.c_str(), default_value.c_str()));
 	}
 
 	uint EngineConfig::getScreenWidth()
