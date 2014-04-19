@@ -51,18 +51,11 @@ namespace Seventh
 
 		GLuint getTextureData();
 
-		static const float squareVertices[];
-
 	private:
 		bool mLoaded;
 		std::string mFilename;
 		GLuint mTexture;
 		ResourceTexture* mResource;
-
-		uint mWidth;
-		uint mHeight;
-
-		Vector2 mPosition;
 	};
 }
 

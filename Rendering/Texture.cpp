@@ -24,13 +24,6 @@
 
 namespace Seventh
 {
-	const float Texture::squareVertices[] = {
-		-0.5f, 0.5f,
-		-0.5f, -0.5f,
-		0.5f, 0.5f,
-		0.5f, -0.5f,
-	};
-
 	Texture::Texture(std::string filename)
 	{
 		mFilename = filename;
@@ -72,12 +65,7 @@ namespace Seventh
 
 			iluGetImageInfo(&ImageInfo);
 
-			if (ImageInfo.Origin == IL_ORIGIN_UPPER_LEFT)
-			{
-				iluFlipImage();
-			}
-
-			success = ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE);
+			success = ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
 
 			if (!success)
 			{
@@ -138,15 +126,23 @@ namespace Seventh
 		if (!mLoaded)
 			load();
 
+		glPushMatrix();
+		glTranslatef(mPosition.x, mPosition.y, 0.0f);
+
 		glBindTexture(GL_TEXTURE_2D, mTexture);
 
 		glEnable(GL_TEXTURE_2D);
 
+		GLfloat texLeft = mPosition.x / mWidth; 
+		GLfloat texRight = (mPosition.x + mWidth) / mWidth; 
+		GLfloat texTop = mPosition.y / mHeight; 
+		GLfloat texBottom = (mPosition.y + mHeight) / mHeight;
+
 		glBegin(GL_QUADS);
-		glTexCoord2f(0.0f, 0.0f); glVertex2f(0.0f, 0.0f);
-		glTexCoord2f(0.0f, 1.0f); glVertex2f(mWidth, 0.0f);
-		glTexCoord2f(1.0f, 1.0f); glVertex2f(mWidth, mHeight);
-		glTexCoord2f(1.0f, 0.0f); glVertex2f(0.f, mHeight);
+		glTexCoord2f(texLeft, texTop); glVertex2f(0.0f, 0.0f);
+		glTexCoord2f(texRight, texTop); glVertex2f(mWidth, 0.0f);
+		glTexCoord2f(texRight, texBottom); glVertex2f(mWidth, mHeight);
+		glTexCoord2f(texLeft, texBottom); glVertex2f(0.f, mHeight);
 		glEnd();
 
 		glDisable(GL_TEXTURE_2D);

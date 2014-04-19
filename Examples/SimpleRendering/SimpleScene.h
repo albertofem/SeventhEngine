@@ -20,6 +20,7 @@
  */
 
 #include "SceneManager/Scene.h"
+#include "Player.h"
 
 class SimpleScene : public Seventh::Scene
 {	
@@ -31,5 +32,7 @@ public:
 	void update();
 
 	std::string getName();
+
+	Player* myPlayer;
 };
 

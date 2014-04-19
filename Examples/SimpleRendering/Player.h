@@ -26,5 +26,7 @@ class Player : public Seventh::Entity
 public:
 	Player();
 	~Player();
+
+	void update();
 };
 

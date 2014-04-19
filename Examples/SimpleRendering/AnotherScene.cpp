@@ -34,10 +34,7 @@ void AnotherScene::load()
 
 void AnotherScene::update()
 {
-	if (GameInput.isKeyPressed(32))
-	{
-		LOG_INFO("Key pressed in scene 2!!!");
-	}
+
 }
 
 std::string AnotherScene::getName()

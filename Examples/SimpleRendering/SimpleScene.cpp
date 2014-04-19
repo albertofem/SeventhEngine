@@ -22,7 +22,6 @@
 #include "SimpleScene.h"
 #include "Input/InputManager.h"
 #include "AnotherScene.h"
-#include "Player.h"
 
 SimpleScene::~SimpleScene()
 {
@@ -31,11 +30,17 @@ SimpleScene::~SimpleScene()
 void SimpleScene::load()
 {
 	LOG_INFO("I'm loaded!");
-	Player* player = new Player;
+	myPlayer = new Player;
 }
 
 void SimpleScene::update()
 {
+	if (GameInput.isKeyPressed(32))
+	{
+		LOG_INFO("Key pressed in scene 2!!!");
+
+		myPlayer->setPosition(Seventh::Vector2(-100, -100));
+	}
 }
 
 std::string SimpleScene::getName()

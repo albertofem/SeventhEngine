@@ -21,7 +21,6 @@
 
 #include "SimpleRendering.h"
 #include "SimpleScene.h"
-#include "Player.h"
 
 SimpleRendering::~SimpleRendering()
 {

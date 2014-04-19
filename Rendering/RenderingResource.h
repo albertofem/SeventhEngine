@@ -20,6 +20,7 @@
  */
 
 #include "Core/Common.h"
+#include "Vector2.h"
 
 #ifndef _RENDERING_RESOURCE_H_
 #define _RENDERING_RESOURCE_H_
@@ -29,12 +30,24 @@ namespace Seventh
 	class RenderingResource : public AllocatedObject
 	{
 	public:
-		RenderingResource() {};
+		RenderingResource() : mWidth(0), mHeight(0) {};
 		virtual ~RenderingResource() {};
 
 		virtual bool load() = 0;
 		virtual void unload() = 0;
 		virtual void render() = 0;
+
+		uint getWidth() { return mWidth; };
+		uint getHeight() { return mHeight; };
+
+		Vector2 getPosition() { return mPosition; };
+		void setPosition(Vector2 position) { mPosition = position; };
+
+	protected:
+		uint mWidth;
+		uint mHeight;
+
+		Vector2 mPosition;
 	};
 }
 

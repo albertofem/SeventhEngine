@@ -21,6 +21,7 @@
 
 #include "Core/Common.h"
 #include "Rendering/RenderingResource.h"
+#include "Rendering/Vector2.h"
 
 #ifndef _ENTITY_H_
 #define _ENTITY_H_
@@ -35,8 +36,14 @@ namespace Seventh
 
 		void setRenderingResource(RenderingResource* resource);
 
+		virtual void update() = 0;
+
+		void setPosition(Vector2 position);
+
+
 	protected:
 		RenderingResource* mRenderingResource;
+		Vector2 mPosition;
 	};
 }
 

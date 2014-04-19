@@ -38,4 +38,14 @@ namespace Seventh
 		GRenderingEngine.addRenderingResource(resource);
 		mRenderingResource = resource;
 	}
+
+	void Entity::setPosition(Vector2 position)
+	{
+		mPosition = position;
+
+		if (mRenderingResource)
+		{
+			mRenderingResource->setPosition(position);
+		}
+	}
 }
