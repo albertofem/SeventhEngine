@@ -41,7 +41,9 @@ namespace Seventh
 		uint getHeight() { return mHeight; };
 
 		Vector2 getPosition() { return mPosition; };
+
 		void setPosition(Vector2 position) { mPosition = position; };
+		void setPosition(float x, float y) { mPosition.x = x; mPosition.y = y; };
 
 	protected:
 		uint mWidth;

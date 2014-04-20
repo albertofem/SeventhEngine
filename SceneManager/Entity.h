@@ -39,7 +39,7 @@ namespace Seventh
 		virtual void update() = 0;
 
 		void setPosition(Vector2 position);
-
+		void setPosition(float x, float);
 
 	protected:
 		RenderingResource* mRenderingResource;

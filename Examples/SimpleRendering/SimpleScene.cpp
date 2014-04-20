@@ -39,7 +39,7 @@ void SimpleScene::update()
 	{
 		LOG_INFO("Key pressed in scene 2!!!");
 
-		myPlayer->setPosition(Seventh::Vector2(-100, -100));
+		myPlayer->setPosition(10.0, 10.0);
 	}
 }
 

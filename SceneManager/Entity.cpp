@@ -48,4 +48,16 @@ namespace Seventh
 			mRenderingResource->setPosition(position);
 		}
 	}
+
+	void Entity::setPosition(float x, float y)
+	{
+		mPosition.x = x;
+		mPosition.y = y;
+
+		if (mRenderingResource)
+		{
+			mRenderingResource->setPosition(x, y);
+		}
+	}
+
 }

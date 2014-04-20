@@ -138,6 +138,8 @@ namespace Seventh
 		GLfloat texTop = mPosition.y / mHeight; 
 		GLfloat texBottom = (mPosition.y + mHeight) / mHeight;
 
+		LOG_DEBUG("Drawing texture in position: '%d', '%d', '%d', '%d'", texLeft, texRight, texTop, texBottom);
+
 		glBegin(GL_QUADS);
 		glTexCoord2f(texLeft, texTop); glVertex2f(0.0f, 0.0f);
 		glTexCoord2f(texRight, texTop); glVertex2f(mWidth, 0.0f);
