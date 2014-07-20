@@ -61,8 +61,11 @@ namespace Seventh
 		return mResourcePacks[name];
 	}
 
-	bool ResourceManager::createPackFromFile(std::string name, std::string filename, bool loadOnCreation = false)
-	{
+	bool ResourceManager::createPackFromFile(
+		std::string name, 
+		std::string filename, 
+		bool loadOnCreation = false
+	) {
 		LOG_DEBUG("ResourceManager: Loading resource pack '%s'", name.c_str())
 
 		ResourcePack* newResourcePack = new ResourcePack(filename);
@@ -76,8 +79,11 @@ namespace Seventh
 		return true;
 	}
 
-	ResourceObject* ResourceManager::getResourceFromPack(std::string packName, std::string type, std::string resourceName)
-	{
+	ResourceObject* ResourceManager::getResourceFromPack(
+		std::string packName, 
+		std::string type, 
+		std::string resourceName
+	) {
 		return getPack(packName)->getResource(type, resourceName);
 	}
 }

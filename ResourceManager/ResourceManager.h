@@ -39,8 +39,18 @@ namespace Seventh
 		~ResourceManager();
 
 		ResourcePack* getPack(std::string name);
-		ResourceObject* getResourceFromPack(std::string packName, std::string type, std::string resourceName);
-		bool createPackFromFile(std::string name, std::string filename, bool loadOnCreation);
+
+		ResourceObject* getResourceFromPack(
+			std::string packName, 
+			std::string type, 
+			std::string resourceName
+		);
+
+		bool createPackFromFile(
+			std::string name, 
+			std::string filename, 
+			bool loadOnCreation
+		);
 
 	private:
 		std::map<std::string, ResourcePack*> mResourcePacks;

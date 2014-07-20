@@ -33,11 +33,18 @@ namespace Seventh
 			mXmlDocument.parse<0>(mXmlData.data());
 		} catch(std::runtime_error)
 		{
-			LOG_ERROR("ResourceManager: Could not load resource pack file: '%s'", mFilename.c_str());
+			LOG_ERROR(
+				"ResourceManager: Could not load resource pack file: '%s'", 
+				mFilename.c_str()
+			);
+
 			return false;
 		}
 
-		LOG_DEBUG("ResourceManager: Loaded successfully resource pack file: '%s'", mFilename.c_str());
+		LOG_DEBUG(
+			"ResourceManager: Loaded successfully resource pack file: '%s'", 
+			mFilename.c_str()
+		);
 
 		mLoaded = true;
 
@@ -46,13 +53,21 @@ namespace Seventh
 
 	ResourceObject* ResourcePack::getResource(std::string type, std::string name)
 	{
-		LOG_DEBUG("ResourceManager: Attempt to load resource '%s' in pack '%s'", name.c_str(), mName.c_str());
+		LOG_DEBUG(
+			"ResourceManager: Attempt to load resource '%s' in pack '%s'", 
+			name.c_str(), 
+			mName.c_str()
+		);
 
 		if(!mLoaded)
 		{
 			if(!load())
 			{
-				LOG_ERROR("ResourceManager: Cannot load resource '%s' in pack '%s'", name.c_str(), mName.c_str());
+				LOG_ERROR(
+					"ResourceManager: Cannot load resource '%s' in pack '%s'", 
+					name.c_str(), 
+					mName.c_str()
+				);
 
 				return false;
 			}
@@ -70,12 +85,19 @@ namespace Seventh
 
 		while (resources != 0)
 		{
-			// TODO: this is returning the incorrect node, or the attribute is reading from the next one
+			// TODO: this is returning the incorrect node, or the attribute 
+			// is being read from the sibling
+
 			if (strcmp(resources->first_attribute("name")->value(), name.c_str()))
 			{
 				std::string filename = resources->first_attribute("src")->value();
 
-				LOG_DEBUG("ResourceManager: creating resource: '%s', name: '%s', source: '%s'", type.c_str(), name.c_str(), filename.c_str());
+				LOG_DEBUG(
+					"ResourceManager: creating resource: '%s', name: '%s', source: '%s'", 
+					type.c_str(), 
+					name.c_str(), 
+					filename.c_str()
+				);
 
 				mResources[type][name] = createResource(type, filename);
 
@@ -85,13 +107,19 @@ namespace Seventh
 			resources = resources->next_sibling();
 		}
 
-		LOG_WARN("ResourceManager: Cannot find resource with type: '%s', name: '%s'", type.c_str(), name.c_str());
+		LOG_WARN(
+			"ResourceManager: Cannot find resource with type: '%s', name: '%s'", 
+			type.c_str(), 
+			name.c_str()
+		);
 
 		return NULL;
 	}
 
-	ResourceObject* ResourcePack::createResource(std::string type, std::string filename)
-	{
+	ResourceObject* ResourcePack::createResource(
+		std::string type, 
+		std::string filename
+	) {
 		if (type == "textures")
 		{
 			return new ResourceTexture(filename);
