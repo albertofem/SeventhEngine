@@ -1,7 +1,7 @@
 /*
  * SeventhEngine
  *
- * Copyright (c) Alberto Fern·ndez
+ * Copyright (c) Alberto Fern√°ndez
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author	Alberto Fern·ndez <albertofem@gmail.com>
+ * @author	Alberto Fern√°ndez <albertofem@gmail.com>
  */
 
 #include "Platform.h"
@@ -65,7 +65,6 @@ namespace Seventh
 #include "Singleton.h"
 #include "AllocatedObject.h"
 #include "Logger.h"
-#include "ResourceManager/ResourceManager.h"
 
 /*
  * Useful macros
@@ -84,5 +83,6 @@ using Seventh::Logger;
 #define GameInput Seventh::InputManager::get()
 #define GRenderingEngine Seventh::Rendering::get()
 #define GResourceManager Seventh::ResourceManager::get()
+#define GSceneManager Seventh::SceneManager::get()
 
 #endif

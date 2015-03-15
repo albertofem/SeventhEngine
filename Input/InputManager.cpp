@@ -1,7 +1,7 @@
 /*
  * SeventhEngine
  *
- * Copyright (c) Alberto Fern·ndez
+ * Copyright (c) Alberto Fern√°ndez
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author Alberto Fern·ndez <albertofem@gmail.com>
+ * @author Alberto Fern√°ndez <albertofem@gmail.com>
  */
 
 #include "InputManager.h"
@@ -40,8 +40,9 @@ namespace Seventh
 
 	bool InputManager::onKeyDown(uint keyVal)
 	{
-		if (mKeyStates[keyVal] == true)
+		if (mKeyStates[keyVal] == true) {
 			return false;
+		}
 
 		LOG_DEBUG("Key down: '%d'", keyVal);
 
@@ -52,8 +53,9 @@ namespace Seventh
 
 	bool InputManager::onKeyUp(uint keyVal)
 	{
-		if (mKeyStates[keyVal] == false)
+		if (mKeyStates[keyVal] == false) {
 			return true;
+		}
 
 		LOG_DEBUG("Key up: '%d'", keyVal);
 
@@ -64,7 +66,6 @@ namespace Seventh
 
 	void InputManager::update()
 	{
-
 	}
 
 	bool InputManager::initialize(GLFWwindow* targetWindow)

@@ -1,7 +1,7 @@
 /*
  * SeventhEngine
  *
- * Copyright (c) Alberto Fern·ndez
+ * Copyright (c) Alberto Fern√°ndez
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author	Alberto Fern·ndez <albertofem@gmail.com>
+ * @author	Alberto Fern√°ndez <albertofem@gmail.com>
  */
 
 #include "Texture.h"
@@ -45,8 +45,9 @@ namespace Seventh
 
 	bool Texture::load()
 	{
-		if (mLoaded)
+		if (mLoaded) {
 			return true;
+		}
 
 		ILuint imageID;
 		ILboolean success;
@@ -123,28 +124,24 @@ namespace Seventh
 
 	void Texture::render()
 	{
-		if (!mLoaded)
+		if (!mLoaded) {
 			load();
+		}
 
+		glMatrixMode(GL_MODELVIEW);
 		glPushMatrix();
 		glTranslatef(mPosition.x, mPosition.y, 0.0f);
 
+		glEnable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, mTexture);
 
-		glEnable(GL_TEXTURE_2D);
-
-		GLfloat texLeft = mPosition.x / mWidth; 
-		GLfloat texRight = (mPosition.x + mWidth) / mWidth; 
-		GLfloat texTop = mPosition.y / mHeight; 
-		GLfloat texBottom = (mPosition.y + mHeight) / mHeight;
-
 		glBegin(GL_QUADS);
-		glTexCoord2f(texLeft, texTop); glVertex2f(0.0f, 0.0f);
-		glTexCoord2f(texRight, texTop); glVertex2f(mWidth, 0.0f);
-		glTexCoord2f(texRight, texBottom); glVertex2f(mWidth, mHeight);
-		glTexCoord2f(texLeft, texBottom); glVertex2f(0.f, mHeight);
+			glTexCoord2f(0.0, 0.0); glVertex2f(mPosition.x, mPosition.y);
+			glTexCoord2f(0.0, 1.0); glVertex2f(mPosition.x, mPosition.y + mHeight);
+			glTexCoord2f(1.0, 1.0); glVertex2f(mPosition.x + mWidth, mPosition.y + mHeight);
+			glTexCoord2f(1.0, 0.0); glVertex2f(mPosition.x + mWidth, mPosition.y);
 		glEnd();
 
-		glDisable(GL_TEXTURE_2D);
+		glPopMatrix();
 	}
 }

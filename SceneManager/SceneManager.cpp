@@ -1,7 +1,7 @@
 /*
  * SeventhEngine
  *
- * Copyright (c) Alberto Fern·ndez
+ * Copyright (c) Alberto Fern√°ndez
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author	Alberto Fern·ndez <albertofem@gmail.com>
+ * @author	Alberto Fern√°ndez <albertofem@gmail.com>
  */
 
 #include "SceneManager.h"
@@ -39,13 +39,13 @@ namespace Seventh
 
 	bool SceneManager::addScene(Scene* scene)
 	{
-		if(mScenes[scene->getName()] != NULL)
+		if(mSceneRegistry[scene->getName()] != NULL)
 		{
 			LOG_WARN("SceneManager: Trying to add a duplicate scene with name: '%s'", scene->getName().c_str());
 			return false;
 		}
 
-		mScenes[scene->getName()] = scene;
+		mSceneRegistry[scene->getName()] = scene;
 
 		scene->setSceneManager(this);
 		scene->load();
@@ -55,7 +55,7 @@ namespace Seventh
 
 	bool SceneManager::setCurrentScene(std::string scene_name)
 	{
-		if(mScenes[scene_name] == NULL)
+		if(mSceneRegistry[scene_name] == NULL)
 		{
 			LOG_ERROR("SceneManager: Trying to load a scene that does not exists '%s'", scene_name.c_str());
 			return false;
@@ -63,7 +63,7 @@ namespace Seventh
 
 		LOG_INFO("SceneManager: Setting current scene: '%s'", scene_name.c_str());
 
-		mCurrentScene = mScenes[scene_name];
+		mCurrentScene = mSceneRegistry[scene_name];
 
 		return true;
 	}
@@ -84,5 +84,4 @@ namespace Seventh
 	{
 		getCurrentScene()->update();
 	}
-
 }

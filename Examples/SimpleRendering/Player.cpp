@@ -1,7 +1,7 @@
 /*
  * SeventhEngine
  *
- * Copyright (c) Alberto Fern·ndez
+ * Copyright (c) Alberto Fern√°ndez
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author Alberto Fern·ndez <albertofem@gmail.com>
+ * @author Alberto Fern√°ndez <albertofem@gmail.com>
  */
 
 #include "Player.h"
@@ -28,6 +28,8 @@ Player::Player()
 {
 	LOG_DEBUG("Creating player");
 
+	mId = "my_player";
+
 	Texture* texture = new Texture("sample", "ryu");
 	setRenderingResource(texture);
 }
@@ -38,5 +40,27 @@ Player::~Player()
 
 void Player::update()
 {
+	uint speed = 1;
+	uint currentX = mPosition.x;
+	uint currentY = mPosition.y;
 
+	if (GameInput.isKeyPressed(SE_KEY_ARROW_RIGHT)) {
+		setPosition(currentX + speed, currentY);
+	}
+
+	if (GameInput.isKeyPressed(SE_KEY_ARROW_DOWN)) {
+		setPosition(currentX, currentY + speed);
+	}
+
+	if (GameInput.isKeyPressed(SE_KEY_ARROW_LEFT)) {
+		setPosition(currentX - speed, currentY);
+	}
+
+	if (GameInput.isKeyPressed(SE_KEY_ARROW_UP)) {
+		setPosition(currentX, currentY - speed);
+	}
+
+	if (GameInput.isKeyPressed(SE_KEY_SPACE)) {
+		setPosition(0.0f, 0.0f);
+	}
 }

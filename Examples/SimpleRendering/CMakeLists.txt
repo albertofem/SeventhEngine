@@ -12,7 +12,7 @@ set(SOURCE_FILES
     SimpleRendering.h
     SimpleScene.cpp
     SimpleScene.h
-    src/win_main.cpp)
+    main.cpp)
 
 add_executable(SimpleRendering ${SOURCE_FILES})
 

@@ -1,7 +1,7 @@
 /*
  * SeventhEngine
  *
- * Copyright (c) Alberto Fern�ndez
+ * Copyright (c) Alberto Fernández
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,15 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author Alberto Fern�ndez <albertofem@gmail.com>
+ * @author Alberto Fernández <albertofem@gmail.com>
  */
 
 #ifdef WIN32
 #include <windows.h>
 #endif
-
-#include <stdio.h>
-#include <stdlib.h>
 
 #include "Examples/SimpleRendering/SimpleRendering.h"
 

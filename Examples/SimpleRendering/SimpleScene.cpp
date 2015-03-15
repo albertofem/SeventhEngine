@@ -1,7 +1,7 @@
 /*
  * SeventhEngine
  *
- * Copyright (c) Alberto Fern·ndez
+ * Copyright (c) Alberto Fern√°ndez
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,12 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author Alberto Fern·ndez <albertofem@gmail.com>
+ * @author Alberto Fern√°ndez <albertofem@gmail.com>
  */
 
 #include "SimpleScene.h"
-#include "Input/InputManager.h"
-#include "AnotherScene.h"
 
 SimpleScene::~SimpleScene()
 {
@@ -29,18 +27,9 @@ SimpleScene::~SimpleScene()
 
 void SimpleScene::load()
 {
-	LOG_INFO("I'm loaded!");
 	myPlayer = new Player;
-}
 
-void SimpleScene::update()
-{
-	if (GameInput.isKeyPressed(32))
-	{
-		LOG_INFO("Key pressed in scene 2!!!");
-
-		myPlayer->setPosition(10.0, 10.0);
-	}
+	registerEntity(myPlayer);
 }
 
 std::string SimpleScene::getName()

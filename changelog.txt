@@ -1,0 +1,7 @@
+0.0.1 - 15 March 2015
+---
+
+* Basic fixes in OpenGL matrix mode
+* CMake project building
+* OS X compilation working
+* Minor fixes, typos, etc.

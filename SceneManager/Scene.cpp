@@ -1,7 +1,7 @@
 /*
  * SeventhEngine
  *
- * Copyright (c) Alberto Fern·ndez
+ * Copyright (c) Alberto Fern√°ndez
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,10 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author	Alberto Fern·ndez <albertofem@gmail.com>
+ * @author	Alberto Fern√°ndez <albertofem@gmail.com>
  */
 
 #include "SceneManager.h"
+#include "Entity.h"
 
 namespace Seventh
 {
@@ -36,5 +37,22 @@ namespace Seventh
 	void Scene::setSceneManager(SceneManager* scene_manager)
 	{
 		mSceneManager = scene_manager;
+	}
+
+	void Scene::registerEntity(Entity *entity)
+	{
+		mEntityRegister[entity->getId()] = entity;
+	}
+
+	void Scene::removeEntity(Entity *entity)
+	{
+		mEntityRegister.erase(entity->getId());
+	}
+
+	void Scene::update()
+	{
+		for (auto& entityRegister : mEntityRegister) {
+			entityRegister.second->update();
+		}
 	}
 }
