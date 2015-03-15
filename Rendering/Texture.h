@@ -1,7 +1,7 @@
 /*
  * SeventhEngine
  *
- * Copyright (c) Alberto Fernández
+ * Copyright (c) Alberto Fernï¿½ndez
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,15 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author	Alberto Fernández <albertofem@gmail.com>
+ * @author	Alberto Fernï¿½ndez <albertofem@gmail.com>
  */
 
 #ifdef _WIN32
 #include <windows.h>
 #endif
 
+#ifdef __APPLE__
+#include <OpenGL/GL.h>
+#include <OpenGL/GLU.h>
+#else
 #include <GL/GL.h>
 #include <GL/GLU.h>
+#endif
+
+
 #include <IL/il.h>
 #include <IL/ilu.h>
 #include <IL/ilut.h>

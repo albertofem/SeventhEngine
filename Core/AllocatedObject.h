@@ -1,7 +1,7 @@
 /*
  * SeventhEngine
  *
- * Copyright (c) Alberto Fernández
+ * Copyright (c) Alberto Fernï¿½ndez
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,12 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author	Alberto Fernández <albertofem@gmail.com>
+ * @author	Alberto Fernï¿½ndez <albertofem@gmail.com>
  */
 
 /*
  * Very simple allocator abstraction, using nedmalloc
  */
+
+#include <stddef.h>
 
 #ifndef _ALLOCATOR_H_
 #define _ALLOCATOR_H_
@@ -34,7 +36,7 @@ namespace Seventh
 		explicit AllocatedObject() {};
 		~AllocatedObject() {}
 
-		// new and deleted operators
+		// new and delete operators
 		void* operator new(size_t size)
 		{
 			return allocateBytes(size);
@@ -56,8 +58,8 @@ namespace Seventh
 		}
 
 	private:
-		static void* AllocatedObject::allocateBytes(size_t size);
-		static void AllocatedObject::deallocateBytes(void* ptr);
+		static void* allocateBytes(size_t size);
+		static void deallocateBytes(void* ptr);
 	};
 }
 

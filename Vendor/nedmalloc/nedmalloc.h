@@ -119,7 +119,7 @@ to extern unless NEDMALLOC_DLL_EXPORTS is set as it would be when building
 nedmalloc.dll.
  */
 #ifndef NEDMALLOCEXTSPEC
- #ifdef NEDMALLOC_DLL_EXPORTS
+#ifdef NEDMALLOC_DLL_EXPORTS
   #ifdef WIN32
    #define NEDMALLOCEXTSPEC extern __declspec(dllexport)
   #elif defined(__GNUC__)
@@ -129,8 +129,8 @@ nedmalloc.dll.
    #define ENABLE_TOLERANT_NEDMALLOC 1
   #endif
  #else
-  #define NEDMALLOCEXTSPEC extern
- #endif
+#define NEDMALLOCEXTSPEC extern
+#endif
 #endif
 
 /*! \def NEDMALLOCDEPRECATED
@@ -139,7 +139,7 @@ nedmalloc.dll.
 #if defined(_MSC_VER) && !defined(__GCCXML__)
  #define NEDMALLOCDEPRECATED __declspec(deprecated)
 #elif defined(__GNUC__) && !defined(__GCCXML__)
- #define NEDMALLOCDEPRECATED __attribute ((deprecated))
+#define NEDMALLOCDEPRECATED __attribute ((deprecated))
 #else
 //! Marks a function as being deprecated
  #define NEDMALLOCDEPRECATED
@@ -150,7 +150,7 @@ nedmalloc.dll.
 \brief Defined to the restrict keyword or equivalent if available */
 #ifndef RESTRICT
 #if __STDC_VERSION__ >= 199901L		/* C99 or better */
- #define RESTRICT restrict
+#define RESTRICT restrict
 #else
  #if defined(_MSC_VER) && _MSC_VER>=1400
   #define RESTRICT __restrict
@@ -169,7 +169,7 @@ nedmalloc.dll.
  #define NEDMALLOCNOALIASATTR __declspec(noalias)
 #endif
 #ifdef __GNUC__
- #define NEDMALLOCPTRATTR __attribute__ ((malloc))
+#define NEDMALLOCPTRATTR __attribute__ ((malloc))
 #endif
 /*! \def NEDMALLOCPTRATTR
 \brief Defined to the specifier for a pointer which points to a memory block. Like NEDMALLOCNOALIASATTR, but sadly not identical. */
@@ -179,7 +179,7 @@ nedmalloc.dll.
 /*! \def NEDMALLOCNOALIASATTR
 \brief Defined to the specifier for a pointer which does not alias any other variable. */
 #ifndef NEDMALLOCNOALIASATTR
- #define NEDMALLOCNOALIASATTR
+#define NEDMALLOCNOALIASATTR
 #endif
 
 /*! \def USE_MAGIC_HEADERS
@@ -191,7 +191,7 @@ to free a system allocated block. Enabling this typically adds 20-50% to
 application memory usage, and is mandatory if USE_ALLOCATOR is not 1.
 */
 #ifndef USE_MAGIC_HEADERS
- #define USE_MAGIC_HEADERS 0
+#define USE_MAGIC_HEADERS 0
 #endif
 
 /*! \def USE_ALLOCATOR
@@ -199,12 +199,12 @@ application memory usage, and is mandatory if USE_ALLOCATOR is not 1.
 
 USE_ALLOCATOR can be one of these settings (it defaults to 1):
   0: System allocator (nedmalloc now simply acts as a threadcache) which is
-	 very useful for testing with valgrind and Glowcode.
-	 WARNING: Intended for DEBUG USE ONLY - not all functions work correctly.
+     very useful for testing with valgrind and Glowcode.
+     WARNING: Intended for DEBUG USE ONLY - not all functions work correctly.
   1: dlmalloc
 */
 #ifndef USE_ALLOCATOR
- #define USE_ALLOCATOR 1 /* dlmalloc */
+#define USE_ALLOCATOR 1 /* dlmalloc */
 #endif
 
 #if !USE_ALLOCATOR && !USE_MAGIC_HEADERS
@@ -266,16 +266,16 @@ extern "C" {
 #endif
 /*! \brief Returns information about a memory pool */
 struct nedmallinfo {
-  size_t arena;    /*!< non-mmapped space allocated from system */
-  size_t ordblks;  /*!< number of free chunks */
-  size_t smblks;   /*!< always 0 */
-  size_t hblks;    /*!< always 0 */
-  size_t hblkhd;   /*!< space in mmapped regions */
-  size_t usmblks;  /*!< maximum total allocated space */
-  size_t fsmblks;  /*!< always 0 */
-  size_t uordblks; /*!< total allocated space */
-  size_t fordblks; /*!< total free space */
-  size_t keepcost; /*!< releasable (via malloc_trim) space */
+ size_t arena;    /*!< non-mmapped space allocated from system */
+ size_t ordblks;  /*!< number of free chunks */
+ size_t smblks;   /*!< always 0 */
+ size_t hblks;    /*!< always 0 */
+ size_t hblkhd;   /*!< space in mmapped regions */
+ size_t usmblks;  /*!< maximum total allocated space */
+ size_t fsmblks;  /*!< always 0 */
+ size_t uordblks; /*!< total allocated space */
+ size_t fordblks; /*!< total free space */
+ size_t keepcost; /*!< releasable (via malloc_trim) space */
 };
 #if defined(__cplusplus)
 }
@@ -302,7 +302,7 @@ extern "C" {
   #define THROWSPEC throw()
  #endif
 #else
- #define THROWSPEC
+#define THROWSPEC
 #endif
 
 /* These are the global functions */
@@ -476,17 +476,17 @@ NEDMALLOCEXTSPEC NEDMALLOCNOALIASATTR NEDMALLOCPTRATTR void * nedmemalign(size_t
 #if defined(__cplusplus)
 /*! \ingroup v2malloc
 \brief Equivalent to nedpmalloc2((nedpool *) 0, size, alignment, flags) */
-NEDMALLOCDEPRECATED NEDMALLOCEXTSPEC NEDMALLOCNOALIASATTR NEDMALLOCPTRATTR void * nedmalloc2(size_t size, size_t alignment=0, unsigned flags=0) THROWSPEC;
+NEDMALLOCEXTSPEC NEDMALLOCNOALIASATTR NEDMALLOCPTRATTR void * nedmalloc2(size_t size, size_t alignment=0, unsigned flags=0) THROWSPEC;
 /*! \ingroup v2malloc
 \brief Equivalent to nedprealloc2((nedpool *) 0, mem, size, alignment, flags) */
-NEDMALLOCDEPRECATED NEDMALLOCEXTSPEC NEDMALLOCNOALIASATTR NEDMALLOCPTRATTR void * nedrealloc2(void *mem, size_t size, size_t alignment=0, unsigned flags=0) THROWSPEC;
+NEDMALLOCEXTSPEC NEDMALLOCNOALIASATTR NEDMALLOCPTRATTR void * nedrealloc2(void *mem, size_t size, size_t alignment=0, unsigned flags=0) THROWSPEC;
 /*! \ingroup v2malloc
 \brief Equivalent to nedpfree2((nedpool *) 0, mem, flags) */
-NEDMALLOCDEPRECATED NEDMALLOCEXTSPEC NEDMALLOCNOALIASATTR void nedfree2(void *mem, unsigned flags=0) THROWSPEC;
+NEDMALLOCEXTSPEC NEDMALLOCNOALIASATTR void nedfree2(void *mem, unsigned flags=0) THROWSPEC;
 #else
-NEDMALLOCDEPRECATED NEDMALLOCEXTSPEC NEDMALLOCNOALIASATTR NEDMALLOCPTRATTR void * nedmalloc2(size_t size, size_t alignment, unsigned flags) THROWSPEC;
-NEDMALLOCDEPRECATED NEDMALLOCEXTSPEC NEDMALLOCNOALIASATTR NEDMALLOCPTRATTR void * nedrealloc2(void *mem, size_t size, size_t alignment, unsigned flags) THROWSPEC;
-NEDMALLOCDEPRECATED NEDMALLOCEXTSPEC NEDMALLOCNOALIASATTR void nedfree2(void *mem, unsigned flags) THROWSPEC;
+NEDMALLOCEXTSPEC NEDMALLOCNOALIASATTR NEDMALLOCPTRATTR void * nedmalloc2(size_t size, size_t alignment, unsigned flags) THROWSPEC;
+NEDMALLOCEXTSPEC NEDMALLOCNOALIASATTR NEDMALLOCPTRATTR void * nedrealloc2(void *mem, size_t size, size_t alignment, unsigned flags) THROWSPEC;
+NEDMALLOCEXTSPEC NEDMALLOCNOALIASATTR void nedfree2(void *mem, unsigned flags) THROWSPEC;
 #endif
 
 /*! \brief Equivalent to nedpmallinfo((nedpool *) 0) */
@@ -595,17 +595,17 @@ NEDMALLOCEXTSPEC NEDMALLOCNOALIASATTR NEDMALLOCPTRATTR void * nedpmemalign(nedpo
 /*! \ingroup v2malloc
 \brief Allocates a block of memory sized \em size from pool \em p, aligned to \em alignment and according to the flags \em flags.
 */
-NEDMALLOCDEPRECATED NEDMALLOCEXTSPEC NEDMALLOCNOALIASATTR NEDMALLOCPTRATTR void * nedpmalloc2(nedpool *p, size_t size, size_t alignment=0, unsigned flags=0) THROWSPEC;
+NEDMALLOCEXTSPEC NEDMALLOCNOALIASATTR NEDMALLOCPTRATTR void * nedpmalloc2(nedpool *p, size_t size, size_t alignment=0, unsigned flags=0) THROWSPEC;
 /*! \ingroup v2malloc
 \brief Resizes the block of memory at \em mem in pool \em p to size \em size, aligned to \em alignment and according to the flags \em flags.
 */
-NEDMALLOCDEPRECATED NEDMALLOCEXTSPEC NEDMALLOCNOALIASATTR NEDMALLOCPTRATTR void * nedprealloc2(nedpool *p, void *mem, size_t size, size_t alignment=0, unsigned flags=0) THROWSPEC;
+NEDMALLOCEXTSPEC NEDMALLOCNOALIASATTR NEDMALLOCPTRATTR void * nedprealloc2(nedpool *p, void *mem, size_t size, size_t alignment=0, unsigned flags=0) THROWSPEC;
 /*! \brief Frees the block \em mem from the pool \em p according to flags \em flags. */
-NEDMALLOCDEPRECATED NEDMALLOCEXTSPEC NEDMALLOCNOALIASATTR void   nedpfree2(nedpool *p, void *mem, unsigned flags=0) THROWSPEC;
+NEDMALLOCEXTSPEC NEDMALLOCNOALIASATTR void   nedpfree2(nedpool *p, void *mem, unsigned flags=0) THROWSPEC;
 #else
-NEDMALLOCDEPRECATED NEDMALLOCEXTSPEC NEDMALLOCNOALIASATTR NEDMALLOCPTRATTR void * nedpmalloc2(nedpool *p, size_t size, size_t alignment, unsigned flags) THROWSPEC;
-NEDMALLOCDEPRECATED NEDMALLOCEXTSPEC NEDMALLOCNOALIASATTR NEDMALLOCPTRATTR void * nedprealloc2(nedpool *p, void *mem, size_t size, size_t alignment, unsigned flags) THROWSPEC;
-NEDMALLOCDEPRECATED NEDMALLOCEXTSPEC NEDMALLOCNOALIASATTR void   nedpfree2(nedpool *p, void *mem, unsigned flags) THROWSPEC;
+NEDMALLOCEXTSPEC NEDMALLOCNOALIASATTR NEDMALLOCPTRATTR void * nedpmalloc2(nedpool *p, size_t size, size_t alignment, unsigned flags) THROWSPEC;
+NEDMALLOCEXTSPEC NEDMALLOCNOALIASATTR NEDMALLOCPTRATTR void * nedprealloc2(nedpool *p, void *mem, size_t size, size_t alignment, unsigned flags) THROWSPEC;
+NEDMALLOCEXTSPEC NEDMALLOCNOALIASATTR void   nedpfree2(nedpool *p, void *mem, unsigned flags) THROWSPEC;
 #endif
 /*! \brief Returns information about the memory pool */
 NEDMALLOCEXTSPEC struct nedmallinfo nedpmallinfo(nedpool *p) THROWSPEC;
@@ -655,17 +655,17 @@ NEDMALLOCEXTSPEC size_t nedpmalloc_footprint(nedpool *p) THROWSPEC;
   struct Node { int item; struct Node* next; };
 
   struct Node* build_list() {
-	struct Node** pool;
-	int n = read_number_of_nodes_needed();
-	if (n <= 0) return 0;
-	pool = (struct Node**)(independent_calloc(n, sizeof(struct Node), 0);
-	if (pool == 0) die();
-	// organize into a linked list...
-	struct Node* first = pool[0];
-	for (i = 0; i < n-1; ++i)
-	  pool[i]->next = pool[i+1];
-	free(pool);     // Can now free the array (or not, if it is needed later)
-	return first;
+    struct Node** pool;
+    int n = read_number_of_nodes_needed();
+    if (n <= 0) return 0;
+    pool = (struct Node**)(independent_calloc(n, sizeof(struct Node), 0);
+    if (pool == 0) die();
+    // organize into a linked list...
+    struct Node* first = pool[0];
+    for (i = 0; i < n-1; ++i)
+      pool[i]->next = pool[i+1];
+    free(pool);     // Can now free the array (or not, if it is needed later)
+    return first;
   }
 */
 NEDMALLOCEXTSPEC NEDMALLOCNOALIASATTR NEDMALLOCPTRATTR void **nedpindependent_calloc(nedpool *p, size_t elemsno, size_t elemsize, void **chunks) THROWSPEC;
@@ -708,15 +708,15 @@ NEDMALLOCEXTSPEC NEDMALLOCNOALIASATTR NEDMALLOCPTRATTR void **nedpindependent_ca
   struct Foot { ... }
 
   void send_message(char* msg) {
-	int msglen = strlen(msg);
-	size_t sizes[3] = { sizeof(struct Head), msglen, sizeof(struct Foot) };
-	void* chunks[3];
-	if (independent_comalloc(3, sizes, chunks) == 0)
-	  die();
-	struct Head* head = (struct Head*)(chunks[0]);
-	char*        body = (char*)(chunks[1]);
-	struct Foot* foot = (struct Foot*)(chunks[2]);
-	// ...
+    int msglen = strlen(msg);
+    size_t sizes[3] = { sizeof(struct Head), msglen, sizeof(struct Foot) };
+    void* chunks[3];
+    if (independent_comalloc(3, sizes, chunks) == 0)
+      die();
+    struct Head* head = (struct Head*)(chunks[0]);
+    char*        body = (char*)(chunks[1]);
+    struct Foot* foot = (struct Foot*)(chunks[2]);
+    // ...
   }
 
   In general though, independent_comalloc is worth using only for
@@ -758,7 +758,7 @@ typedef nedallocatorise<std::vector, unsigned int,
 >::value myvectortype;
 myvectortype a;
 for(int n=0; n<10000000; n++)
-	a.push_back(n);
+    a.push_back(n);
 \endcode
 
 The metaprogramming requires a new C++ compiler (> year 2008), and it will readily make use
@@ -848,10 +848,12 @@ namespace nedallocatorI
 
 	/* Roll on variadic templates is all I can say! */
 #ifdef HAVE_CPP0XVARIADICTEMPLATES
-	template<class Base, template<class> class... policies> class policycompositor
+	template<class Impl, template<class> class... policies> class policycompositor;
+	template<class Impl, template<class> class A, template<class> class... policies> class policycompositor<Impl, A, policies...>
 	{
+		typedef policycompositor<Impl, policies...> temp;
 	public:
-		typedef policies<policies...> value;
+		typedef A<typename temp::value> value;
 	};
 #else
 	template<class Impl,
@@ -984,10 +986,14 @@ policies...
 		{
 			throw std::bad_alloc();
 		}
-		//! \brief Specifies if the type is POD. Is std::is_pod<T>::value on C++0x compilers, otherwise false.
+		//! \brief Specifies if the type is POD. Is std::is_trivially_copyable<T>::value on C++0x compilers, otherwise false.
 		static const bool policy_typeIsPOD=
 #ifdef HAVE_CPP0XTYPETRAITS
+#if defined(__GNUC__) && (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__) < 40900
 			is_pod<T>::value;
+#else
+			is_trivially_copyable<T>::value;
+#endif
 #else
 			false;
 #endif
@@ -1213,11 +1219,8 @@ namespace nedpolicy
 	\ingroup C++
 	\brief A policy forcing the treatment of the type as Plain Old Data (POD)
 
-	On C++0x compilers, the &lt;type_traits&gt; is_pod<type>::value is used by default.
-	However, for earlier compilers and for types where is_pod<>::value returns false
-	even though the type actually is POD (for example, if you declare a
-	constructor you lose PODness even if the data contents are still POD), you can
-	force PODness one way or another. When treated as POD, memcpy() is used instead
+	On C++0x compilers, the &lt;type_traits&gt; is_trivially_copyable<type>::value is used by default.
+	When treated as POD, memcpy() is used instead
 	of copy construction and realloc() is permitted to move the memory contents when
 	resizing.
 	*/
@@ -1490,7 +1493,7 @@ typedef nedallocatorise<std::vector, unsigned int,
 >::value myvectortype;
 myvectortype a;
 for(int n=0; n<10000000; n++)
-	a.push_back(n);
+    a.push_back(n);
 \endcode
 What happens here is that nedallocatorise reimplements the parts of
 std::vector which extend and shrink the actual memory allocation.

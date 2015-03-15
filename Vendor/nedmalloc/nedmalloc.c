@@ -1,5 +1,5 @@
 /* Alternative malloc implementation for multiple threads without
-lock contention based on dlmalloc. (C) 2005-2010 Niall Douglas
+lock contention based on dlmalloc. (C) 2005-2012 Niall Douglas
 
 Boost Software License - Version 1.0 - August 17th, 2003
 
@@ -64,6 +64,8 @@ DEALINGS IN THE SOFTWARE.
 
 /*#define FULLSANITYCHECKS*/
 
+/*#define FORCEINLINE*/
+
 /* There is only support for the user mode page allocator on Windows at present */
 #if !defined(ENABLE_USERMODEPAGEALLOCATOR)
 #define ENABLE_USERMODEPAGEALLOCATOR 0
@@ -77,45 +79,51 @@ DEALINGS IN THE SOFTWARE.
 
 #include "nedmalloc.h"
 #include <errno.h>
+#ifdef HAVE_VALGRIND
+#include <valgrind/valgrind.h>
+#include <valgrind/memcheck.h>
+#endif
 #if defined(WIN32)
  #include <malloc.h>
 #else
- #if defined(__cplusplus)
+#if defined(__cplusplus)
 extern "C"
  #else
 extern
- #endif
- #if defined(__linux__) || defined(__FreeBSD__)
+#endif
+#if defined(__linux__) || defined(__FreeBSD__)
 /* Sadly we can't include <malloc.h> as it causes a redefinition error */
 size_t malloc_usable_size(void *);
  #elif defined(__APPLE__)
-  #include <malloc.h>
- #else
+   #include <malloc/malloc.h>
+#else
   #error Do not know what to do here
  #endif
 #endif
 
 #if USE_ALLOCATOR==1
- #define MSPACES 1
- #define ONLY_MSPACES 1
+#define MSPACES 1
+#define ONLY_MSPACES 1
 #endif
 #define USE_DL_PREFIX 1
+#define USE_RECURSIVE_LOCKS 1
 #ifndef USE_LOCKS
- #define USE_LOCKS 1
+#define USE_LOCKS 1
 #endif
 #define FOOTERS 1           /* Need to enable footers so frees lock the right mspace */
+#define INSECURE 0          /* nedblkmstate works a lot better with magic enabled */
 #ifndef NEDMALLOC_DEBUG
- #if defined(DEBUG) || defined(_DEBUG)
+#if defined(DEBUG) || defined(_DEBUG)
   #define NEDMALLOC_DEBUG 1
  #else
-  #define NEDMALLOC_DEBUG 0
- #endif
+#define NEDMALLOC_DEBUG 0
+#endif
 #endif
 /* We need to consistently define DEBUG=0|1, _DEBUG and NDEBUG for dlmalloc */
 #if !defined(DEBUG) && !defined(NDEBUG)
- #ifdef __GNUC__
-  #warning DEBUG may not be defined but without NDEBUG being defined allocator will run with assert checking! Define NDEBUG to run at full speed.
- #elif defined(_MSC_VER)
+#ifdef __GNUC__
+#warning DEBUG may not be defined but without NDEBUG being defined allocator will run with assert checking! Define NDEBUG to run at full speed.
+#elif defined(_MSC_VER)
   #pragma message(__FILE__ ": WARNING: DEBUG may not be defined but without NDEBUG being defined allocator will run with assert checking! Define NDEBUG to run at full speed.")
  #endif
 #endif
@@ -125,7 +133,7 @@ size_t malloc_usable_size(void *);
  #define _DEBUG
  #define DEBUG 1
 #else
- #define DEBUG 0
+#define DEBUG 0
 #endif
 #ifdef NDEBUG               /* Disable assert checking on release builds */
  #undef DEBUG
@@ -133,8 +141,8 @@ size_t malloc_usable_size(void *);
 #endif
 /* The default of 64Kb means we spend too much time kernel-side */
 #ifndef DEFAULT_GRANULARITY
- #define DEFAULT_GRANULARITY (1*1024*1024)
- #if DEBUG
+#define DEFAULT_GRANULARITY (1*1024*1024)
+#if DEBUG
   #define DEFAULT_GRANULARITY_ALIGNED
  #endif
 #endif
@@ -249,11 +257,11 @@ static LPVOID ChkedTlsGetValue(DWORD idx)
   #define TLSGET(k) ChkedTlsGetValue(k)
  #endif
 #else
- #define TLSVAR			pthread_key_t
- #define TLSALLOC(k)	pthread_key_create(k, 0)
- #define TLSFREE(k)		pthread_key_delete(k)
- #define TLSGET(k)		pthread_getspecific(k)
- #define TLSSET(k, a)	pthread_setspecific(k, a)
+#define TLSVAR			pthread_key_t
+#define TLSALLOC(k)	pthread_key_create(k, 0)
+#define TLSFREE(k)		pthread_key_delete(k)
+#define TLSGET(k)		pthread_getspecific(k)
+#define TLSSET(k, a)	pthread_setspecific(k, a)
 #endif
 #else /* Probably if you're not using locks then you don't want ANY pthread stuff at all */
  #define TLSVAR			void *
@@ -308,8 +316,8 @@ size_t (*sysblksize)(void *)=
 	/* This is the glibc/ptmalloc2/dlmalloc/BSD equivalent.  */
 	malloc_usable_size;
 #elif defined(__APPLE__)
-	/* This is the Apple BSD libc equivalent.  */
-	(size_t (*)(void *)) malloc_size;
+		/* This is the Apple BSD libc equivalent.  */
+		(size_t (*)(void *)) malloc_size;
 #else
 #error Cannot tolerate the memory allocator of an unknown system!
 #endif
@@ -339,6 +347,9 @@ static FORCEINLINE NEDMALLOCNOALIASATTR NEDMALLOCPTRATTR void *CallMalloc(void *
 	ret=(flags & M2_ZERO_MEMORY) ? syscalloc(1, size) : sysmalloc(size);	/* magic headers takes care of alignment */
 #elif USE_ALLOCATOR==1
 	ret=mspace_malloc2((mstate) mspace, size, alignment, flags);
+#ifdef HAVE_VALGRIND
+	if(ret) VALGRIND_MEMPOOL_ALLOC(mspace, ret, size);
+#endif
 #ifndef ENABLE_FAST_HEAP_DETECTION
 	if(ret)
 	{
@@ -405,6 +416,9 @@ static FORCEINLINE NEDMALLOCNOALIASATTR NEDMALLOCPTRATTR void *CallRealloc(void 
 	ret=sysrealloc(mem, newsize);
 #elif USE_ALLOCATOR==1
 	ret=mspace_realloc2((mstate) mspace, mem, newsize, alignment, flags);
+#ifdef HAVE_VALGRIND
+	if(ret) VALGRIND_MEMPOOL_CHANGE(mspace, mem, ret, newsize);
+#endif
 #ifndef ENABLE_FAST_HEAP_DETECTION
 	if(ret)
 	{
@@ -459,7 +473,17 @@ static FORCEINLINE void CallFree(void *RESTRICT mspace, void *RESTRICT mem, int 
 #if USE_ALLOCATOR==0
 	sysfree(mem);
 #elif USE_ALLOCATOR==1
+#ifdef HAVE_VALGRIND
+	{
+		void *m=mspace ? mspace : get_mstate_for(mem2chunk(mem));
+		mspace_free((mstate) mspace, mem);
+		VALGRIND_MEMPOOL_FREE(m, mem);
+		/* Mark the first two pointers in the newly freed block as used (linked list of freed blocks) */
+		VALGRIND_MAKE_MEM_DEFINED(mem, 2*sizeof(void *));
+	}
+#else
 	mspace_free((mstate) mspace, mem);
+#endif
 #endif
 }
 
@@ -737,18 +761,18 @@ typedef struct logentry_t
 #endif
 } logentry;
 static const char *LogEntryTypeStrings[]={
-	"LOGENTRY_MALLOC",
-	"LOGENTRY_REALLOC",
-	"LOGENTRY_FREE",
+		"LOGENTRY_MALLOC",
+		"LOGENTRY_REALLOC",
+		"LOGENTRY_FREE",
 
-	"LOGENTRY_THREADCACHE_MALLOC",
-	"LOGENTRY_THREADCACHE_FREE",
-	"LOGENTRY_THREADCACHE_CLEAN",
+		"LOGENTRY_THREADCACHE_MALLOC",
+		"LOGENTRY_THREADCACHE_FREE",
+		"LOGENTRY_THREADCACHE_CLEAN",
 
-	"LOGENTRY_POOL_MALLOC",
-	"LOGENTRY_POOL_REALLOC",
-	"LOGENTRY_POOL_FREE",
-	"******************"
+		"LOGENTRY_POOL_MALLOC",
+		"LOGENTRY_POOL_REALLOC",
+		"LOGENTRY_POOL_FREE",
+		"******************"
 };
 
 struct threadcacheblk_t;
@@ -1044,7 +1068,7 @@ static FORCEINLINE logentry *LogOperation(threadcache *tc, nedpool *np, LogEntry
 		return le;
 	}
 #endif
-	return 0;
+return 0;
 }
 
 static FORCEINLINE NEDMALLOCNOALIASATTR unsigned int size2binidx(size_t _size) THROWSPEC
@@ -1053,7 +1077,7 @@ static FORCEINLINE NEDMALLOCNOALIASATTR unsigned int size2binidx(size_t _size) T
 	/* 16=1		20=1	24=1	32=10	48=11	64=100	96=110	128=1000	4096=100000000 */
 
 #if defined(__GNUC__)
-        topbit = sizeof(size)*__CHAR_BIT__ - 1 - __builtin_clz(size);
+	topbit = sizeof(size)*__CHAR_BIT__ - 1 - __builtin_clz(size);
 #elif defined(_MSC_VER) && _MSC_VER>=1300
 	{
             unsigned long bsrTopBit;
@@ -1287,39 +1311,39 @@ static void DestroyCaches(nedpool *RESTRICT p) THROWSPEC
 
 static NOINLINE threadcache *AllocCache(nedpool *RESTRICT p) THROWSPEC
 {
-	threadcache *tc=0;
-	int n, end;
+threadcache *tc=0;
+int n, end;
 #if USE_LOCKS
-	ACQUIRE_LOCK(&p->mutex);
+ACQUIRE_LOCK(&p->mutex);
 #endif
-	for(n=0; n<THREADCACHEMAXCACHES && p->caches[n]; n++);
-	if(THREADCACHEMAXCACHES==n)
-	{	/* List exhausted, so disable for this thread */
+for(n=0; n<THREADCACHEMAXCACHES && p->caches[n]; n++);
+if(THREADCACHEMAXCACHES==n)
+{	/* List exhausted, so disable for this thread */
 #if USE_LOCKS
-		RELEASE_LOCK(&p->mutex);
+RELEASE_LOCK(&p->mutex);
 #endif
-		return 0;
-	}
-	tc=p->caches[n]=(threadcache *) CallMalloc(p->m[0], sizeof(threadcache), 0, M2_ZERO_MEMORY);
-	if(!tc)
-	{
+return 0;
+}
+tc=p->caches[n]=(threadcache *) CallMalloc(p->m[0], sizeof(threadcache), 0, M2_ZERO_MEMORY);
+if(!tc)
+{
 #if USE_LOCKS
-		RELEASE_LOCK(&p->mutex);
+RELEASE_LOCK(&p->mutex);
 #endif
-		return 0;
-	}
+return 0;
+}
 #ifdef FULLSANITYCHECKS
 	tc->magic1=*(unsigned int *)"NEDMALC1";
 	tc->magic2=*(unsigned int *)"NEDMALC2";
 #endif
-	tc->threadid=
+tc->threadid=
 #if USE_LOCKS
-		(long)(size_t)CURRENT_THREAD;
+(long)(size_t)CURRENT_THREAD;
 #else
 		1;
 #endif
-	for(end=0; p->m[end]; end++);
-	tc->mymspace=abs(tc->threadid) % end;
+for(end=1; p->m[end]; end++);
+tc->mymspace=abs(tc->threadid) % end;
 #if ENABLE_LOGGING
 	{
 		mchunkptr cp;
@@ -1338,10 +1362,10 @@ static NOINLINE threadcache *AllocCache(nedpool *RESTRICT p) THROWSPEC
 	}
 #endif
 #if USE_LOCKS
-	RELEASE_LOCK(&p->mutex);
+RELEASE_LOCK(&p->mutex);
 #endif
-	if(TLSSET(p->mycache, (void *)(size_t)(n+1))) abort();
-	return tc;
+if(TLSSET(p->mycache, (void *)(size_t)(n+1))) abort();
+return tc;
 }
 
 static void *threadcache_malloc(nedpool *RESTRICT p, threadcache *RESTRICT tc, size_t *RESTRICT _size) THROWSPEC
@@ -1527,19 +1551,25 @@ static NOINLINE int InitPool(nedpool *RESTRICT p, size_t capacity, int threads) 
 	p->m[0]=(mstate) mspacecounter++;
 #elif USE_ALLOCATOR==1
 	if(!(p->m[0]=(mstate) create_mspace(capacity, 1))) goto err;
+#ifdef HAVE_VALGRIND
+	VALGRIND_CREATE_MEMPOOL(p->m[0], 0, 1);
+#endif
 	p->m[0]->extp=p;
 #endif
 	p->threads=(threads>MAXTHREADSINPOOL) ? MAXTHREADSINPOOL : (threads<=0) ? DEFAULTMAXTHREADSINPOOL : threads;
-done:
+	done:
 	RELEASE_MALLOC_GLOBAL_LOCK();
 	return 1;
-err:
+	err:
 	if(threads<0)
 		abort();			/* If you can't allocate for system pool, we're screwed */
 	DestroyCaches(p);
 	if(p->m[0])
 	{
 #if USE_ALLOCATOR==1
+#ifdef HAVE_VALGRIND
+		VALGRIND_DESTROY_MEMPOOL(p->m[0]);
+#endif
 		destroy_mspace(p->m[0]);
 #endif
 		p->m[0]=0;
@@ -1557,64 +1587,67 @@ static NOINLINE mstate FindMSpace(nedpool *RESTRICT p, threadcache *RESTRICT tc,
 	is to run through the list of all available mspaces looking for an
 	unlocked one and if we fail, we create a new one so long as we don't
 	exceed p->threads */
-	int n, end;
-	n=end=*lastUsed+1;
+int n, end;
+n=end=*lastUsed+1;
 #if USE_LOCKS
-	for(; p->m[n]; end=++n)
-	{
-		if(TRY_LOCK(&p->m[n]->mutex)) goto found;
-	}
-	for(n=0; n<*lastUsed && p->m[n]; n++)
-	{
-		if(TRY_LOCK(&p->m[n]->mutex)) goto found;
-	}
-	if(end<p->threads)
-	{
-		mstate temp;
+for(; p->m[n]; end=++n)
+{
+if(TRY_LOCK(&p->m[n]->mutex)) goto found;
+}
+for(n=0; n<*lastUsed && p->m[n]; n++)
+{
+if(TRY_LOCK(&p->m[n]->mutex)) goto found;
+}
+if(end<p->threads)
+{
+mstate temp;
 #if USE_ALLOCATOR==0
 		temp=(mstate) mspacecounter++;
 #elif USE_ALLOCATOR==1
-		if(!(temp=(mstate) create_mspace(size, 1)))
-			goto badexit;
+if(!(temp=(mstate) create_mspace(size, 1)))
+goto badexit;
 #endif
-		/* Now we're ready to modify the lists, we lock */
-		ACQUIRE_LOCK(&p->mutex);
-		while(p->m[end] && end<p->threads)
-			end++;
-		if(end>=p->threads)
-		{	/* Drat, must destroy it now */
-			RELEASE_LOCK(&p->mutex);
+/* Now we're ready to modify the lists, we lock */
+ACQUIRE_LOCK(&p->mutex);
+while(p->m[end] && end<p->threads)
+end++;
+if(end>=p->threads)
+{	/* Drat, must destroy it now */
+RELEASE_LOCK(&p->mutex);
 #if USE_ALLOCATOR==1
-			destroy_mspace((mstate) temp);
+destroy_mspace((mstate) temp);
 #endif
-			goto badexit;
-		}
-		/* We really want to make sure this goes into memory now but we
-		have to be careful of breaking aliasing rules, so write it twice */
-		{
-			volatile struct malloc_state **_m=(volatile struct malloc_state **) &p->m[end];
-			*_m=(p->m[end]=temp);
-		}
-		ACQUIRE_LOCK(&p->m[end]->mutex);
-		/*printf("Created mspace idx %d\n", end);*/
-		RELEASE_LOCK(&p->mutex);
-		n=end;
-		goto found;
-	}
-	/* Let it lock on the last one it used */
+goto badexit;
+}
+/* We really want to make sure this goes into memory now but we
+have to be careful of breaking aliasing rules, so write it twice */
+{
+volatile struct malloc_state **_m=(volatile struct malloc_state **) &p->m[end];
+*_m=(p->m[end]=temp);
+}
+#if USE_ALLOCATOR==1 && defined(HAVE_VALGRIND)
+		VALGRIND_CREATE_MEMPOOL(temp, 0, 1);
+#endif
+ACQUIRE_LOCK(&p->m[end]->mutex);
+/*printf("Created mspace idx %d\n", end);*/
+RELEASE_LOCK(&p->mutex);
+n=end;
+goto found;
+}
+/* Let it lock on the last one it used */
 badexit:
-	ACQUIRE_LOCK(&p->m[*lastUsed]->mutex);
-	return p->m[*lastUsed];
+		ACQUIRE_LOCK(&p->m[*lastUsed]->mutex);
+return p->m[*lastUsed];
 #endif
 found:
-	*lastUsed=n;
-	if(tc)
-		tc->mymspace=n;
-	else
-	{
-		if(TLSSET(p->mycache, (void *)(size_t)(-(n+1)))) abort();
-	}
-	return p->m[n];
+*lastUsed=n;
+if(tc)
+tc->mymspace=n;
+else
+{
+if(TLSSET(p->mycache, (void *)(size_t)(-(n+1)))) abort();
+}
+return p->m[n];
 }
 
 typedef struct PoolList_t
@@ -1652,12 +1685,13 @@ NEDMALLOCNOALIASATTR NEDMALLOCPTRATTR nedpool *nedcreatepool(size_t capacity, in
 	if(poollist->length==poollist->size)
 	{
 		PoolList *newpoollist=0;
-		size_t newsize=0;
+		size_t newsize=0, toclearsize;
 		newsize=sizeof(PoolList)+(poollist->size+1)*sizeof(nedpool *);
 		if(!(newpoollist=(PoolList *) nedprealloc(0, poollist, newsize))) goto badexit;
 		poollist=newpoollist;
-		memset(&poollist->list[poollist->size], 0, newsize-((size_t)&poollist->list[poollist->size]-(size_t)&poollist->list[0]));
-		poollist->size=((newsize-((char *)&poollist->list[0]-(char *)poollist))/sizeof(nedpool *))-1;
+		toclearsize=newsize-sizeof(PoolList)-(poollist->size)*sizeof(nedpool *);
+		memset(&poollist->list[poollist->size], 0, toclearsize);
+		poollist->size+=toclearsize/sizeof(nedpool *);
 		assert(poollist->size>poollist->length);
 	}
 	if(!(ret=(nedpool *) nedpcalloc(0, 1, sizeof(nedpool)))) goto badexit;
@@ -1667,7 +1701,7 @@ NEDMALLOCNOALIASATTR NEDMALLOCPTRATTR nedpool *nedcreatepool(size_t capacity, in
 		goto badexit;
 	}
 	poollist->list[poollist->length++]=ret;
-badexit:
+	badexit:
 	{
 #if USE_LOCKS
 		RELEASE_LOCK(&poollistlock);
@@ -1685,6 +1719,9 @@ void neddestroypool(nedpool *p) THROWSPEC
 	for(n=0; p->m[n]; n++)
 	{
 #if USE_ALLOCATOR==1
+#ifdef HAVE_VALGRIND
+		VALGRIND_DESTROY_MEMPOOL(p->m[n]);
+#endif
 		destroy_mspace(p->m[n]);
 #endif
 		p->m[n]=0;
@@ -1699,7 +1736,8 @@ void neddestroypool(nedpool *p) THROWSPEC
 	ACQUIRE_LOCK(&poollistlock);
 #endif
 	assert(poollist);
-	for(n=0; n<poollist->length && poollist->list[n]!=p; n++);
+	for(n=0; n<poollist->length && poollist->list[n]!=p; n++)
+		/* empty */;
 	assert(n!=poollist->length);
 	memmove(&poollist->list[n], &poollist->list[n+1], (size_t)&poollist->list[poollist->length]-(size_t)&poollist->list[n]);
 	if(!--poollist->length)
@@ -1723,6 +1761,9 @@ void neddestroysyspool() THROWSPEC
 	for(n=0; p->m[n]; n++)
 	{
 #if USE_ALLOCATOR==1
+#ifdef HAVE_VALGRIND
+		VALGRIND_DESTROY_MEMPOOL(p->m[n]);
+#endif
 		destroy_mspace(p->m[n]);
 #endif
 		p->m[n]=0;
@@ -1748,7 +1789,7 @@ nedpool **nedpoollist() THROWSPEC
 #endif
 		if(!(ret=(nedpool **) nedmalloc((poollist->length+1)*sizeof(nedpool *)))) goto badexit;
 		memcpy(ret, poollist->list, (poollist->length+1)*sizeof(nedpool *));
-badexit:
+		badexit:
 		{
 #if USE_LOCKS
 			RELEASE_LOCK(&poollistlock);
@@ -1791,7 +1832,7 @@ void nedtrimthreadcache(nedpool *p, int disable) THROWSPEC
 		threadcache *tc=p->caches[mycache-1];
 #if defined(DEBUG)
 		printf("Threadcache utilisation: %lf%% in cache with %lf%% lost to other threads\n",
-			100.0*tc->successes/tc->mallocs, 100.0*((double) tc->mallocs-tc->frees)/tc->mallocs);
+				100.0*tc->successes/tc->mallocs, 100.0*((double) tc->mallocs-tc->frees)/tc->mallocs);
 #endif
 		if(disable && TLSSET(p->mycache, (void *)(size_t)(-tc->mymspace))) abort();
 		tc->frees++;
@@ -1830,13 +1871,13 @@ void neddisablethreadcache(nedpool *p) THROWSPEC
 
 static FORCEINLINE mstate GetMSpace(nedpool *RESTRICT p, threadcache *RESTRICT tc, int mymspace, size_t size) THROWSPEC
 {	/* Returns a locked and ready for use mspace */
-	mstate m=p->m[mymspace];
-	assert(m);
+mstate m=p->m[mymspace];
+assert(m);
 #if USE_LOCKS && USE_ALLOCATOR==1
-	if(!TRY_LOCK(&p->m[mymspace]->mutex)) m=FindMSpace(p, tc, &mymspace, size);
-	/*assert(IS_LOCKED(&p->m[mymspace]->mutex));*/
+if(!TRY_LOCK(&p->m[mymspace]->mutex)) m=FindMSpace(p, tc, &mymspace, size);
+/*assert(IS_LOCKED(&p->m[mymspace]->mutex));*/
 #endif
-	return m;
+return m;
 }
 static NOINLINE void GetThreadCache_cold1(nedpool *RESTRICT *RESTRICT p) THROWSPEC
 {
@@ -1911,8 +1952,8 @@ NEDMALLOCNOALIASATTR NEDMALLOCPTRATTR void * nedpmalloc2(nedpool *p, size_t size
 #endif
 	if(!ret)
 	{	/* Use this thread's mspace */
-        GETMSPACE(m, p, tc, mymspace, size,
-                  ret=CallMalloc(m, size, alignment, flags));
+		GETMSPACE(m, p, tc, mymspace, size,
+				ret=CallMalloc(m, size, alignment, flags));
 		if(ret)
 			LogOperation(tc, p, LOGENTRY_POOL_MALLOC, mymspace, size, 0, alignment, flags, ret);
 	}
@@ -1942,11 +1983,11 @@ NEDMALLOCNOALIASATTR NEDMALLOCPTRATTR void * nedprealloc2(nedpool *p, void *mem,
 	}
 	else if(size<=memsize && memsize-size<
 #ifdef DEBUG
-		32
+			32
 #else
 		1024
 #endif
-		)		/* If realloc size is within 1Kb smaller than existing, noop it */
+			)		/* If realloc size is within 1Kb smaller than existing, noop it */
 		return mem;
 	GetThreadCache(&p, &tc, &mymspace, &size);
 #if THREADCACHEMAX
@@ -2051,7 +2092,7 @@ NEDMALLOCNOALIASATTR NEDMALLOCPTRATTR void * nedpmemalign(nedpool *p, size_t ali
 }
 NEDMALLOCNOALIASATTR void   nedpfree(nedpool *p, void *mem) THROWSPEC
 {
-  nedpfree2(p, mem, 0);
+	nedpfree2(p, mem, 0);
 }
 
 struct nedmallinfo nedpmallinfo(nedpool *p) THROWSPEC
@@ -2130,19 +2171,37 @@ size_t nedpmalloc_footprint(nedpool *p) THROWSPEC
 	}
 	return ret;
 }
+static FORCEINLINE NEDMALLOCNOALIASATTR NEDMALLOCPTRATTR void ** CallIndependentCalloc(void *RESTRICT m, size_t elemsno, size_t elemsize, void **chunks) THROWSPEC
+{
+	void **ret;
+#if USE_ALLOCATOR==0
+    ret=(void **) unsupported_operation("independent_calloc");
+#elif USE_ALLOCATOR==1
+	ret=mspace_independent_calloc(m, elemsno, elemsize, chunks);
+#ifdef HAVE_VALGRIND
+    if(ret)
+    {
+        size_t n;
+        for(n=0; n<elemsno; n++)
+            VALGRIND_MEMPOOL_ALLOC(m, ret[n], elemsize);
+    }
+#endif
+#endif
+	if(ret)
+	{
+		if(!leastusedaddress || (void *)((mstate) m)->least_addr<leastusedaddress) leastusedaddress=(void *)((mstate) m)->least_addr;
+		/*if(!largestusedblock || truesize>largestusedblock) largestusedblock=(truesize+mparams.page_size) & ~(mparams.page_size-1);*/
+	}
+	return ret;
+}
 NEDMALLOCNOALIASATTR NEDMALLOCPTRATTR void **nedpindependent_calloc(nedpool *p, size_t elemsno, size_t elemsize, void **chunks) THROWSPEC
 {
 	void **ret;
 	threadcache *tc;
 	int mymspace;
 	GetThreadCache(&p, &tc, &mymspace, &elemsize);
-#if USE_ALLOCATOR==0
-    GETMSPACE(m, p, tc, mymspace, elemsno*elemsize,
-              ret=unsupported_operation("independent_calloc"));
-#elif USE_ALLOCATOR==1
-    GETMSPACE(m, p, tc, mymspace, elemsno*elemsize,
-              ret=mspace_independent_calloc(m, elemsno, elemsize, chunks));
-#endif
+	GETMSPACE(m, p, tc, mymspace, elemsno*elemsize,
+			ret=CallIndependentCalloc(m, elemsno, elemsize, chunks));
 #if ENABLE_LOGGING
 	if(ret && (ENABLE_LOGGING & LOGENTRY_POOL_MALLOC))
 	{
@@ -2155,23 +2214,41 @@ NEDMALLOCNOALIASATTR NEDMALLOCPTRATTR void **nedpindependent_calloc(nedpool *p, 
 #endif
 	return ret;
 }
+static FORCEINLINE NEDMALLOCNOALIASATTR NEDMALLOCPTRATTR void **CallIndependentComalloc(void *RESTRICT m, size_t elems, size_t *RESTRICT sizes, void **chunks) THROWSPEC
+{
+	void **ret;
+#if USE_ALLOCATOR==0
+	ret=(void **) unsupported_operation("independent_comalloc");
+#elif USE_ALLOCATOR==1
+	ret=mspace_independent_comalloc(m, elems, sizes, chunks);
+#ifdef HAVE_VALGRIND
+	if(ret)
+	{
+		size_t n;
+		for(n=0; n<elems; n++)
+			VALGRIND_MEMPOOL_ALLOC(m, ret[n], sizes[n]);
+	}
+#endif
+#endif
+	if(ret)
+	{
+		if(!leastusedaddress || (void *)((mstate) m)->least_addr<leastusedaddress) leastusedaddress=(void *)((mstate) m)->least_addr;
+		/*if(!largestusedblock || truesize>largestusedblock) largestusedblock=(truesize+mparams.page_size) & ~(mparams.page_size-1);*/
+	}
+	return ret;
+}
 NEDMALLOCNOALIASATTR NEDMALLOCPTRATTR void **nedpindependent_comalloc(nedpool *p, size_t elems, size_t *sizes, void **chunks) THROWSPEC
 {
 	void **ret;
 	threadcache *tc;
 	int mymspace;
-    size_t i, *adjustedsizes=(size_t *) alloca(elems*sizeof(size_t));
-    if(!adjustedsizes) return 0;
-    for(i=0; i<elems; i++)
-        adjustedsizes[i]=sizes[i]<sizeof(threadcacheblk) ? sizeof(threadcacheblk) : sizes[i];
+	size_t i, *adjustedsizes=(size_t *) alloca(elems*sizeof(size_t));
+	if(!adjustedsizes) return 0;
+	for(i=0; i<elems; i++)
+		adjustedsizes[i]=sizes[i]<sizeof(threadcacheblk) ? sizeof(threadcacheblk) : sizes[i];
 	GetThreadCache(&p, &tc, &mymspace, 0);
-#if USE_ALLOCATOR==0
 	GETMSPACE(m, p, tc, mymspace, 0,
-              ret=unsupported_operation("independent_comalloc"));
-#elif USE_ALLOCATOR==1
-	GETMSPACE(m, p, tc, mymspace, 0,
-              ret=mspace_independent_comalloc(m, elems, adjustedsizes, chunks));
-#endif
+			ret=CallIndependentComalloc(m, elems, adjustedsizes, chunks));
 #if ENABLE_LOGGING
 	if(ret && (ENABLE_LOGGING & LOGENTRY_POOL_MALLOC))
 	{

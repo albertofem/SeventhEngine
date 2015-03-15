@@ -38,3 +38,4 @@ obj/
 x64/
 Vendor/zlib-*
 Vendor/libpng-*
+.idea/

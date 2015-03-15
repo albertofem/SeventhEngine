@@ -1,7 +1,7 @@
 /*
  * SeventhEngine
  *
- * Copyright (c) Alberto Fernández
+ * Copyright (c) Alberto Fernï¿½ndez
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author	Alberto Fernández <albertofem@gmail.com>
+ * @author	Alberto Fernï¿½ndez <albertofem@gmail.com>
  */
 
 #include "Rendering.h"
@@ -34,8 +34,6 @@ namespace Seventh
 
 		ilInit();
 		iluInit();
-		ilutInit();
-		ilutRenderer(ILUT_OPENGL);
 
 		mClock = new Clock;
 	}
@@ -81,6 +79,8 @@ namespace Seventh
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 		glEnable(GL_TEXTURE_2D);
 		glLoadIdentity();
+
+		return true;
 	}
 
 	bool Rendering::render()
