@@ -21,6 +21,7 @@
 
 #include "Entity.h"
 #include "Rendering/Rendering.h"
+#include "SceneManager/SceneManager.h"
 
 namespace Seventh
 {
@@ -31,12 +32,6 @@ namespace Seventh
 
 	Entity::~Entity()
 	{
-	}
-
-	void Entity::setRenderingResource(RenderingResource* resource)
-	{
-		GRenderingEngine.addRenderingResource(resource);
-		mRenderingResource = resource;
 	}
 
 	void Entity::setPosition(Vector2 position)
@@ -61,5 +56,15 @@ namespace Seventh
 	std::string Entity::getId()
 	{
 		return mId;
+	}
+
+	void Entity::hide()
+	{
+		GRenderingEngine.removeRenderingResource(mRenderingResource);
+	}
+
+	void Entity::show()
+	{
+		GRenderingEngine.addRenderingResource(mRenderingResource);
 	}
 }

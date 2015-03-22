@@ -1,0 +1,6 @@
+[submodule "Vendor/tmxparser"]
+	path = Vendor/tmxparser
+	url = git@github.com:andrewrk/tmxparser.git
+[submodule "Vendor/tinyxml2"]
+	path = Vendor/tinyxml2
+	url = git@github.com:leethomason/tinyxml2.git

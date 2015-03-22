@@ -20,7 +20,6 @@
  */
 
 #include "SceneManager.h"
-#include "Scene.h"
 
 namespace Seventh
 {

@@ -30,8 +30,9 @@ Player::Player()
 
 	mId = "my_player";
 
-	Texture* texture = new Texture("sample", "ryu");
-	setRenderingResource(texture);
+	mRenderingResource = new Texture("sample", "ryu");
+
+	show();
 }
 
 Player::~Player()
@@ -41,8 +42,8 @@ Player::~Player()
 void Player::update()
 {
 	uint speed = 1;
-	uint currentX = mPosition.x;
-	uint currentY = mPosition.y;
+	float currentX = mPosition.x;
+	float currentY = mPosition.y;
 
 	if (GameInput.isKeyPressed(SE_KEY_ARROW_RIGHT)) {
 		setPosition(currentX + speed, currentY);
@@ -61,6 +62,6 @@ void Player::update()
 	}
 
 	if (GameInput.isKeyPressed(SE_KEY_SPACE)) {
-		setPosition(0.0f, 0.0f);
+		hide();
 	}
 }

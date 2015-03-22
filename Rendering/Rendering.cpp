@@ -22,7 +22,6 @@
 #include "Rendering.h"
 #include "Clock.h"
 #include "Texture.h"
-#include "RenderingResource.h"
 
 namespace Seventh
 {
@@ -121,18 +120,26 @@ namespace Seventh
 
 	void Rendering::renderRenderingResources()
 	{
-		std::vector<RenderingResource*>::iterator renderingResource;
-
-		for (renderingResource = mRenderingResources.begin(); 
-			renderingResource != mRenderingResources.end(); 
-			++renderingResource)
+		for (auto& renderingResource : mRenderingResources)
 		{
-			(*renderingResource)->render();
+			renderingResource->render();
 		}
 	}
 
 	void Rendering::addRenderingResource(RenderingResource* resource)
 	{
 		mRenderingResources.push_back(resource);
+	}
+
+	void Rendering::removeRenderingResource(RenderingResource *resource)
+	{
+		mRenderingResources.erase(
+				std::remove(
+						mRenderingResources.begin(),
+						mRenderingResources.end(),
+						resource
+				),
+				mRenderingResources.end()
+		);
 	}
 }

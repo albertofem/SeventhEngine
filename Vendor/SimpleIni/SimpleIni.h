@@ -1069,7 +1069,7 @@ public:
         @param a_pSection       Section to delete key from, or if
                                 a_pKey is NULL, the section to remove.
         @param a_pKey           Key to remove from the section. Set to
-                                NULL to remove the entire section.
+                                NULL to hide the entire section.
         @param a_bRemoveEmpty   If the section is empty after this key has
                                 been deleted, should the empty section be
                                 removed?
@@ -1272,7 +1272,7 @@ template<class SI_CHAR, class SI_STRLESS, class SI_CONVERTER>
 void
 CSimpleIniTempl<SI_CHAR,SI_STRLESS,SI_CONVERTER>::Reset()
 {
-    // remove all data
+    // hide all data
     delete[] m_pData;
     m_pData = NULL;
     m_uDataLen = 0;
@@ -1281,7 +1281,7 @@ CSimpleIniTempl<SI_CHAR,SI_STRLESS,SI_CONVERTER>::Reset()
         m_data.erase(m_data.begin(), m_data.end());
     }
 
-    // remove all strings
+    // hide all strings
     if (!m_strings.empty()) {
         typename TNamesDepend::iterator i = m_strings.begin();
         for (; i != m_strings.end(); ++i) {
@@ -1547,7 +1547,7 @@ CSimpleIniTempl<SI_CHAR,SI_STRLESS,SI_CONVERTER>::FindEntry(
                 continue;
             }
 
-            // remove trailing spaces from the section
+            // hide trailing spaces from the section
             pTrail = a_pData - 1;
             while (pTrail >= a_pSection && IsSpace(*pTrail)) {
                 --pTrail;
@@ -1586,7 +1586,7 @@ CSimpleIniTempl<SI_CHAR,SI_STRLESS,SI_CONVERTER>::FindEntry(
             continue;
         }
 
-        // remove trailing spaces from the key
+        // hide trailing spaces from the key
         pTrail = a_pData - 1;
         while (pTrail >= a_pKey && IsSpace(*pTrail)) {
             --pTrail;
@@ -1606,7 +1606,7 @@ CSimpleIniTempl<SI_CHAR,SI_STRLESS,SI_CONVERTER>::FindEntry(
             ++a_pData;
         }
 
-        // remove trailing spaces from the value
+        // hide trailing spaces from the value
         pTrail = a_pData - 1;
         if (*a_pData) { // prepare for the next round
             SkipNewLine(a_pData);
@@ -1895,7 +1895,7 @@ CSimpleIniTempl<SI_CHAR,SI_STRLESS,SI_CONVERTER>::AddEntry(
     TKeyVal & keyval = iSection->second;
     typename TKeyVal::iterator iKey = keyval.find(a_pKey);
 
-    // remove all existing entries but save the load order and
+    // hide all existing entries but save the load order and
     // comment of the first entry
     int nLoadOrder = ++m_nOrder;
     if (iKey != keyval.end() && m_bAllowMultiKey && a_bForceReplace) {
@@ -2536,14 +2536,14 @@ CSimpleIniTempl<SI_CHAR,SI_STRLESS,SI_CONVERTER>::Delete(
         return false;
     }
 
-    // remove a single key if we have a keyname
+    // hide a single key if we have a keyname
     if (a_pKey) {
         typename TKeyVal::iterator iKeyVal = iSection->second.find(a_pKey);
         if (iKeyVal == iSection->second.end()) {
             return false;
         }
 
-        // remove any copied strings and then the key
+        // hide any copied strings and then the key
         typename TKeyVal::iterator iDelete;
         do {
             iDelete = iKeyVal++;

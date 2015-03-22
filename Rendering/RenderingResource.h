@@ -42,10 +42,11 @@ namespace Seventh
 
 		Vector2 getPosition() { return mPosition; };
 
-		void setPosition(Vector2 position) { mPosition = position; };
+		void setPosition(Vector2 position) {
+			mPosition = position;
+		};
 
 		void setPosition(float x, float y) {
-			LOG_DEBUG("Translating to position %f - %f", x, y);
 			mPosition.x = x; mPosition.y = y;
 		};
 

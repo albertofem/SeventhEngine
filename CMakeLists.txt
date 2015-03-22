@@ -20,6 +20,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 add_subdirectory(Vendor/nedmalloc)
 add_subdirectory(Vendor/rapidxml)
 add_subdirectory(Vendor/SimpleIni)
+add_subdirectory(Vendor/tinyxml2)
+add_subdirectory(Vendor/tmxparser)
 
 # SeventhEngine shared modules
 # add_subdirectory(Audio)

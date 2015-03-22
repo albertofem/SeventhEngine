@@ -34,7 +34,11 @@ namespace Seventh
 		Entity();
 		~Entity();
 
-		void setRenderingResource(RenderingResource* resource);
+		void load();
+		void remove();
+
+		void hide();
+		void show();
 
 		virtual void update() = 0;
 
@@ -48,6 +52,8 @@ namespace Seventh
 		Vector2 mPosition;
 
 		std::string mId;
+		bool loaded = false;
+		bool hidden = true;
 	};
 }
 

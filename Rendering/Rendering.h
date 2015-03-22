@@ -40,6 +40,7 @@ namespace Seventh
 
 		GLFWwindow* getCurrentWindow();
 		void addRenderingResource(RenderingResource* resource);
+		void removeRenderingResource(RenderingResource* resource);
 
 	private:
 		void renderRenderingResources();

@@ -41,18 +41,23 @@ namespace Seventh
 
 	void Scene::registerEntity(Entity *entity)
 	{
-		mEntityRegister[entity->getId()] = entity;
+		mEntityRegistry[entity->getId()] = entity;
 	}
 
 	void Scene::removeEntity(Entity *entity)
 	{
-		mEntityRegister.erase(entity->getId());
+		mEntityDeletionRegistry.insert(entity->getId());
 	}
 
 	void Scene::update()
 	{
-		for (auto& entityRegister : mEntityRegister) {
-			entityRegister.second->update();
+		for (auto entityRegistry = mEntityRegistry.begin(); entityRegistry != mEntityRegistry.end();) {
+			if (mEntityDeletionRegistry.find(entityRegistry->first) != mEntityDeletionRegistry.end()) {
+				mEntityRegistry.erase(entityRegistry++);
+			} else {
+				entityRegistry->second->update();
+				entityRegistry++;
+			}
 		}
 	}
 }

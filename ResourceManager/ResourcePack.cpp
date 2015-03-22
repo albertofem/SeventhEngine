@@ -22,8 +22,6 @@
 #include "ResourcePack.h"
 #include "ResourceTexture.h"
 
-#include "rapidxml/rapidxml_utils.hpp"
-
 namespace Seventh
 {
 	bool ResourcePack::load()

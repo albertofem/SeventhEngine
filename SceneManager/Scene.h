@@ -20,6 +20,8 @@
  */
 
 #include "Core/Common.h"
+#include <algorithm>
+#include <set>
 
 #ifndef _SCENE_H_
 #define _SCENE_H_
@@ -28,6 +30,7 @@ namespace Seventh
 {
 	class SceneManager;
 	class Entity;
+
 	class Scene : public AllocatedObject
 	{
 	public:
@@ -46,7 +49,8 @@ namespace Seventh
 
 	private:
 		SceneManager* mSceneManager;
-		std::map<std::string, Entity*> mEntityRegister;
+		std::map<std::string, Entity*> mEntityRegistry;
+		std::set<std::string> mEntityDeletionRegistry;
 	};
 }
 
