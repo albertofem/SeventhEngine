@@ -21,6 +21,7 @@
 
 #include "ResourcePack.h"
 #include "ResourceTexture.h"
+#include "ResourceMap.h"
 
 namespace Seventh
 {
@@ -118,9 +119,10 @@ namespace Seventh
 		std::string type, 
 		std::string filename
 	) {
-		if (type == "textures")
-		{
+		if (type == "textures") {
 			return new ResourceTexture(filename);
+		} else if (type == "maps") {
+			return new ResourceMap(filename);
 		}
 
 		return NULL;

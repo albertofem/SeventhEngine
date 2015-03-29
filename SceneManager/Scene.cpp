@@ -60,4 +60,9 @@ namespace Seventh
 			}
 		}
 	}
+
+	void Scene::setMap(TiledMap *map)
+	{
+		mMap = map;
+	}
 }

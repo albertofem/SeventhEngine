@@ -73,8 +73,9 @@ namespace Seventh
 
 		mResourcePacks[name] = newResourcePack;
 
-		if(loadOnCreation)
+		if(loadOnCreation) {
 			newResourcePack->load();
+		}
 
 		return true;
 	}

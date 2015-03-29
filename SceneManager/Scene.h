@@ -22,6 +22,7 @@
 #include "Core/Common.h"
 #include <algorithm>
 #include <set>
+#include <Rendering/TiledMap.h>
 
 #ifndef _SCENE_H_
 #define _SCENE_H_
@@ -43,6 +44,8 @@ namespace Seventh
 		void registerEntity(Entity* entity);
 		void removeEntity(Entity* entity);
 
+		void setMap(TiledMap* map);
+
 	protected:
 		bool changeScene(std::string name);
 		bool changeScene(Scene* scene);
@@ -51,6 +54,8 @@ namespace Seventh
 		SceneManager* mSceneManager;
 		std::map<std::string, Entity*> mEntityRegistry;
 		std::set<std::string> mEntityDeletionRegistry;
+
+		TiledMap* mMap;
 	};
 }
 

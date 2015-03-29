@@ -19,43 +19,31 @@
  * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "Core/Common.h"
-#include "Core/SeventhEngine.h"
-#include "Core/EngineComponent.h"
+#ifndef _TILED_MAP_H_
+#define _TILED_MAP_H_
 
-#ifndef _RESOURCE_MANAGER_H_
-#define _RESOURCE_MANAGER_H_
+#include <Vendor/tmxparser/src/TmxMap.h>
+#include "RenderingResource.h"
+#include "ResourceManager/ResourceMap.h"
 
 namespace Seventh
 {
-	class ResourcePack;
-	class ResourceObject;
-	class ResourceMap;
+    class TiledMap : public RenderingResource
+    {
+    public:
+        TiledMap(std::string packName, std::string mapName);
 
-	class ResourceManager : public EngineComponent<ResourceManager>
-	{
-	public:
-		ResourceManager(SeventhEngine* engine);
-		ResourceManager();
-		~ResourceManager();
+    private:
+        Tmx::Map* tmxMap;
+        ResourceMap* resourceMap;
+    public:
+        virtual bool load();
 
-		ResourcePack* getPack(std::string name);
+        virtual void unload();
 
-		ResourceObject* getResourceFromPack(
-			std::string packName, 
-			std::string type, 
-			std::string resourceName
-		);
+        virtual void render();
+    };
 
-		bool createPackFromFile(
-			std::string name, 
-			std::string filename, 
-			bool loadOnCreation
-		);
-
-	private:
-		std::map<std::string, ResourcePack*> mResourcePacks;
-	};
 }
 
 #endif

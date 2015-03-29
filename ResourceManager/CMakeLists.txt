@@ -17,6 +17,8 @@ set(SOURCE_FILES
     ResourceTexture.h
     Texture.h
     Texture.cpp
+    ResourceMap.cpp
+    ResourceMap.h
 )
 
 include_directories(..)

@@ -26,7 +26,7 @@
     </animation>
   </animations>
   <maps>
-    <map name="map_level1_intro" src="./resources/maps/level1/intro.xml" />
-    <map name="map_level1_dungeon" src="./resources/maps/level1/dungeon.xml" />
+    <map name="map_test" src="./resources/maps/test-map.tmx" />
+    <map name="map_test_sadsd" src="./resources/maps/test-map.tmx" />
   </maps>
 </resources>

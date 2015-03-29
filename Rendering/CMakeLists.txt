@@ -15,6 +15,8 @@ set(SOURCE_FILES
     Texture.h
     Vector2.cpp
     Vector2.h
+    TiledMap.cpp
+    TiledMap.h
 )
 
 include_directories(..)
@@ -22,4 +24,4 @@ include_directories(../Vendor)
 
 add_library(Rendering STATIC ${SOURCE_FILES})
 
-target_link_libraries(Rendering Core ${GLUT_LIBRARY} ${OPENGL_LIBRARY})
+target_link_libraries(Rendering Core ${GLUT_LIBRARY} ${OPENGL_LIBRARY} tmxparser tinyxml2)

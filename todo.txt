@@ -1,3 +1,0 @@
-* Fix OpenGL texture being removed upon touching screen edges
-* Implement basic movement in generic class
-* First approach to game map rendering

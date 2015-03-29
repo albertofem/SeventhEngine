@@ -19,43 +19,35 @@
  * @author	Alberto Fernández <albertofem@gmail.com>
  */
 
-#include "Core/Common.h"
-#include "Core/SeventhEngine.h"
-#include "Core/EngineComponent.h"
-
-#ifndef _RESOURCE_MANAGER_H_
-#define _RESOURCE_MANAGER_H_
+#include "TiledMap.h"
+#include "ResourceManager/ResourceManager.h"
 
 namespace Seventh
 {
-	class ResourcePack;
-	class ResourceObject;
-	class ResourceMap;
+    TiledMap::TiledMap(std::string packName, std::string mapName)
+    {
+        resourceMap = (ResourceMap*) GResourceManager.getResourceFromPack(packName, "maps", mapName);
 
-	class ResourceManager : public EngineComponent<ResourceManager>
-	{
-	public:
-		ResourceManager(SeventhEngine* engine);
-		ResourceManager();
-		~ResourceManager();
+        LOG_DEBUG("Creating map with filename: '%s'", resourceMap->getFilename().c_str());
 
-		ResourcePack* getPack(std::string name);
+        tmxMap = new Tmx::Map();
+        tmxMap->ParseFile(resourceMap->getFilename());
 
-		ResourceObject* getResourceFromPack(
-			std::string packName, 
-			std::string type, 
-			std::string resourceName
-		);
+        if (tmxMap->HasError()) {
+            LOG_ERROR("Error loading map: '%s'", tmxMap->GetErrorText().c_str());
+        }
+    }
 
-		bool createPackFromFile(
-			std::string name, 
-			std::string filename, 
-			bool loadOnCreation
-		);
 
-	private:
-		std::map<std::string, ResourcePack*> mResourcePacks;
-	};
+    bool TiledMap::load() {
+        return false;
+    }
+
+    void TiledMap::unload() {
+
+    }
+
+    void TiledMap::render() {
+
+    }
 }
-
-#endif

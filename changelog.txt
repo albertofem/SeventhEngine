@@ -1,3 +1,10 @@
+0.0.2 - 29 March 2015
+---
+
+* tinyxml2 and tmxparser library integration
+* TiledMap resource object and related methods
+
+
 0.0.1 - 15 March 2015
 ---
 

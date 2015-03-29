@@ -20,6 +20,7 @@
  */
 
 #include "SimpleScene.h"
+#include "Rendering/TiledMap.h"
 
 SimpleScene::~SimpleScene()
 {
@@ -30,6 +31,8 @@ void SimpleScene::load()
 	myPlayer = new Player;
 
 	registerEntity(myPlayer);
+
+	setMap(new Seventh::TiledMap("sample", "map_test"));
 }
 
 std::string SimpleScene::getName()
