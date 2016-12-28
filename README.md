@@ -1,6 +1,8 @@
 SeventhEngine
 =============
 
+![SeventhEngine](seventh.png)
+
 Game engine, based in OpenGL
 
 Libraries used
